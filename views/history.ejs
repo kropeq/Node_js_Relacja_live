@@ -1,0 +1,23 @@
+		<div id="history">
+		    <ul>
+			<li>Archiwum
+			    <ul>
+		    <% for(var i=0; i<newsList.length; i++) { 
+			%>
+			<li>
+			    <a href="/news/<%=newsList[i].id%>"><%= newsList[i].title %></a>
+			</li>
+		    <%}%>
+			</ul>
+		    </li>
+		    </ul>
+		    <% if (newsList.length == 0) {%>
+			<p class="opis">Nie zdefiniowano jeszcze żadnego newsa</p>
+		    <%}%>
+		</div>
+		<script>
+		    $('#history').find('a').click(function(event){
+			event.preventDefault();
+			hideContent($(this).attr('href')+'/news');
+		    });
+    		</script>

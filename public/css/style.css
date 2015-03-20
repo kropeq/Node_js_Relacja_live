@@ -1,0 +1,180 @@
+p {
+font-family: tahoma;
+}
+body {
+	margin: 0;
+	background: url("../graph/background.jpg") top fixed no-repeat;
+	overflow-y: scroll;
+	font-family: tahoma;
+	width: 100%;
+}
+
+#header {
+	background: url("../graph/headerBackground.png") center no-repeat;
+	height: 168px;
+	position: fixed;
+	width: 100%;
+	z-index: 100;
+}
+
+#headerWrapper {
+	width: 1000px;
+	margin: 0 auto;
+}
+
+#logo {
+	float: left;
+	width: 190px;
+	padding-top: 10px;
+	cursor: pointer;
+}
+
+#menu {
+	display: inline;
+	float: left;
+}
+
+#menu ul {
+	margin: 0;
+	padding: 35px 0 0 50px;
+}
+
+#menu ul li {
+	display: inline;
+}
+
+#menu ul li a {
+	text-decoration: none;
+	color: #008DD2;
+	font-family: tahoma;
+	font-size: 19px;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+#menu ul li a:hover {
+	color: #FFF;
+	background: #1e5799; /* Old browsers */
+	background: -moz-linear-gradient(top, #1e5799 0%, #2989d8 50%, #7db9e8 100%);
+	/* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #1e5799),
+		color-stop(50%, #2989d8), color-stop(100%, #7db9e8));
+	/* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #1e5799 0%, #2989d8 50%, #7db9e8 100%);
+	/* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #1e5799 0%, #2989d8 50%, #7db9e8 100%);
+	/* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #1e5799 0%, #2989d8 50%, #7db9e8 100%);
+	/* IE10+ */
+	background: linear-gradient(to bottom, #1e5799 0%, #2989d8 50%, #7db9e8 100%);
+	/* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient(  startColorstr='#1e5799',
+		endColorstr='#7db9e8', GradientType=0); /* IE6-9 */
+}
+
+#content {
+	padding: 160px 0 20px 0;
+	width: 1000px;
+	margin: 0 auto;
+	position: relative;
+	top: 300px;
+	opacity: 0;
+	border-radius: 10px;
+	background: url("../graph/contentBackground.png") fixed center top;
+	overflow-y:auto;
+	overflow-x:hidden;
+	margin-bottom: 150px;
+	position: relative;
+}
+
+.newsBox {
+	border-radius: 10px;
+	border: 2px solid #008DD2;
+	margin: 20px;
+	overflow: auto;
+	position: relative;
+	height: 210px;
+	overflow-y: hidden;
+}
+
+.newsBoxImage img {
+	border-radius: 10px;
+	float: left;
+	width: 319px;
+}
+
+.newsBoxDescription {
+	float: right;
+	width: 585px;
+	margin-right: 20px;
+}
+
+
+.newsBoxDescription p {
+	text-align: justify;
+	height: 100px;
+	overflow-y:hidden; 
+}
+
+.readMore {
+	height: 30px;
+	right: 0;
+}
+.newsBox:hover .readMore {
+	opacity: 1;
+}
+
+.readMore a {
+	background-color:rgba(0,140,210,100);
+	text-decoration: none;
+	display: inline;
+	vertical-align: middle;
+	line-height: 30px;
+	padding: 6px;
+	color: #FFF;
+	font-weight: bold;
+}
+
+#singleArticle {
+padding: 20px;
+}
+#singleArticle img{
+	float: left;
+	margin-right: 20px;
+	margin-bottom: 10px; 
+}
+#back {
+	float: right;
+}
+
+#singleArticle p {
+	text-align: justify;
+}
+#history a{
+	text-decoration: none;
+}
+#history a:hover{
+	text-decoration: underline;
+}
+#history ul li {
+	font-size: 20px;
+	list-style: none;
+	padding: 10px 0;
+}
+#history ul li ul li a{
+	font-size: 15px !important;
+}
+
+.opis {
+text-align: center;
+font-family: tahoma;
+font-size: 20px;
+}
+#articleTitle {
+	width: 450px;
+	height: 30px;
+	border: 0;
+	border-radius: 5px;
+	background: #FFF;
+	padding-left: 10px;
+}
