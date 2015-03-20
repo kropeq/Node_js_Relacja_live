@@ -14,7 +14,7 @@ Podział uprawnień byłby jedynie na administratora głównego i użytkowników
 
 Sposób uruchomienia:
 ====================
-1. Pobrać całość z githuba.
+1. Pobrać całość z bitbucketa.
 2. W folderze z projektem wpisać npm install
 3. By uruchomić npm start
 4. W przeglądarce działamy przez localhost:3000.
