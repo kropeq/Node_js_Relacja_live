@@ -117,8 +117,10 @@ body {
 }
 
 .readMore {
+	position: absolute;
 	height: 30px;
 	right: 0;
+	bottom: 0;
 }
 .newsBox:hover .readMore {
 	opacity: 1;
@@ -144,7 +146,17 @@ padding: 20px;
 	margin-bottom: 10px; 
 }
 #back {
-	float: right;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	background-color:rgba(0,140,210,100);
+	text-decoration: none;
+	display: inline;
+	vertical-align: middle;
+	line-height: 30px;
+	color: #FFF;
+	font-weight: bold;
+	padding: 6px;
 }
 
 #singleArticle p {
