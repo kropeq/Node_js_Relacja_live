@@ -26,6 +26,11 @@
 				<ul>
 					<li><a href="/main">NEWS</a></li>
 					<li><a href="/news">HISTORIA</a></li>
+					<% if (isLoggedAdmin || isLoggedUser) {%>
+					<li><a id="loginLogoutButton" href="/logout">WYLOGUJ (<small><%= userNick %></small>)</a></li>
+					<% } else {%>
+					<li><a id="loginLogoutButton" href="/login">ZALOGUJ</a></li>
+					<% } %>
 				</ul>
 			</div>
 		</div>
