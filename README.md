@@ -23,11 +23,12 @@ Wykorzystane Technologie:
 =========================
 
 1. Express
-2. Moment
-3. MongoDB
-4. Body parser
-5. Cookie parser
-6. Session
-7. EJS
+2. Socket.io
+3. Moment
+4. MongoDB
+5. Body parser
+6. Cookie parser
+7. Session
+8. EJS
 
 ____

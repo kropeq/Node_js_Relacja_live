@@ -21,7 +21,7 @@
 			{
 			// podmieniamy buttona w menu
 			$('#loginLogoutButton').html('WYLOGUJ <small>(Admin)</small>').attr('href', '/logout');
-			$.get('/main', function(data) { $('#content').html(data);});
+			$.get('/relacja', function(data) { $('#content').html(data);});
 			}
 		  });
 	    });
@@ -43,7 +43,7 @@
 			{
 			// podmieniamy buttona w menu
 			$('#loginLogoutButton').html('WYLOGUJ <small>('+$('#iNick').val()+')</small>').attr('href', '/logout');
-			$.get('/main', function(data) { $('#content').html(data);});
+			$.get('/relacja', function(data) { $('#content').html(data);});
 			}
 			else { alert('Ten nick jest już zajęty'); }
 		  });

@@ -7,6 +7,7 @@ var ejs = require ('ejs');
 
 var app = require('express')();
 var http = require('http').Server(app);
+var io = require('socket.io')(http);
 var path = require('path');
 
 
@@ -35,8 +36,22 @@ var newsSchema = new mongoose.Schema({
     time: Date
     });
 
+var adminPostSchema = new mongoose.Schema({
+    message: String,
+    message2: Number,
+    message3: Number
+});
+
+var chatSchema = new mongoose.Schema({
+    nick: String,
+    message: String,
+    time: Date
+    });
+
 // kompilacja do modelu
 var News = mongoose.model('News', newsSchema);
+var AdminPost = mongoose.model('Adminpost', adminPostSchema);
+var ChatPost = mongoose.model('Chatpost', chatSchema);
 
 // nawigacja
 app.get('/', function(req, res){
@@ -151,9 +166,77 @@ app.get('/logout', function(req, res){
 app.get('/login', function(req, res){
     res.sendfile('login.html');
 });
+
+app.get('/relacja', function(req, res){
+    if (req.session.user || req.session.admin) {
+	res.render('relacja.ejs', {
+	    isAdminLogged: req.session.admin,
+	    userNick: req.session.admin ? 'Admin' : req.session.nick
+	    });
+	}
+    else res.redirect("/login");
+  });
   
 // statyczne wystawianie css i js
 app.use(express.static(path.join(__dirname, '/public')));
+
+// sockety
+io.on('connection', function(socket){
+    socket.on('loadAdminPosts', function(data)
+	{
+	AdminPost.find().limit(10).sort({'id': -1}).exec(function(err, posts) {
+	    socket.emit('adminMsgs', posts);
+	    });;
+	});
+    socket.on('loadChatPosts', function(data)
+	{
+	ChatPost.find().limit(10).sort({'time': -1}).exec(function(err, posts) {
+		socket.emit('chatPosts', posts);
+	         });
+	});
+
+    socket.on('adminChannel', function(msg,msg2,msg3)
+	{
+	var date = new Date();
+	var hour = date.getHours();
+	hour = (hour < 10 ? "0" : "") + hour;
+	var min  = date.getMinutes();
+	min = (min < 10 ? "0" : "") + min;
+	
+	io.emit('adminMsg', {message: msg, message2: msg2, message3: msg3});
+	// zapisujemy do bazy
+	var post = new AdminPost({ message: msg, message2: msg2, message3: msg3 });
+	post.save(function(err){
+		if (err) console.log("Błąd zapisu posta admina do bazy "+err);
+	});
+    });
+    
+    
+    
+    socket.on('usersChannel', function(msg)
+	{
+	var date = new Date();
+	var hour = date.getHours();
+	hour = (hour < 10 ? "0" : "") + hour;
+	var min  = date.getMinutes();
+	min = (min < 10 ? "0" : "") + min;
+	
+	var strippedMsg = msg.message.replace(/(<([^>]+)>)/ig,"").trim();
+	if (strippedMsg.length == 0) return;
+	var colorMsg = strippedMsg;
+	if (msg.nick == 'Admin') colorMsg = '<span style="color: red">'+strippedMsg+'</span>';
+
+
+	io.emit('userMsg', {nick: msg.nick, message: colorMsg, time: hour+':'+min});
+	
+	// zapisujemy do bazy
+	var post = new ChatPost({ nick: msg.nick, message: colorMsg, time: Date.now() });
+	post.save(function(err){
+		if (err) console.log("Błąd zapisu posta admina do bazy "+err);
+	});
+    });
+    
+});
 
 // odpalenie serwera
 http.listen(3000, function(){
