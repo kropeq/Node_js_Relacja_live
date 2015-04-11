@@ -37,9 +37,9 @@ var newsSchema = new mongoose.Schema({
     });
 
 var adminPostSchema = new mongoose.Schema({
-    message: String,
-    message2: Number,
-    message3: Number
+    jumper: String,
+    jump: Number,
+    points: Number
 });
 
 var chatSchema = new mongoose.Schema({
@@ -184,7 +184,7 @@ app.use(express.static(path.join(__dirname, '/public')));
 io.on('connection', function(socket){
     socket.on('loadAdminPosts', function(data)
 	{
-	AdminPost.find().limit(10).sort({'id': -1}).exec(function(err, posts) {
+	AdminPost.find().limit(30).sort({'points': 1}).exec(function(err, posts) {
 	    socket.emit('adminMsgs', posts);
 	    });;
 	});
@@ -195,7 +195,7 @@ io.on('connection', function(socket){
 	         });
 	});
 
-    socket.on('adminChannel', function(msg,msg2,msg3)
+    socket.on('adminChannel', function(jmpr,jmp,pts)
 	{
 	var date = new Date();
 	var hour = date.getHours();
@@ -203,9 +203,9 @@ io.on('connection', function(socket){
 	var min  = date.getMinutes();
 	min = (min < 10 ? "0" : "") + min;
 	
-	io.emit('adminMsg', {message: msg, message2: msg2, message3: msg3});
+	io.emit('adminMsg', {jumper: jmpr, jump: jmp, points: pts});
 	// zapisujemy do bazy
-	var post = new AdminPost({ message: msg, message2: msg2, message3: msg3 });
+	var post = new AdminPost({ jumper: jmpr, jump: jmp, points: pts });
 	post.save(function(err){
 		if (err) console.log("Błąd zapisu posta admina do bazy "+err);
 	});

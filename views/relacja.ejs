@@ -6,9 +6,9 @@
 <div id="liveWrapper">
 <div id="leftColumn">
 			<div id="headerLiveRelation">
-			<div class="columnKlasyf">Imię i nazwisko</div>
-			<div class="columnKlasyf">Skok</div>
-			<div class="columnKlasyf">Nota</div>
+			<div class="columnKlasyf" style='width: 220px'>Imię i nazwisko</div>
+			<div class="columnKlasyf" style='width: 100px'>Skok</div>
+			<div class="columnKlasyf" style='width: 100px'>Nota</div>
 			</div>
 			<div id="liveRelation">
 			</div>
@@ -64,41 +64,81 @@
   
 			var socket = io.connect("localhost:3000");
 			<%if (isAdminLogged) {%>
-			adminSendMsg = function(msg,msg2,msg3)
+			adminSendMsg = function(jumper,jump,points)
 			    {
-			    socket.emit('adminChannel', msg,msg2,msg3);
+			    socket.emit('adminChannel', jumper,jump,points);
 			    $('#adminMsg').val('');
 			    $('#adminMsg2').val('');
 			    $('#adminMsg3').val('');
 			    }
 			$('#sendLeft').click(function(){
-			    var message1 = $('#adminMsg').val();
-			    var message2 = $('#adminMsg2').val();
-			    var message3 = $('#adminMsg3').val();
-			    adminSendMsg(message1,message2,message3);
+			    var jumper = $('#adminMsg').val();
+			    var jump = $('#adminMsg2').val();
+			    var points = $('#adminMsg3').val();
+			    adminSendMsg(jumper,jump,points);
 			});
-			$('#adminMsg').keyup(function(e){
+			$('#adminMsg, #adminMsg2, #adminMsg3').keyup(function(e){
 			    if(e.which == 13) {
-			    var message1 = $('#adminMsg').val();
-			    var message2 = $('#adminMsg2').val();
-			    var message3 = ('#adminMsg2').val();
-			    adminSendMsg(message1,message2,message3);
+			    var jumper = $('#adminMsg').val();
+			    var jump = $('#adminMsg2').val();
+			    var points = ('#adminMsg3').val();
+			    adminSendMsg(jumper,jump,points);
 			    }
 			});
 			<%}%>
+		
+			var gdzieWstawic;
 			socket.removeListener('adminMsg');
 			socket.on('adminMsg', function(dane) {
-			    $('<div class="liveRelationRow"><div class="liveDescription"><div class="kolumna">'+dane.message+'</div><div class="kolumna">'+dane.message2+'</div><div class="kolumna">'+dane.message3+'</div></div></div>').hide().prependTo('#liveRelation').slideDown();
+			    var punkty = $('.liveRelationRow').first();
+			    gdzieWstawic = $('.liveRelationRow').first(); // dodamy do pretendTo(gdzieWstawic);		
+			    if (punkty.find('.points').text() != "") {
+
+			        for (var i=0;i<50;i++) {
+						//alert("Gdzie wstawic: "+gdzieWstawic);
+						//alert(punkty.find('div .points').text());
+			             if (punkty.find('div .points').text() != "") {
+						//alert("Tabela: "+punkty.find('.points').text()+" Wpisane: "+dane.points);
+			                  if ( +punkty.find('.points').text() <= +dane.points) {
+						$(gdzieWstawic).hide().before('<div class="liveRelationRow" style="border-bottom-style: outset; border-bottom-width: thin; border-bottom-color: #72C5EF"><div class="liveDescription"><div class="kolumna" style="width: 220px">'+dane.jumper+'</div><div class="kolumna" style="width: 100px">'+dane.jump+'</div><div class="points" style="width: 100px" value="'+dane.points+'">'+dane.points+'</div></div></div>');
+						$(gdzieWstawic).hide().slideDown();
+						if ($('#liveRelation .liveRelationRow:even').hasClass('highlightEven')) {
+							$('#liveRelation .liveRelationRow:even').removeClass('highlightEven');		
+						}
+						$('#liveRelation .liveRelationRow:odd').addClass('highlightEven');
+						// Podswietlanie dodanego elementu
+						$(gdzieWstawic).prev().addClass('highlightPost');
+						window.setTimeout(function() {
+						$(gdzieWstawic).prev().removeClass('highlightPost');
+						}, 2500);
+					  i=50;
+					  } else {
+				          punkty = punkty.next();
+					  gdzieWstawic = gdzieWstawic.next();
+					  }
+				     };
+			        }
+			    }
+			    //$('<div class="liveRelationRow" style="border-bottom-style: outset; border-bottom-width: thin; border-bottom-color: #72C5EF"><div class="liveDescription"><div class="kolumna" style="width: 220px">'+dane.jumper+'</div><div class="kolumna" style="width: 100px">'+dane.jump+'</div><div class="points" style="width: 100px" value="'+dane.points+'">'+dane.points+'</div></div></div>').hide().prependTo('#liveRelation').slideDown();
 			});
 			
 			// ładowanie poprzednich postow
 			socket.emit('loadAdminPosts', 'load');
 			socket.removeListener('adminMsgs');
 			socket.on('adminMsgs', function(listaDanych) {
-			    listaDanych.forEach(function(dane){
-				if (dane.message)
-				$('#liveRelation').append('<div class="liveRelationRow"><div class="liveDescription"><div class="kolumna">'+dane.message+'</div><div class="kolumna">'+dane.message2+'</div><div class="kolumna">'+dane.message3+'</div></div></div>');
-			    });
+			    for (var i=0;i<listaDanych.length;i++) {
+				if (listaDanych[i].points){
+				$('#liveRelation').prepend('<div class="liveRelationRow" style="border-bottom-style: outset; border-bottom-width: thin; border-bottom-color: #72C5EF"><div class="liveDescription"><div class="kolumna" style="width: 220px">'+listaDanych[i].jumper+'</div><div class="kolumna" style="width: 100px">'+listaDanych[i].jump+'</div><div class="points" style="width: 100px" value="'+listaDanych[i].points+'">'+listaDanych[i].points+'</div></div></div>');
+				}
+			    }
+			    $('#liveRelation .liveRelationRow:odd').addClass('highlightEven');
+			    /*var punkty = $('.liveRelationRow').first();
+			    alert(punkty.find('.points').text());
+			    alert(punkty.next().find('.points').text());*/
+			    /*listaDanych.forEach(function(dane){
+				if (dane.message3)
+				$('#liveRelation').prepend('<div class="liveRelationRow" style="border-bottom-style: outset; border-bottom-width: thin; border-bottom-color: #72C5EF"><div class="liveDescription"><div class="kolumna" style="width: 220px">'+dane.message+'</div><div class="kolumna" style="width: 100px">'+dane.message2+'</div><div class="kolumna" style="width: 100px">'+dane.message3+'</div></div></div>');
+			    });*/
 			});
 			
 			

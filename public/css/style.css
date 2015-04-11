@@ -3,7 +3,7 @@ font-family: tahoma;
 }
 body {
 	margin: 0;
-	background: url("../graph/backgound.jpg") top fixed no-repeat;
+	background: url("../graph/background.jpg") top fixed no-repeat;
 	overflow-y: scroll;
 	font-family: tahoma;
 }
@@ -267,13 +267,23 @@ padding-left: 15px;
 }
 .liveRelationRow {
 	overflow: auto;
-margin: 10px 0;
+	padding-top:4px;
+	padding-bottom: 6px;
+margin: 0px 0;
 }
 
 .columnKlasyf {
 	padding-left: 8px;
 	float: left;
 	width: 140px;
+	padding-top: 3px;
+}
+
+.highlightPost {
+	background-color: rgba(235,243,126,0.8) !important;
+}
+.highlightEven {
+	background-color: rgba(41,243,54,0.2);
 }
 
 #headerLiveRelation {
@@ -281,6 +291,13 @@ margin: 10px 0;
 	height: 30px;
 	background: #72C5EF;
 	color: white;
+	font-weight: 600;
+}
+
+.points {
+	padding-left: 8px;
+	float: left;
+	width: 140px;
 }
 
 .kolumna {
