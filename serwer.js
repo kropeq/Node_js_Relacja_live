@@ -184,7 +184,7 @@ app.use(express.static(path.join(__dirname, '/public')));
 io.on('connection', function(socket){
     socket.on('loadAdminPosts', function(data)
 	{
-	AdminPost.find().limit(30).sort({'points': 1}).exec(function(err, posts) {
+	AdminPost.find().limit(30).sort({'points': -1}).exec(function(err, posts) {
 	    socket.emit('adminMsgs', posts);
 	    });;
 	});

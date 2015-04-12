@@ -265,6 +265,7 @@ float: left;
 margin-top: -25px;
 padding-left: 15px;
 }
+
 .liveRelationRow {
 	overflow: auto;
 	padding-top:4px;
@@ -275,14 +276,14 @@ margin: 0px 0;
 .columnKlasyf {
 	padding-left: 8px;
 	float: left;
-	width: 140px;
+	width: 100px;
 	padding-top: 3px;
 }
 
 .highlightPost {
 	background-color: rgba(235,243,126,0.8) !important;
 }
-.highlightEven {
+.highlightOdd {
 	background-color: rgba(41,243,54,0.2);
 }
 
@@ -294,16 +295,23 @@ margin: 0px 0;
 	font-weight: 600;
 }
 
+.rank {
+	width: 12px;
+	float: left;
+	padding-left: 8px;
+	padding-right: 5px;
+}
+
 .points {
 	padding-left: 8px;
 	float: left;
-	width: 140px;
+	width: 100px;
 }
 
 .kolumna {
 	padding-left: 8px;
 	float: left;
-	width: 140px;
+	width: 100px;
 }
 .time {
 	font-size: 28px;
