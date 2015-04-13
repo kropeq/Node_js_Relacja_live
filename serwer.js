@@ -38,6 +38,7 @@ var newsSchema = new mongoose.Schema({
 
 var adminPostSchema = new mongoose.Schema({
     jumper: String,
+    nation: String,
     jump: Number,
     points: Number
 });
@@ -195,17 +196,11 @@ io.on('connection', function(socket){
 	         });
 	});
 
-    socket.on('adminChannel', function(jmpr,jmp,pts)
-	{
-	var date = new Date();
-	var hour = date.getHours();
-	hour = (hour < 10 ? "0" : "") + hour;
-	var min  = date.getMinutes();
-	min = (min < 10 ? "0" : "") + min;
-	
-	io.emit('adminMsg', {jumper: jmpr, jump: jmp, points: pts});
+    socket.on('adminChannel', function(jmpr,jmp,pts,nt)
+	{	
+	io.emit('adminMsg', {jumper: jmpr, jump: jmp, points: pts, nation: nt});
 	// zapisujemy do bazy
-	var post = new AdminPost({ jumper: jmpr, jump: jmp, points: pts });
+	var post = new AdminPost({ jumper: jmpr, jump: jmp, points: pts, nation: nt});
 	post.save(function(err){
 		if (err) console.log("Błąd zapisu posta admina do bazy "+err);
 	});

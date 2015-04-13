@@ -7,11 +7,12 @@
 <div id="leftColumn">
 			<div id="headerLiveRelation">
 			<div class="columnKlasyf" style='width: 18px'>#</div>
-			<div class="columnKlasyf" style='width: 180px'>Imię i nazwisko</div>
-			<div class="columnKlasyf" style='width: 100px'>Skok</div>
-			<div class="columnKlasyf" style='width: 100px'>Nota</div>
+			<div class="columnKlasyf" style='width: 140px'>Imię i nazwisko</div>
+			<div class="columnKlasyf" style='width: 30px; padding-left: 0px'>Kraj</div>
+			<div class="columnKlasyf" style='width: 70px; padding-left: 12px'>Skok</div>
+			<div class="columnKlasyf" style='width: 140px'>Nota</div>
 			</div>
-			<div id="liveRelation">
+			<div id="liveRelation" style="font-size: small">
 			</div>
 	
 		</div>
@@ -23,11 +24,61 @@
 		    <%if (isAdminLogged) {%>
 		    <div id="postLeft">
 			<div id="headerInput">Skoczek</div>
-			<div id="headerInput">Długość skoku</div>
-			<div id="headerInput">Nota</div>
+			<div id="headerInput" style="width: 65px;">Kraj</div>
+			<div id="headerInput" style="width: 65px;">Skok</div>
+			<div id="headerInput" style="width: 65px;">Nota</div>
+			<div id="headerInput" style="width: 65px;">Wiatr</div>
 		    <textarea id="adminMsg" rows="" cols="" ></textarea>
-		    <textarea id="adminMsg2" rows="" cols="" ></textarea>
-		    <textarea id="adminMsg3" rows="" cols="" ></textarea>
+		    <select id="adminMsg5">
+			<script>
+			        var kraje = new Array('AUT','SLO','GER','POL','JPN','FIN','RUS','NOR','ITA','GRE','FRA','CHN','CZE','UKR','USA','SUI','KOR','BUL');
+				kraje.sort();
+			        for (var i=kraje.length-1;i>=0;i--) {
+			        if ( kraje[i]=="POL" ) {
+			        $('#adminMsg5').prepend('<option val="'+kraje[i]+'" selected>'+kraje[i]+'</option>');					
+			        } else {
+			        $('#adminMsg5').prepend('<option val="'+kraje[i]+'">'+kraje[i]+'</option>');
+				}
+				}
+			</script>
+		    </select>
+		    <select id="adminMsg2">
+			<script>
+			        for (var i=55;i<=150;i++) {
+			        if ( i==120 ) {
+			        $('#adminMsg2').prepend('<option val="'+i+'" selected>'+i+'</option>');
+				$('#adminMsg2').prepend('<option val="'+(i+0.5)+'">'+(i+0.5)+'</option>');					
+			        } else {
+			        $('#adminMsg2').prepend('<option val="'+i+'">'+i+'</option>');
+				$('#adminMsg2').prepend('<option val="'+(i+0.5)+'">'+(i+0.5)+'</option>');
+				}
+				}
+			</script>
+		    </select>
+		    <select id="adminMsg3">
+			<script>
+			        for (var i=0;i<=60;i++) {
+			        if ( i==54 ) {
+			        $('#adminMsg3').prepend('<option val="'+i+'" selected>'+i+'</option>');
+				$('#adminMsg3').prepend('<option val="'+(i+0.5)+'">'+(i+0.5)+'</option>');					
+			        } else {
+			        $('#adminMsg3').prepend('<option val="'+i+'">'+i+'</option>');
+				$('#adminMsg3').prepend('<option val="'+(i+0.5)+'">'+(i+0.5)+'</option>');
+				}
+				}
+			</script>
+		    </select>
+		    <select id="adminMsg4">
+			<script>
+			        for (var i=0;i<=300;i++) {
+			        if ( i==150 ) {
+			        $('#adminMsg4').prepend('<option val="'+(i-150)+'" selected>'+(i-150)+'</option>');					
+			        } else {
+			        $('#adminMsg4').prepend('<option val="'+((-1.5+(i*0.01))).toFixed(2)+'">'+((-1.5+(i*0.01))).toFixed(2)+'</option>');
+				}
+				}
+			</script>
+		    </select>
 		    <br><br>
 		    
 	<a id="sendLeft" href="#">wyślij</a>
@@ -55,35 +106,38 @@
   
   h = $(window).height();
   $('#liveWrapper').css({height:(h-($('#header').height()*2)-$('#postWrapper').height()-$('#liveHeader').height())});
-  
   };
-  
 	$(window).on('resize',resizeElements);		
-		
-  
-  
-  
 			var socket = io.connect("localhost:3000");
 			<%if (isAdminLogged) {%>
-			adminSendMsg = function(jumper,jump,points)
+			adminSendMsg = function(jumper,jump,points,wind,nation)
 			    {
-			    socket.emit('adminChannel', jumper,jump,points);
-			    $('#adminMsg').val('');
-			    $('#adminMsg2').val('');
-			    $('#adminMsg3').val('');
+			    if ( +jump > 120 ){
+			          jumpPoints = ((+jump - 120)*1.8+60+(+points)+(wind*10)).toFixed(1);
+			    } else if ( +jump < 87 ){
+			          jumpPoints = ((+points)+(wind*10)).toFixed(1);	
+			    }
+			    else {
+			          jumpPoints = ((120 - (+jump))*(-1.8)+60+(+points)+(wind*10)).toFixed(1);	
+			    };
+			    socket.emit('adminChannel', jumper,jump,jumpPoints,nation);
 			    }
 			$('#sendLeft').click(function(){
 			    var jumper = $('#adminMsg').val();
 			    var jump = $('#adminMsg2').val();
 			    var points = $('#adminMsg3').val();
-			    adminSendMsg(jumper,jump,points);
+			    var wind = $('#adminMsg4').val();
+			    var nation = $('#adminMsg5').val();
+			    adminSendMsg(jumper,jump,points,wind,nation);
 			});
-			$('#adminMsg, #adminMsg2, #adminMsg3').keyup(function(e){
+			$('#adminMsg').keyup(function(e){
 			    if(e.which == 13) {
 			    var jumper = $('#adminMsg').val();
 			    var jump = $('#adminMsg2').val();
 			    var points = ('#adminMsg3').val();
-			    adminSendMsg(jumper,jump,points);
+			    var wind = ('#adminMsg4').val();
+			    var nation = ('#adminMsg5').val();
+			    adminSendMsg(jumper,jump,points,wind,nation);
 			    }
 			});
 			<%}%>
@@ -107,14 +161,13 @@
 			socket.on('adminMsg', function(dane) {
 			    var punkty = $('.liveRelationRow').first();
 			    gdzieWstawic = $('.liveRelationRow').first();
-			    var ilZawodnikow;
-			    var rank;
+			    var ilZawodnikow, rank;
 			    if ($('.liveRelationRow').length > 0) {
 			        for (var i=0;i<70;i++) {
 			             if (punkty.find('div .points').text() != "") {
 			                  if ( +punkty.find('.points').text() <= +dane.points) {
 						rank = $(gdzieWstawic).find('.rank').text();
-						$(gdzieWstawic).hide().before('<div class="liveRelationRow" style="border-bottom-style: outset; border-bottom-width: thin; border-bottom-color: #72C5EF"><div class="liveDescription"><div class="rank">'+rank+'</div><div class="kolumna" style="width: 180px">'+dane.jumper+'</div><div class="kolumna">'+dane.jump+'</div><div class="points" value="'+dane.points+'">'+dane.points+'</div></div></div>');
+						$(gdzieWstawic).hide().before('<div class="liveRelationRow" style="border-bottom-style: outset; border-bottom-width: thin; border-bottom-color: #72C5EF"><div class="liveDescription"><div class="rank">'+rank+'</div><div class="kolumna" style="width: 140px">'+dane.jumper+'</div><div class="nation"><img src="../graph/nat/'+dane.nation+'.gif"></div><div class="kolumna" style="width: 70px">'+dane.jump+'</div><div class="points" style="width: 140px" value="'+dane.points+'">'+dane.points+'</div></div></div>');
 						$(gdzieWstawic).hide().slideDown();
 						ustaw_przeplatanie_kolorow();
 						ilZawodnikow = $('.rank').length;
@@ -132,7 +185,7 @@
 			               }
 				     } else { // nie podswietla jak ostatni div dodaje
 						var rank = $('.liveRelationRow').length;
-						$('<div class="liveRelationRow" style="border-bottom-style: outset; border-bottom-width: thin; border-bottom-color: #72C5EF"><div class="liveDescription"><div class="rank">'+(rank+1)+'</div><div class="kolumna" style="width: 180px">'+dane.jumper+'</div><div class="kolumna">'+dane.jump+'</div><div class="points" value="'+dane.points+'">'+dane.points+'</div></div></div>').hide().appendTo('#liveRelation').slideDown();
+						$('<div class="liveRelationRow" style="border-bottom-style: outset; border-bottom-width: thin; border-bottom-color: #72C5EF"><div class="liveDescription"><div class="rank">'+(rank+1)+'</div><div class="kolumna" style="width: 140px">'+dane.jumper+'</div><div class="nation"><img src="../graph/nat/'+dane.nation+'.gif"></div><div class="kolumna" style="width: 70px">'+dane.jump+'</div><div class="points" style="width: 140px" value="'+dane.points+'">'+dane.points+'</div></div></div>').hide().appendTo('#liveRelation').slideDown();
 			                        ustaw_przeplatanie_kolorow();
 						podswietl_dodany_element($('.liveRelationRow').last());
 
@@ -141,7 +194,7 @@
 			        }
 			     } 
 				else {
-			                 $('<div class="liveRelationRow" style="border-bottom-style: outset; border-bottom-width: thin; border-bottom-color: #72C5EF"><div class="liveDescription"><div class="rank">'+1+'</div><div class="kolumna" style="width: 180px">'+dane.jumper+'</div><div class="kolumna">'+dane.jump+'</div><div class="points" value="'+dane.points+'">'+dane.points+'</div></div></div>').hide().prependTo('#liveRelation').slideDown();
+			                 $('<div class="liveRelationRow" style="border-bottom-style: outset; border-bottom-width: thin; border-bottom-color: #72C5EF"><div class="liveDescription"><div class="rank">'+1+'</div><div class="kolumna" style="width: 140px">'+dane.jumper+'</div><div class="nation"><img src="../graph/nat/'+dane.nation+'.gif"></div><div class="kolumna" style="width: 70px">'+dane.jump+'</div><div class="points" style="width: 140px" value="'+dane.points+'">'+dane.points+'</div></div></div>').hide().prependTo('#liveRelation').slideDown();
 			                 podswietl_dodany_element($('.liveRelationRow').first());
 				     };
 			 });
@@ -152,17 +205,10 @@
 			socket.on('adminMsgs', function(listaDanych) {
 			    for (var i=0;i<listaDanych.length;i++) {
 				if (listaDanych[i].points){
-				$('#liveRelation').append('<div class="liveRelationRow" style="border-bottom-style: outset; border-bottom-width: thin; border-bottom-color: #72C5EF"><div class="liveDescription"><div class="rank">'+(i+1)+'</div><div class="kolumna" style="width: 180px">'+listaDanych[i].jumper+'</div><div class="kolumna" style="width: 100px">'+listaDanych[i].jump+'</div><div class="points" style="width: 100px" value="'+listaDanych[i].points+'">'+listaDanych[i].points+'</div></div></div>');
+				$('#liveRelation').append('<div class="liveRelationRow" style="border-bottom-style: outset; border-bottom-width: thin; border-bottom-color: #72C5EF"><div class="liveDescription"><div class="rank">'+(i+1)+'</div><div class="kolumna" style="width: 140px">'+listaDanych[i].jumper+'</div><div class="nation"><img src="../graph/nat/'+listaDanych[i].nation+'.gif"></div><div class="kolumna" style="width: 70px">'+listaDanych[i].jump+'</div><div class="points" style="width: 140px" value="'+listaDanych[i].points+'">'+listaDanych[i].points+'</div></div></div>');
 				}
 			    }
 			    $('#liveRelation .liveRelationRow:odd').addClass('highlightOdd');
-			    /*var punkty = $('.liveRelationRow').first();
-			    alert(punkty.find('.points').text());
-			    alert(punkty.next().find('.points').text());*/
-			    /*listaDanych.forEach(function(dane){
-				if (dane.message3)
-				$('#liveRelation').prepend('<div class="liveRelationRow" style="border-bottom-style: outset; border-bottom-width: thin; border-bottom-color: #72C5EF"><div class="liveDescription"><div class="kolumna" style="width: 220px">'+dane.message+'</div><div class="kolumna" style="width: 100px">'+dane.message2+'</div><div class="kolumna" style="width: 100px">'+dane.message3+'</div></div></div>');
-			    });*/
 			});
 			
 			
