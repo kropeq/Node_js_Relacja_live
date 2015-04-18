@@ -5,14 +5,14 @@
 
 <div id="liveWrapper">
 <div id="leftColumn">
-			<div id="headerLiveRelation">
+			<div id="headerLiveRelation" style="width:483px;">
 			<div class="columnKlasyf" style='width: 18px'>#</div>
-			<div class="columnKlasyf" style='width: 140px'>Imię i nazwisko</div>
+			<div class="columnKlasyf" style='width: 140px'>Skoczek</div>
 			<div class="columnKlasyf" style='width: 30px; padding-left: 0px'>Kraj</div>
 			<div class="columnKlasyf" style='width: 70px; padding-left: 12px'>Skok</div>
-			<div class="columnKlasyf" style='width: 140px'>Nota</div>
+			<div class="columnKlasyf" style='width: 100px'>Nota</div>
 			</div>
-			<div id="liveRelation" style="font-size: small">
+			<div id="liveRelation" style="font-size: small; width: 483px;">
 			</div>
 	
 		</div>
@@ -28,7 +28,7 @@
 			<div id="headerInput" style="width: 65px;">Skok</div>
 			<div id="headerInput" style="width: 65px;">Nota</div>
 			<div id="headerInput" style="width: 65px;">Wiatr</div>
-		    <textarea id="adminMsg" rows="" cols="" ></textarea>
+		    <textarea id="adminMsg" rows="" cols="" style="margin-bottom: -15px;" ></textarea>
 		    <select id="adminMsg5">
 			<script>
 			        var kraje = new Array('AUT','SLO','GER','POL','JPN','FIN','RUS','NOR','ITA','GRE','FRA','CHN','CZE','UKR','USA','SUI','KOR','BUL');
@@ -82,6 +82,7 @@
 		    <br><br>
 		    
 	<a id="sendLeft" href="#">wyślij</a>
+	<a id="destroy" href="#">usuń</a>
 		    </div>
 		    <%}%>
 			<div id="postRight">
@@ -128,7 +129,17 @@
 			    var points = $('#adminMsg3').val();
 			    var wind = $('#adminMsg4').val();
 			    var nation = $('#adminMsg5').val();
-			    adminSendMsg(jumper,jump,points,wind,nation);
+			    var pattern = /^[A-ZĆŁŹŻ][a-ząćęłńóśźż]{1,}\s[A-ZĆŁŹŻ][a-ząćęłńóśźż]{1,}$/g;
+			    var TrueOrFalse = pattern.test(jumper);
+			    if ( TrueOrFalse) {
+						adminSendMsg(jumper,jump,points,wind,nation);
+			    } else {
+						$('#adminMsg').css('background-color', '#FA6A6A');
+						window.setTimeout(function(){
+						$('#adminMsg').css('background-color', '#FFFFFF');
+						}, 2500);
+			    }
+			    
 			});
 			$('#adminMsg').keyup(function(e){
 			    if(e.which == 13) {
@@ -167,7 +178,7 @@
 			             if (punkty.find('div .points').text() != "") {
 			                  if ( +punkty.find('.points').text() <= +dane.points) {
 						rank = $(gdzieWstawic).find('.rank').text();
-						$(gdzieWstawic).hide().before('<div class="liveRelationRow" style="border-bottom-style: outset; border-bottom-width: thin; border-bottom-color: #72C5EF"><div class="liveDescription"><div class="rank">'+rank+'</div><div class="kolumna" style="width: 140px">'+dane.jumper+'</div><div class="nation"><img src="../graph/nat/'+dane.nation+'.gif"></div><div class="kolumna" style="width: 70px">'+dane.jump+'</div><div class="points" style="width: 140px" value="'+dane.points+'">'+dane.points+'</div></div></div>');
+						$(gdzieWstawic).hide().before('<div class="liveRelationRow" style="border-bottom-style: outset; border-bottom-width: thin; border-bottom-color: #72C5EF"><div class="liveDescription"><div class="rank">'+rank+'</div><div class="kolumna" style="width: 140px">'+dane.jumper+'</div><div class="nation"><img src="../graph/nat/'+dane.nation+'.gif"></div><div class="kolumna" style="width: 70px">'+dane.jump+'</div><div class="points" style="width: 100px" value="'+dane.points+'">'+dane.points+'</div></div></div>');
 						$(gdzieWstawic).hide().slideDown();
 						ustaw_przeplatanie_kolorow();
 						ilZawodnikow = $('.rank').length;
@@ -185,7 +196,7 @@
 			               }
 				     } else { // nie podswietla jak ostatni div dodaje
 						var rank = $('.liveRelationRow').length;
-						$('<div class="liveRelationRow" style="border-bottom-style: outset; border-bottom-width: thin; border-bottom-color: #72C5EF"><div class="liveDescription"><div class="rank">'+(rank+1)+'</div><div class="kolumna" style="width: 140px">'+dane.jumper+'</div><div class="nation"><img src="../graph/nat/'+dane.nation+'.gif"></div><div class="kolumna" style="width: 70px">'+dane.jump+'</div><div class="points" style="width: 140px" value="'+dane.points+'">'+dane.points+'</div></div></div>').hide().appendTo('#liveRelation').slideDown();
+						$('<div class="liveRelationRow" style="border-bottom-style: outset; border-bottom-width: thin; border-bottom-color: #72C5EF"><div class="liveDescription"><div class="rank">'+(rank+1)+'</div><div class="kolumna" style="width: 140px">'+dane.jumper+'</div><div class="nation"><img src="../graph/nat/'+dane.nation+'.gif"></div><div class="kolumna" style="width: 70px">'+dane.jump+'</div><div class="points" style="width: 100px" value="'+dane.points+'">'+dane.points+'</div></div></div>').hide().appendTo('#liveRelation').slideDown();
 			                        ustaw_przeplatanie_kolorow();
 						podswietl_dodany_element($('.liveRelationRow').last());
 
@@ -194,7 +205,7 @@
 			        }
 			     } 
 				else {
-			                 $('<div class="liveRelationRow" style="border-bottom-style: outset; border-bottom-width: thin; border-bottom-color: #72C5EF"><div class="liveDescription"><div class="rank">'+1+'</div><div class="kolumna" style="width: 140px">'+dane.jumper+'</div><div class="nation"><img src="../graph/nat/'+dane.nation+'.gif"></div><div class="kolumna" style="width: 70px">'+dane.jump+'</div><div class="points" style="width: 140px" value="'+dane.points+'">'+dane.points+'</div></div></div>').hide().prependTo('#liveRelation').slideDown();
+			                 $('<div class="liveRelationRow" style="border-bottom-style: outset; border-bottom-width: thin; border-bottom-color: #72C5EF"><div class="liveDescription"><div class="rank">'+1+'</div><div class="kolumna" style="width: 140px">'+dane.jumper+'</div><div class="nation"><img src="../graph/nat/'+dane.nation+'.gif"></div><div class="kolumna" style="width: 70px">'+dane.jump+'</div><div class="points" style="width: 100px" value="'+dane.points+'">'+dane.points+'</div></div></div>').hide().prependTo('#liveRelation').slideDown();
 			                 podswietl_dodany_element($('.liveRelationRow').first());
 				     };
 			 });
@@ -205,7 +216,7 @@
 			socket.on('adminMsgs', function(listaDanych) {
 			    for (var i=0;i<listaDanych.length;i++) {
 				if (listaDanych[i].points){
-				$('#liveRelation').append('<div class="liveRelationRow" style="border-bottom-style: outset; border-bottom-width: thin; border-bottom-color: #72C5EF"><div class="liveDescription"><div class="rank">'+(i+1)+'</div><div class="kolumna" style="width: 140px">'+listaDanych[i].jumper+'</div><div class="nation"><img src="../graph/nat/'+listaDanych[i].nation+'.gif"></div><div class="kolumna" style="width: 70px">'+listaDanych[i].jump+'</div><div class="points" style="width: 140px" value="'+listaDanych[i].points+'">'+listaDanych[i].points+'</div></div></div>');
+				$('#liveRelation').append('<div class="liveRelationRow" style="border-bottom-style: outset; border-bottom-width: thin; border-bottom-color: #72C5EF"><div class="liveDescription"><div class="rank">'+(i+1)+'</div><div class="kolumna" style="width: 140px">'+listaDanych[i].jumper+'</div><div class="nation"><img src="../graph/nat/'+listaDanych[i].nation+'.gif"></div><div class="kolumna" style="width: 70px">'+listaDanych[i].jump+'</div><div class="points" style="width: 100px" value="'+listaDanych[i].points+'">'+listaDanych[i].points+'</div></div></div>');
 				}
 			    }
 			    $('#liveRelation .liveRelationRow:odd').addClass('highlightOdd');

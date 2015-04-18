@@ -480,7 +480,18 @@ padding: 20px;
 	padding: 10px;
 	border-radius: 5px;
 }
-#sendRight:hover, #sendLeft:hover {
+
+#destroy {
+	text-decoration: none;
+	color: #FFF;
+	font-family: tahoma;
+	font-size: 19px;
+	border-radius: 5px;
+	padding: 10px;
+	margin-left: 335px;
+}
+
+#sendRight:hover, #sendLeft:hover, #destroy:hover {
 	color: #008DD2;
 	background: #FFF;
 }
