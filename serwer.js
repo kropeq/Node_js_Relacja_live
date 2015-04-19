@@ -195,6 +195,12 @@ io.on('connection', function(socket){
 		socket.emit('chatPosts', posts);
 	         });
 	});
+    
+    socket.on('destroyTable',function(){
+	AdminPost.remove({},function(err){
+	    io.emit('truncateTable');
+	});
+    });
 
     socket.on('adminChannel', function(jmpr,jmp,pts,nt)
 	{	

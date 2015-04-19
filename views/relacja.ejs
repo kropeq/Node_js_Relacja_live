@@ -83,6 +83,7 @@
 		    
 	<a id="sendLeft" href="#">wyślij</a>
 	<a id="destroy" href="#">usuń</a>
+
 		    </div>
 		    <%}%>
 			<div id="postRight">
@@ -139,7 +140,12 @@
 						$('#adminMsg').css('background-color', '#FFFFFF');
 						}, 2500);
 			    }
-			    
+			});
+			$('#destroy').click(function(){
+				var potwierdzenie = confirm("Jesteś pewny?");
+				if ( potwierdzenie == true) {
+			           socket.emit('destroyTable');
+				}
 			});
 			$('#adminMsg').keyup(function(e){
 			    if(e.which == 13) {
@@ -221,8 +227,12 @@
 			    }
 			    $('#liveRelation .liveRelationRow:odd').addClass('highlightOdd');
 			});
-			
-			
+						
+			// usuwanie danych z klasyfikacji
+			socket.removeListener('truncateTable');
+			socket.on('truncateTable', function(){
+				$('#liveRelation > div').remove();
+			});
 			userNick = 'Test';
 			userSendMsg = function(msg)
 			    {
@@ -252,6 +262,7 @@
 				$('#rightColumn').append('<div class="userPost"><div class="cloud">'+dane.message+'</div><div class="cloudDynks"></div><div class="userData"><div class="nick">'+dane.nick+'</div><div class="PostTime">'+dane.time.substring(11,16)+'</div></div></div>');
 			    });
 			});
+
 			
 			
 		</script>

@@ -491,7 +491,12 @@ padding: 20px;
 	margin-left: 335px;
 }
 
-#sendRight:hover, #sendLeft:hover, #destroy:hover {
+#destroy:hover {
+	color: #FFFFFF;
+	background: #FA6A6A;
+}
+
+#sendRight:hover, #sendLeft:hover {
 	color: #008DD2;
 	background: #FFF;
 }
