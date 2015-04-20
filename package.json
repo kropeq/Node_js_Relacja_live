@@ -9,11 +9,10 @@
     "express": "",
     "socket.io": "",
     "socket.io-client": "",
-    "mongoose": "",
+    "mongoose": "~3.8.23",
     "cookie-parser": "",
     "express-session": "",
     "body-parser": "",
-    "moment": "",
     "ejs": ""
   },
   "engine": "node 0.10.x",

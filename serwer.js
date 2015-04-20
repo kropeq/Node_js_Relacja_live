@@ -9,13 +9,14 @@ var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var path = require('path');
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
-
-app.use(bodyParser());
 app.use(cookieParser());
 app.use(session({
-    secret: 'sekretnyKluczuk'
-      , proxy: true
+    secret: 'sekretnyKluczuk',
+    proxy: true,
+    resave: true,
+    saveUninitialized: true
       }))
 
 app.set('view engine', 'ejs');
@@ -105,7 +106,7 @@ app.get('/editNews/:id/:prev', function(req, res){
 	});
 });
 
-app.post('/deleteNews/:id', function(req, res){
+app.post('/deleteNews/:id', urlencodedParser, function(req, res){
     News.remove({ _id:req.params.id }, function(err){
 	if (!err) { res.send('removed'); 
 	    console.log("Niby usunął");
@@ -115,7 +116,7 @@ app.post('/deleteNews/:id', function(req, res){
     
 });
 
-app.post('/editNews', function(req, res){
+app.post('/editNews', urlencodedParser, function(req, res){
 	if (!req.body.id) {
 	    var news = new News({ content: req.body.content,title: req.body.title, time: Date.now() });
 		news.save(function(err){
@@ -140,13 +141,13 @@ app.post('/editNews', function(req, res){
     
 });
 
-app.post('/loginUser', function(req, res){
+app.post('/loginUser', urlencodedParser, function(req, res){
     var nick = req.body.nick;
     req.session.nick = nick.replace(/(<([^>]+)>)/ig,"");
     req.session.user = true;
     res.send('logged');
 });
-app.post('/login', function(req, res){
+app.post('/login', urlencodedParser, function(req, res){
     var login = req.body.login;
     var pass = req.body.pass;
     console.log(login + " " + pass);
