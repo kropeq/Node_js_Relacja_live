@@ -21,6 +21,7 @@
 			{
 			// podmieniamy buttona w menu
 			$('#loginLogoutButton').html('WYLOGUJ <small>(Admin)</small>').attr('href', '/logout');
+			$('#startlist').html('Zawodnicy').attr('href', '/startlist').css({'display': 'inline'});
 			$.get('/relacja', function(data) { $('#content').html(data);});
 			}
 		  });

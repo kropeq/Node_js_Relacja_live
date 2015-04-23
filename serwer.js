@@ -71,8 +71,14 @@ app.get('/main', function(req, res){
 	    isAdminLogged: req.session.admin
 	    });
 	});
-    
     });
+app.get('/startlist', function(req, res){
+    if (req.session.admin) {
+	res.render('startlist.ejs', {
+	    isAdminLogged: req.session.admin
+	});
+    };
+  });
 app.get('/news', function(req, res){
     // pobieramy z bazy ostatnie 5 newsow
     News.find().sort({'id': -1}).exec(function(err, news) {
