@@ -50,10 +50,17 @@ var chatSchema = new mongoose.Schema({
     time: Date
     });
 
+var jumperSchema = new mongoose.Schema({
+    bib: Number,
+    name: String,
+    surname: String
+});
+
 // kompilacja do modelu
 var News = mongoose.model('News', newsSchema);
 var AdminPost = mongoose.model('Adminpost', adminPostSchema);
 var ChatPost = mongoose.model('Chatpost', chatSchema);
+var JumperPost = mongoose.model('Jumperpost', jumperSchema);
 
 // nawigacja
 app.get('/', function(req, res){
@@ -218,8 +225,43 @@ io.on('connection', function(socket){
 		if (err) console.log("Błąd zapisu posta admina do bazy "+err);
 	});
     });
+    //---------------------------------------------------------------------------//
+    ///-------------------------- C R U D ---------------------------------------//
+    //---------------------------------------------------------------------------//
+    // Dodanie nowego skoczka do listy startowej
+    socket.on('addNewJumper', function(number,jname,jsurname){
+	var post = new JumperPost({bib: number, name: jname, surname: jsurname});
+	post.save(function(err){
+		if (err) console.log("Błąd zapisu skoczka do bazy "+err);
+	    });
+    });
+    socket.on('findOneJumper', function(number){
+	JumperPost.findOne({bib: number}, function(err, jumper) {
+	    if ( jumper == null) {
+		console.log("Nie znalazlo takiego zawodnika na liscie");
+		socket.emit('foundOneJumper',{ bib : '0', name : 'Brak danych', surname : 'Brak danych' });
+	    } else {
+		socket.emit('foundOneJumper',jumper);
+	    }
+	});
+    });
     
-    
+    socket.on('checkBibBeforeAdd', function(number){
+	JumperPost.findOne({bib: number}, function(err, jumper) {
+	    if ( jumper == null) {
+		console.log("Nie znalazlo takiego zawodnika na liscie");
+		socket.emit('checkedBibBeforeAdd',{ bib : '0', name : 'Brak danych', surname : 'Brak danych' });
+	    } else {
+		socket.emit('checkedBibBeforeAdd',jumper);
+	    }
+	});
+    });
+    // Usuwanie wszystkich skoczkow z listy startowej
+    socket.on('removeJumpers', function(){
+	JumperPost.remove({},function(err){
+	    if (err) console.log("Błąd usuwania skoczkow z bazy "+err);
+	});
+    });
     
     socket.on('usersChannel', function(msg)
 	{

@@ -205,7 +205,7 @@ input {
     right:80px;
 }
 
-#login, #loginUser, #addArticle, #save {
+#login, #loginUser, #addArticle, #save{
 	text-decoration: none;
 	color: #008DD2;
 	font-family: @czcionka;
@@ -213,6 +213,9 @@ input {
 	padding: 10px;
 	border-radius: 5px;
 }
+
+
+
 #login:hover, #loginUser:hover, #addArticle:hover, #save:hover, #editArticle:hover, #back:hover {
 	color: #FFF;
 	background: #1e5799; /* Old browsers */
@@ -232,6 +235,153 @@ input {
 	filter: progid:DXImageTransform.Microsoft.gradient(  startColorstr='#1e5799',
 		endColorstr='#7db9e8', GradientType=0); /* IE6-9 */
 }
+
+#startListCRUD{
+    h1 {
+        padding-top: 10px;
+        margin-top: -20px;
+        height: 50px;
+        background-color: #30C013;
+        color: white;
+        text-align: center;
+        width: 1000px;
+        margin-bottom: 0px;
+    }
+    #menuCRUD{
+        padding-top: 15px;
+        height: 40px;
+        background-color: blue;
+        width: 100%;
+        #finddiv{
+            padding-top: 5px;
+            padding-left: 10px;
+            float: left;
+            width: 750px;
+            textarea{
+                float:left;
+                font-weight: bold;
+                font-size: 17px;
+                color: red;
+                width:60px;
+                height: 30px;
+                margin-right: 30px;
+                margin-left: 10px;
+                text-align: center;
+                border: 0;
+                border-radius: 5px;
+                padding-top: 8px;
+            }
+            #findJumper{
+                float:left;
+                position:relative;
+                bottom: 6px;
+            }
+            #alert{
+                float:left;
+                position: relative;
+                top: 5px;
+                color: white;
+                font-weight: bold;
+                text-align: center;
+            }
+        }
+        #restdivs{
+            padding-top: 5px;
+            float:left;
+            width: 200px;
+            #removeJumpers{
+                position: relative;
+                left: 50px;
+                top: 5px;
+                background-color: indianred;
+                text-decoration: none;
+                color: #FFF;
+                font-family: @czcionka;
+                font-size: 18px;
+                padding: 8px;
+                border-radius: 5px;
+            }
+        }
+    }
+    #contentCRUD{
+        background-color: blue;
+        text-align: center;
+        padding-top: 10px;
+        height: 200px;
+        margin-bottom: -20px;
+        div {
+            display: block;
+            width: 1000px;
+            padding-bottom: 5px;
+            div{
+                float: left;
+                width: 150px;
+                color: white;
+                margin-left: 10px;
+                margin-right: 10px;
+            }
+            textarea {
+                font-weight: bold;
+                font-size: 17px;
+                color: red;
+                padding-top: 8px;
+                width: 150px;
+                height: 30px;
+                border: 0;
+                border-radius: 5px;
+                float: left;
+                margin-right: 10px;
+                margin-left: 10px;
+                text-align: center;
+            }
+        }
+        #AddUpdate{
+            text-align: left;
+            margin-top: 60px;
+            margin-left: 150px;
+            #addJumper{
+                margin-left: 10px;
+                background: #47CA0F;
+            }
+            #updateJumper{
+                width: 100px;
+                margin-left: 10px;
+                background: #FF8C00;
+            }
+        }
+
+    }
+}
+
+#addJumper, #updateJumper, #findJumper{
+    display: inline-block;
+	text-decoration: none;
+    text-align: center;
+	color: #FFF;
+	font-family: @czcionka;
+	font-size: 18px;
+	padding-top: 8px;
+    padding-bottom: 8px;
+    width: 100px;
+	border-radius: 5px;
+    background: #1e5799; /* Old browsers */
+	background: -moz-linear-gradient(top, #1e5799 0%, #2989d8 50%, #7db9e8 100%);
+	/* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #1e5799),
+		color-stop(50%, #2989d8), color-stop(100%, #7db9e8));
+	/* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #1e5799 0%, #2989d8 50%, #7db9e8 100%);
+	/* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #1e5799 0%, #2989d8 50%, #7db9e8 100%);
+	/* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #1e5799 0%, #2989d8 50%, #7db9e8 100%);
+	/* IE10+ */
+	background: linear-gradient(to bottom, #1e5799 0%, #2989d8 50%, #7db9e8 100%);
+	/* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient(  startColorstr='#1e5799',
+		endColorstr='#7db9e8', GradientType=0); /* IE6-9 */
+}
+
 #liveWrapper{
     width: 1000px;
     position: relative;
@@ -251,14 +401,14 @@ input {
             background: #72C5EF;
             color: white;
             font-weight: 600;
-            .columnKlasyf { /* TO MOZE BYC JESZCZE GDZIES */
+            .columnKlasyf { 
                 padding-left: 8px;
                 float: left;
                 width: 100px;
                 padding-top: 3px;
             }
         }
-        #liveRelation{ /* ZNALEZC DEFINICJE TEGO */
+        #liveRelation{ 
             .liveRelationRow {
                 overflow: auto;
                 padding-top:4px;

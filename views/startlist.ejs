@@ -1,5 +1,122 @@
 		<div id="startListCRUD">
+		    <h1>Tworzenie listy startowej</h1>
 		    <% if (isAdminLogged) {%>
-			<p style="text-align: center;">Test nowego okna do CRUD'a listy startowej</p>
-		    <% } %>
+		    <div id="menuCRUD">
+			<div id="finddiv">
+			    <a id="findJumper" href="#">Find</a>
+			    <textarea id="fjumper" rows="" cols="" style="margin-top: -5px"></textarea>
+			    <div id="alert"></div>
+			</div>
+			<div id="restdivs">
+
+			    <a id="removeJumpers" href="#">Remove All</a>
+			</div>
+		    </div>
+		    <div id="contentCRUD">
+			<div>
+			    <div>Numer startowy</div>
+			    <div>Imię skoczka</div>
+			    <div>Nazwisko skoczka</div>
+			    <br />
+			</div>
+			<div>
+			    <textarea id="number" rows="" cols=""></textarea>
+			    <textarea id="name" rows="" cols=""></textarea>
+			    <textarea id="surname" rows="" cols=""></textarea>
+			</div>
+			<div id="AddUpdate">
+			    <a id="addJumper" href="#">Add</a>
+			    <a id="updateJumper" href="#">Update</a>
+			</div>
+		    </div>
+			
+		    <script>
+			var podswietl_blad = function(co_podswietlic){
+			    co_podswietlic.css({'background-color': '#FA6A6A','color':'white'});
+			    window.setTimeout(function() {
+				co_podswietlic.css({'background-color': '#FFFFFF','color':'red'});
+			    }, 2500);
+			};
+			var socket = io.connect("localhost:3000");
+			$('#findJumper').click(function(){
+			    var number = $('#fjumper').val();
+			    var pattern_number = /^([1-9]{1,1})$|^([1-4]{1,1}[0-9]{1,1})$|^50$/g;
+			    var true_number = pattern_number.test(number);
+			    if ( true_number ){
+				socket.emit('findOneJumper',number);
+			    } else {
+				podswietl_blad($('#fjumper'));
+				$('#alert').text("Wpisałeś zły numer. Wybierz z przedziału 1-50");
+				window.setTimeout(function() {
+				    $('#alert').text('');
+				    $('#fjumper').val('');
+				}, 5000);
+				//alert("Wpisałeś zły numer startowy! Wybierz z przedziału 1-50!");
+			    }
+			    socket.removeListener('foundOneJumper');
+			    socket.on('foundOneJumper',function(jumper){
+				if ( jumper.bib == '0') {
+				    $('#alert').text("Nie znaleziono skoczka o takim numerze startowym!");
+					window.setTimeout(function() {
+				    $('#alert').text('');
+				    $('#fjumper').val('');
+				    }, 5000);
+				}
+				$('#contentCRUD #number').val(jumper.bib);
+				$('#contentCRUD #name').val(jumper.name);
+				$('#contentCRUD #surname').val(jumper.surname);
+			    });
+			});
+			$('#addJumper').click(function(){
+			    var number = $('#number').val();
+			    var name = $('#name').val();
+			    var surname = $('#surname').val();
+			    var pattern_number = /^([1-9]{1,1})$|^([1-4]{1,1}[0-9]{1,1})$|^50$/g;
+			    var pattern_name = /^[A-ZĆŁŹŻ][a-ząćęłńóśźż]{1,}$/g;
+			    var pattern_surname = /^[A-ZĆŁŹŻ][a-ząćęłńóśźż]{1,}$/g;
+			    var true_number = pattern_number.test(number);
+			    var true_name = pattern_name.test(name);
+			    var true_surname = pattern_surname.test(surname);
+			    if ( true_name && true_surname && true_number) {
+				socket.emit('checkBibBeforeAdd',number);
+				socket.removeListener('checkedBibBeforeAdd');
+				socket.on('checkedBibBeforeAdd',function(jumper){
+				    var sprawdz = jumper.bib;
+				    if ( sprawdz == number) {
+				    podswietl_blad($('#number'));
+				    $('#alert').text("Ten numer startowy już jest na liście!");
+				window.setTimeout(function() {
+				    $('#alert').text('');
+				}, 5000);
+				    } else {
+				    socket.emit('addNewJumper',number,name,surname);
+				    $('#number,#name,#surname').css('background-color', 'lightgreen');
+				    window.setTimeout(function() {
+				        $('#number,#name,#surname').css('background-color', '#FFFFFF').val("");
+				    }, 2500);
+				    }
+				});
+				//socket.emit('addNewJumper',number,name,surname);
+			    } else if ( true_name==false && true_surname==false){
+				podswietl_blad($('#name,#surname'));
+			    } else if ( true_name==false ) {
+				podswietl_blad($('#name'));
+			    } else if ( true_surname==false){
+				podswietl_blad($('#surname'));
+			    } else {
+				podswietl_blad($('#number'));
+				$('#alert').text("Wpisałeś zły numer. Wybierz z przedziału 1-50");
+				window.setTimeout(function() {
+				    $('#alert').text('');
+				}, 5000);
+			    }
+			});
+			$('#removeJumpers').click(function(){
+			    var potwierdzenie = confirm("Jesteś pewny?");
+			    if ( potwierdzenie == true) {
+				socket.emit('removeJumpers');
+			    }
+			    });
+		    </script>
+<% } %>
 		</div>
