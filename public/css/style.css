@@ -294,7 +294,7 @@ input {
   position: relative;
   left: 50px;
   top: 5px;
-  background-color: indianred;
+  background-color: #DE0404;
   text-decoration: none;
   color: #FFF;
   font-family: tahoma;
@@ -338,7 +338,7 @@ input {
 #startListCRUD #contentCRUD #AddUpdate {
   text-align: left;
   margin-top: 60px;
-  margin-left: 150px;
+  margin-left: 100px;
 }
 #startListCRUD #contentCRUD #AddUpdate #addJumper {
   margin-left: 10px;
@@ -349,9 +349,15 @@ input {
   margin-left: 10px;
   background: #FF8C00;
 }
+#startListCRUD #contentCRUD #AddUpdate #deleteJumper {
+  width: 100px;
+  margin-left: 10px;
+  background: #DE0404;
+}
 #addJumper,
 #updateJumper,
-#findJumper {
+#findJumper,
+#deleteJumper {
   display: inline-block;
   text-decoration: none;
   text-align: center;

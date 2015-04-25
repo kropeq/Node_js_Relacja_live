@@ -235,24 +235,59 @@ io.on('connection', function(socket){
 		if (err) console.log("Błąd zapisu skoczka do bazy "+err);
 	    });
     });
+    // Znajdowanie konkretnego skoczka ( FIND )
     socket.on('findOneJumper', function(number){
 	JumperPost.findOne({bib: number}, function(err, jumper) {
 	    if ( jumper == null) {
-		console.log("Nie znalazlo takiego zawodnika na liscie");
 		socket.emit('foundOneJumper',{ bib : '0', name : 'Brak danych', surname : 'Brak danych' });
 	    } else {
 		socket.emit('foundOneJumper',jumper);
 	    }
 	});
     });
-    
+    // Sprawdzania czy istnieje juz pozycja z tym numerem startowym ( ADD )
     socket.on('checkBibBeforeAdd', function(number){
 	JumperPost.findOne({bib: number}, function(err, jumper) {
 	    if ( jumper == null) {
-		console.log("Nie znalazlo takiego zawodnika na liscie");
 		socket.emit('checkedBibBeforeAdd',{ bib : '0', name : 'Brak danych', surname : 'Brak danych' });
 	    } else {
 		socket.emit('checkedBibBeforeAdd',jumper);
+	    }
+	});
+    });
+    // Sprawdzania czy istnieje juz pozycja z tym numerem startowym ( UPDATE )
+    socket.on('checkBibBeforeUpdate', function(number){
+	JumperPost.findOne({bib: number}, function(err, jumper) {
+	    if ( jumper == null) {
+		socket.emit('checkedBibBeforeUpdate',{ bib : '0', name : 'Brak danych', surname : 'Brak danych' });
+	    } else {
+		socket.emit('checkedBibBeforeUpdate',jumper);
+	    }
+	});
+    });
+    // Sprawdzania czy istnieje juz pozycja z tym numerem startowym ( DELETE )
+    socket.on('checkBibBeforeDelete', function(number){
+	JumperPost.findOne({bib: number}, function(err, jumper) {
+	    if ( jumper == null) {
+		socket.emit('checkedBibBeforeDelete',{ bib : '0', name : 'Brak danych', surname : 'Brak danych' });
+	    } else {
+		socket.emit('checkedBibBeforeDelete',jumper);
+	    }
+	});
+    });
+    // Usuwanie pojedynczego skoczka z listy startowej
+    socket.on('deleteJumper',function(number){
+	JumperPost.remove({ bib:number }, function(err){
+	    if ( err ){
+		console.log("Błąd podczas usuwania skoczka z bazy "+err);
+	    }
+	});
+    });
+    // Update pojedynczego skoczka z listy startowej
+    socket.on('updateJumper',function(number,jname,jsurname){
+	JumperPost.update({bib: number}, {$set: { name: jname, surname: jsurname}}, function(err, jumper) {
+	    if (err) {
+		console.log("Błąd podczas edycji skoczka w bazie "+err);
 	    }
 	});
     });
