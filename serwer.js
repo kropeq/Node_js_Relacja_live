@@ -297,6 +297,13 @@ io.on('connection', function(socket){
 	    if (err) console.log("Błąd usuwania skoczkow z bazy "+err);
 	});
     });
+    // Ladowanie listy startowej
+    socket.on('loadStartList', function(data)
+	{
+	JumperPost.find().limit(50).sort({'bib': 1}).exec(function(err, listaStartowa) {
+	    socket.emit('StartList', listaStartowa);
+	    });;
+	});
     
     socket.on('usersChannel', function(msg)
 	{

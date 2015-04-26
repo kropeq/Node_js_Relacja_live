@@ -239,8 +239,9 @@ input {
 #startListCRUD h1 {
   padding-top: 10px;
   margin-top: -20px;
+  margin-bottom: -20px;
   height: 50px;
-  background-color: #30C013;
+  background-color: #4ED134;
   color: white;
   text-align: center;
   width: 1000px;
@@ -248,8 +249,8 @@ input {
 }
 #startListCRUD #menuCRUD {
   padding-top: 15px;
-  height: 40px;
-  background-color: blue;
+  height: 50px;
+  background-color: rgba(0, 0, 255, 0.3);
   width: 100%;
 }
 #startListCRUD #menuCRUD #finddiv {
@@ -292,8 +293,8 @@ input {
 }
 #startListCRUD #menuCRUD #restdivs #removeJumpers {
   position: relative;
-  left: 50px;
-  top: 5px;
+  left: 120px;
+  top: 2px;
   background-color: #DE0404;
   text-decoration: none;
   color: #FFF;
@@ -303,25 +304,32 @@ input {
   border-radius: 5px;
 }
 #startListCRUD #contentCRUD {
-  background-color: blue;
   text-align: center;
-  padding-top: 10px;
-  height: 200px;
+  height: 400px;
   margin-bottom: -20px;
 }
-#startListCRUD #contentCRUD div {
-  display: block;
-  width: 1000px;
-  padding-bottom: 5px;
+#startListCRUD #contentCRUD #columnLeft {
+  width: 525px;
+  background-color: rgba(0, 0, 255, 0.3);
+  height: 385px;
+  position: absolute;
+  left: 0px;
+  padding-top: 15px;
 }
-#startListCRUD #contentCRUD div div {
+#startListCRUD #contentCRUD #columnLeft #headers {
+  height: 21px;
+}
+#startListCRUD #contentCRUD #columnLeft #headers #headerInput {
   float: left;
   width: 150px;
   color: white;
   margin-left: 10px;
   margin-right: 10px;
 }
-#startListCRUD #contentCRUD div textarea {
+#startListCRUD #contentCRUD #columnLeft #textareas {
+  height: 40px;
+}
+#startListCRUD #contentCRUD #columnLeft #textareas textarea {
   font-weight: bold;
   font-size: 17px;
   color: red;
@@ -335,24 +343,89 @@ input {
   margin-left: 10px;
   text-align: center;
 }
-#startListCRUD #contentCRUD #AddUpdate {
-  text-align: left;
-  margin-top: 60px;
-  margin-left: 100px;
+#startListCRUD #contentCRUD #columnLeft #AddUpdateDelete {
+  display: block;
+  margin-top: 10px;
 }
-#startListCRUD #contentCRUD #AddUpdate #addJumper {
+#startListCRUD #contentCRUD #columnLeft #AddUpdateDelete #addJumper {
   margin-left: 10px;
   background: #47CA0F;
 }
-#startListCRUD #contentCRUD #AddUpdate #updateJumper {
+#startListCRUD #contentCRUD #columnLeft #AddUpdateDelete #updateJumper {
   width: 100px;
   margin-left: 10px;
   background: #FF8C00;
 }
-#startListCRUD #contentCRUD #AddUpdate #deleteJumper {
+#startListCRUD #contentCRUD #columnLeft #AddUpdateDelete #deleteJumper {
   width: 100px;
   margin-left: 10px;
   background: #DE0404;
+}
+#startListCRUD #contentCRUD #columnRight {
+  position: absolute;
+  right: 0px;
+  width: 475px;
+  height: 400px;
+}
+#startListCRUD #contentCRUD #columnRight #tableStartList {
+  width: 400px;
+  height: 380px;
+  float: left;
+}
+#startListCRUD #contentCRUD #columnRight #tableStartList #headerStartList {
+  display: block;
+  padding-top: 2px;
+  font-size: 17px;
+  font-weight: 600;
+  height: 28px;
+  color: white;
+  background-color: #72C5EF;
+  text-align: center;
+}
+#startListCRUD #contentCRUD #columnRight #tableStartList #headerStartList .numberStartList {
+  float: left;
+  width: 75px;
+}
+#startListCRUD #contentCRUD #columnRight #tableStartList #headerStartList .nameStartList {
+  float: left;
+  width: 150px;
+}
+#startListCRUD #contentCRUD #columnRight #tableStartList #StartList {
+  float: left;
+  font-size: small;
+  width: 400px;
+  height: 350px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+#startListCRUD #contentCRUD #columnRight #tableStartList #StartList .StartListRow {
+  width: inherit;
+  height: 22px;
+  padding-top: 2px;
+  border-bottom: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #72C5EF;
+}
+#startListCRUD #contentCRUD #columnRight #tableStartList #StartList .StartListRow #numberSL {
+  float: left;
+  width: 75px;
+}
+#startListCRUD #contentCRUD #columnRight #tableStartList #StartList .StartListRow #nameSL,
+#startListCRUD #contentCRUD #columnRight #tableStartList #StartList .StartListRow #surnameSL {
+  float: left;
+  width: 150px;
+}
+#startListCRUD #contentCRUD #columnRight #fillRight {
+  float: left;
+  width: 75px;
+  height: 380px;
+  background-color: rgba(0, 0, 255, 0.3);
+}
+#startListCRUD #contentCRUD #columnRight #fillBottom {
+  float: left;
+  width: 475px;
+  height: 20px;
+  background-color: rgba(0, 0, 255, 0.3);
 }
 #addJumper,
 #updateJumper,
@@ -418,6 +491,9 @@ input {
   padding-top: 4px;
   padding-bottom: 6px;
   margin: 0px 0;
+  border-bottom-style: outset;
+  border-bottom-width: thin;
+  border-bottom-color: #72C5EF;
 }
 #liveWrapper #leftColumn #liveRelation .liveRelationRow .liveDescription {
   width: 450px;
@@ -512,6 +588,9 @@ input {
 }
 .highlightPost {
   background-color: rgba(235, 243, 126, 0.8) !important;
+}
+.highlightUpdate {
+  background-color: rgba(255, 128, 0, 0.6) !important;
 }
 .highlightOdd {
   background-color: rgba(41, 243, 54, 0.2);

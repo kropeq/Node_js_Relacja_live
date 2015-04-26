@@ -240,8 +240,9 @@ input {
     h1 {
         padding-top: 10px;
         margin-top: -20px;
+        margin-bottom: -20px;
         height: 50px;
-        background-color: #30C013;
+        background-color: #4ED134;
         color: white;
         text-align: center;
         width: 1000px;
@@ -249,8 +250,8 @@ input {
     }
     #menuCRUD{
         padding-top: 15px;
-        height: 40px;
-        background-color: blue;
+        height: 50px;
+        background-color: rgba(0,0,255,0.3);
         width: 100%;
         #finddiv{
             padding-top: 5px;
@@ -291,8 +292,8 @@ input {
             width: 200px;
             #removeJumpers{
                 position: relative;
-                left: 50px;
-                top: 5px;
+                left: 120px;
+                top: 2px;
                 background-color: #DE0404;
                 text-decoration: none;
                 color: #FFF;
@@ -304,57 +305,127 @@ input {
         }
     }
     #contentCRUD{
-        background-color: blue;
         text-align: center;
-        padding-top: 10px;
-        height: 200px;
+        height: 400px;
         margin-bottom: -20px;
-        div {
-            display: block;
-            width: 1000px;
-            padding-bottom: 5px;
-            div{
-                float: left;
-                width: 150px;
-                color: white;
-                margin-left: 10px;
-                margin-right: 10px;
+        #columnLeft{
+            width: 525px;
+            background-color: rgba(0,0,255,0.3);
+            height: 385px;
+            position: absolute;
+            left: 0px;
+            padding-top: 15px;
+            #headers{
+                height: 21px;
+                #headerInput{
+                    float: left;
+                    width: 150px;
+                    color: white;
+                    margin-left: 10px;
+                    margin-right: 10px;
+                }
             }
-            textarea {
-                font-weight: bold;
-                font-size: 17px;
-                color: red;
-                padding-top: 8px;
-                width: 150px;
-                height: 30px;
-                border: 0;
-                border-radius: 5px;
-                float: left;
-                margin-right: 10px;
-                margin-left: 10px;
-                text-align: center;
+            #textareas{
+                height: 40px;
+                textarea {
+                    font-weight: bold;
+                    font-size: 17px;
+                    color: red;
+                    padding-top: 8px;
+                    width: 150px;
+                    height: 30px;
+                    border: 0;
+                    border-radius: 5px;
+                    float: left;
+                    margin-right: 10px;
+                    margin-left: 10px;
+                    text-align: center;
+                }
+            }
+            #AddUpdateDelete{
+                display: block;
+                margin-top: 10px;
+                #addJumper{
+                    margin-left: 10px;
+                    background: #47CA0F;
+                }
+                #updateJumper{
+                    width: 100px;
+                    margin-left: 10px;
+                    background: #FF8C00;
+                }
+                #deleteJumper{
+                    width: 100px;
+                    margin-left: 10px;
+                    background: #DE0404;
+                }
             }
         }
-        #AddUpdate{
-            text-align: left;
-            margin-top: 60px;
-            margin-left: 100px;
-            #addJumper{
-                margin-left: 10px;
-                background: #47CA0F;
+        #columnRight{
+            position: absolute;
+            right: 0px;
+            width: 475px;
+            height: 400px;
+            #tableStartList{
+                width: 400px;
+                height: 380px;
+                float: left;
+                #headerStartList{
+                    display: block;
+                    padding-top: 2px;
+                    font-size: 17px;
+                    font-weight: 600;
+                    height: 28px;
+                    color: white;
+                    background-color: #72C5EF;
+                    text-align: center;
+                    .numberStartList{
+                        float: left;
+                        width: 75px;
+                    }
+                    .nameStartList{
+                        float: left;
+                        width: 150px;
+                    }
+                }
+                #StartList{
+                    float:left;
+                    font-size:small;
+                    width:400px;
+                    height: 350px;
+                    overflow-y: auto;
+                    overflow-x: hidden;
+                    .StartListRow{
+                        width: inherit;
+                        height: 22px;
+                        padding-top: 2px;
+                        border-bottom: 1px;
+                        border-bottom-style: solid;
+                        border-bottom-color: #72C5EF;
+                        #numberSL{
+                            float: left;
+                            width: 75px;
+                        }
+                        #nameSL, #surnameSL{
+                            float: left;
+                            width: 150px;
+                        }
+                    }
+                }
             }
-            #updateJumper{
-                width: 100px;
-                margin-left: 10px;
-                background: #FF8C00;
+            #fillRight{
+                float:left;
+                width: 75px;
+                height: 380px;
+                background-color: rgba(0,0,255,0.3);
             }
-            #deleteJumper{
-                width: 100px;
-                margin-left: 10px;
-                background: #DE0404;
+            #fillBottom{
+                float:left;
+                width: 475px;
+                height: 20px;
+                background-color: rgba(0,0,255,0.3);
             }
         }
-
     }
 }
 
@@ -419,6 +490,9 @@ input {
                 padding-top:4px;
                 padding-bottom: 6px;
                 margin: 0px 0;
+                border-bottom-style: outset; 
+                border-bottom-width: thin; 
+                border-bottom-color: #72C5EF;
                 .liveDescription {
                     width: 450px;
                     float: left;
@@ -519,6 +593,9 @@ input {
 
 .highlightPost {
 	background-color: rgba(235,243,126,0.8) !important;
+}
+.highlightUpdate {
+	background-color: rgba(255,128,0,0.6) !important;
 }
 .highlightOdd {
 	background-color: rgba(41,243,54,0.2);
@@ -667,5 +744,3 @@ input {
         margin-bottom: 15px;
     }
 }
-
-

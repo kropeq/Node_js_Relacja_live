@@ -8,30 +8,69 @@
 			    <div id="alert"></div>
 			</div>
 			<div id="restdivs">
-
 			    <a id="removeJumpers" href="#">Remove All</a>
 			</div>
 		    </div>
 		    <div id="contentCRUD">
-			<div>
-			    <div>Numer startowy</div>
-			    <div>Imię skoczka</div>
-			    <div>Nazwisko skoczka</div>
-			    <br />
+			<div id="columnLeft">
+			    <div id="headers">
+				<div id="headerInput">Numer startowy</div>
+				<div id="headerInput">Imię skoczka</div>
+				<div id="headerInput">Nazwisko skoczka</div>
+			    </div>
+			    <div id="textareas">
+				<textarea id="number" rows="1" cols="15"></textarea>
+				<textarea id="name" rows="1" cols="15"></textarea>
+				<textarea id="surname" rows="1" cols="15"></textarea>
+			    </div>
+			    <div id="AddUpdateDelete">
+				<a id="addJumper" href="#">Add</a>
+				<a id="updateJumper" href="#">Update</a>
+				<a id="deleteJumper" href="#">Delete</a>
+			    </div>
 			</div>
-			<div>
-			    <textarea id="number" rows="" cols=""></textarea>
-			    <textarea id="name" rows="" cols=""></textarea>
-			    <textarea id="surname" rows="" cols=""></textarea>
-			</div>
-			<div id="AddUpdate">
-			    <a id="addJumper" href="#">Add</a>
-			    <a id="updateJumper" href="#">Update</a>
-			    <a id="deleteJumper" href="#">Delete</a>
+			<div id="columnRight">
+			    <div id="tableStartList">
+				<div id="headerStartList">
+				    <div class="numberStartList">Numer</div>
+				    <div class="nameStartList">Imie</div>
+				    <div class="nameStartList">Nazwisko</div>
+				</div>
+				<div id="StartList">
+				</div>
+			    </div>
+			    <div id="fillRight"></div>
+			    <div id="fillBottom"></div>
 			</div>
 		    </div>
 			
 		    <script>
+			var ustaw_przeplatanie_kolorow = function(){
+				if ($('#StartList .StartListRow:even').hasClass('highlightOdd')) {
+			            $('#StartList .StartListRow:even').removeClass('highlightOdd');		
+			        }
+			        $('#StartList .StartListRow:odd').addClass('highlightOdd');		
+			};
+			
+			var podswietl_dodany_element = function(co_podswietlic){
+			    co_podswietlic.addClass('highlightPost');
+			    window.setTimeout(function() {
+			    co_podswietlic.removeClass('highlightPost');
+			    }, 2500);
+			};
+			
+			// ładowanie listy startowej
+			socket.emit('loadStartList', 'load');
+			socket.removeListener('StartList');
+			socket.on('StartList', function(listaSkoczkow) {
+			    for (var i=0;i<listaSkoczkow.length;i++) {
+				if (listaSkoczkow[i].bib){
+				$('#StartList').append('<div class="StartListRow"><div id="numberSL" data-number="'+listaSkoczkow[i].bib+'">'+listaSkoczkow[i].bib+'</div><div id="nameSL">'+listaSkoczkow[i].name+'</div><div id="surnameSL">'+listaSkoczkow[i].surname+'</div></div>');
+				}
+			    }
+			    $('#StartList .StartListRow:odd').addClass('highlightOdd');
+			});
+			
 			var podswietl_blad = function(co_podswietlic){
 			    co_podswietlic.css({'background-color': '#FA6A6A','color':'white'});
 			    window.setTimeout(function() {
@@ -45,6 +84,10 @@
 			    var true_number = pattern_number.test(number);
 			    if ( true_number ){
 				socket.emit('findOneJumper',number);
+				$('#alert').text('');
+				window.setTimeout(function() {
+				    $('#fjumper').val('');
+				}, 5000);
 			    } else {
 				podswietl_blad($('#fjumper'));
 				$('#alert').text("Wpisałeś zły numer. Wybierz z przedziału 1-50");
@@ -84,17 +127,50 @@
 				socket.on('checkedBibBeforeAdd',function(jumper){
 				    var sprawdz = jumper.bib;
 				    if ( sprawdz == number) {
-				    podswietl_blad($('#number'));
-				    $('#alert').text("Ten numer startowy już jest na liście!");
-				window.setTimeout(function() {
-				    $('#alert').text('');
-				}, 5000);
+					podswietl_blad($('#number'));
+					$('#alert').text("Ten numer startowy już jest na liście!");
+					window.setTimeout(function() {
+					    $('#alert').text('');
+					}, 5000);
 				    } else {
-				    socket.emit('addNewJumper',number,name,surname);
-				    $('#number,#name,#surname').css('background-color', 'lightgreen');
-				    window.setTimeout(function() {
-				        $('#number,#name,#surname').css('background-color', '#FFFFFF').val("");
-				    }, 2500);
+					//-------------- Dodaje zawodnika do bazy  ---------------------//
+					socket.emit('addNewJumper',number,name,surname);
+					$('#number,#name,#surname').css('background-color', 'lightgreen');
+					window.setTimeout(function() {
+					    $('#number,#name,#surname').css('background-color', '#FFFFFF').val("");
+					}, 2500);
+					//-------------- Dodaje zawodnika do div StartList -------------//
+					var wiersz = $('.StartListRow').first();
+					var ilosc_wierszy = $('.StartListRow').length;
+					var ktory_wiersz = 1;
+					if (wiersz.find('#numberSL').length > 0){
+					    $('.StartListRow').each(function(){
+						if ( +wiersz.find('#numberSL').text() > +number) {
+						    $(wiersz).hide().before('<div class="StartListRow"><div id="numberSL" data-number="'+number+'">'+number+'</div><div id="nameSL">'+name+'</div><div id="surnameSL">'+surname+'</div></div>');
+						    $(wiersz).hide().slideDown();
+						    ustaw_przeplatanie_kolorow();
+						    podswietl_dodany_element($(wiersz).prev());
+						    $('#alert').text('');
+						    return false;
+						}
+						else{
+						    ktory_wiersz++;
+						    if ( ktory_wiersz > ilosc_wierszy) {
+							$('<div class="StartListRow"><div id="numberSL" data-number="'+number+'">'+number+'</div><div id="nameSL">'+name+'</div><div id="surnameSL">'+surname+'</div></div>').hide().appendTo('#StartList').slideDown();;
+							ustaw_przeplatanie_kolorow();
+							podswietl_dodany_element($('.StartListRow').last());
+							$('#alert').text('');
+							return false;
+						    }
+						    wiersz = wiersz.next();
+						}
+					    });
+					} else {
+					    $('<div class="StartListRow"><div id="numberSL" data-number="'+number+'">'+number+'</div><div id="nameSL">'+name+'</div><div id="surnameSL">'+surname+'</div></div>').hide().appendTo('#StartList').slideDown();;
+					    ustaw_przeplatanie_kolorow();
+					    podswietl_dodany_element($('.StartListRow').last());
+					    $('#alert').text('');
+					}
 				    }
 				});
 				//socket.emit('addNewJumper',number,name,surname);
@@ -122,32 +198,40 @@
 			    var true_number = pattern_number.test(number);
 			    var true_name = pattern_name.test(name);
 			    var true_surname = pattern_surname.test(surname);
-			    if ( true_name && true_surname && true_number) {
+			    if (true_number) {
 				socket.emit('checkBibBeforeUpdate',number);
 				socket.removeListener('checkedBibBeforeUpdate');
 				socket.on('checkedBibBeforeUpdate',function(jumper){
 				    var sprawdz = jumper.bib;
 				    if ( sprawdz == number) {
-				    socket.emit('updateJumper',number,name,surname);
-				    $('#number,#name,#surname').css('background-color', 'lightgreen');
-				    window.setTimeout(function() {
-				        $('#number,#name,#surname').css('background-color', '#FFFFFF').val("");
-				    }, 2500);
+					if ( true_name && true_surname) {
+					    socket.emit('updateJumper',number,name,surname);
+					    $(".StartListRow").find("[data-number='"+number+"']").parent().find("#nameSL").text(name);
+					    $(".StartListRow").find("[data-number='"+number+"']").parent().find("#surnameSL").text(surname);
+					    $(".StartListRow").find("[data-number='"+number+"']").parent().addClass('highlightUpdate');
+					    window.setTimeout(function() {
+					        $(".StartListRow").find("[data-number='"+number+"']").parent().removeClass('highlightUpdate');
+					    }, 2500);
+					    $('#number,#name,#surname').css('background-color', 'lightgreen');
+					    window.setTimeout(function() {
+					        $('#number,#name,#surname').css('background-color', '#FFFFFF').val("");
+					    }, 2500);
+					    $('#alert').text('');
+					} else if ( true_name==false && true_surname==false){
+					    podswietl_blad($('#name,#surname'));
+					} else if ( true_name==false ) {
+					    podswietl_blad($('#name'));
+					} else if ( true_surname==false){
+					    podswietl_blad($('#surname'));
+					}
 				    } else {
-				    podswietl_blad($('#number'));
-				    $('#alert').text("Nie można edytować, ponieważ nie znaleziono tego numeru!");
-				    window.setTimeout(function() {
-					$('#alert').text('');
-				    }, 5000);
+					podswietl_blad($('#number'));
+					$('#alert').text("Nie można edytować, ponieważ nie znaleziono tego numeru!");
+					window.setTimeout(function() {
+					    $('#alert').text('');
+					}, 5000);
 				    }
 				});
-				//socket.emit('addNewJumper',number,name,surname);
-			    } else if ( true_name==false && true_surname==false){
-				podswietl_blad($('#name,#surname'));
-			    } else if ( true_name==false ) {
-				podswietl_blad($('#name'));
-			    } else if ( true_surname==false){
-				podswietl_blad($('#surname'));
 			    } else {
 				podswietl_blad($('#number'));
 				$('#alert').text("Wpisałeś zły numer. Wybierz z przedziału 1-50");
@@ -173,6 +257,8 @@
 				    var sprawdz = jumper.bib;
 				    if ( sprawdz == number) {
 				    socket.emit('deleteJumper',number);
+				    $(".StartListRow").find("[data-number='"+number+"']").parent().remove();
+				    ustaw_przeplatanie_kolorow();
 				    $('#number,#name,#surname').css('background-color', 'lightgreen');
 				    window.setTimeout(function() {
 				        $('#number,#name,#surname').css('background-color', '#FFFFFF').val("");
@@ -204,6 +290,7 @@
 			    var potwierdzenie = confirm("Jesteś pewny?");
 			    if ( potwierdzenie == true) {
 				socket.emit('removeJumpers');
+				$('#StartList > div').remove();
 			    }
 			    });
 		    </script>

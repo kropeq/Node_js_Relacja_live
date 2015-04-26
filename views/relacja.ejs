@@ -184,7 +184,7 @@
 			             if (punkty.find('div .points').text() != "") {
 			                  if ( +punkty.find('.points').text() <= +dane.points) {
 						rank = $(gdzieWstawic).find('.rank').text();
-						$(gdzieWstawic).hide().before('<div class="liveRelationRow" style="border-bottom-style: outset; border-bottom-width: thin; border-bottom-color: #72C5EF"><div class="liveDescription"><div class="rank">'+rank+'</div><div class="kolumna" style="width: 140px">'+dane.jumper+'</div><div class="nation"><img src="../graph/nat/'+dane.nation+'.gif"></div><div class="kolumna" style="width: 70px">'+dane.jump+'</div><div class="points" style="width: 100px" value="'+dane.points+'">'+dane.points+'</div></div></div>');
+						$(gdzieWstawic).hide().before('<div class="liveRelationRow"><div class="liveDescription"><div class="rank">'+rank+'</div><div class="kolumna" style="width: 140px">'+dane.jumper+'</div><div class="nation"><img src="../graph/nat/'+dane.nation+'.gif"></div><div class="kolumna" style="width: 70px">'+dane.jump+'</div><div class="points" style="width: 100px" value="'+dane.points+'">'+dane.points+'</div></div></div>');
 						$(gdzieWstawic).hide().slideDown();
 						ustaw_przeplatanie_kolorow();
 						ilZawodnikow = $('.rank').length;
@@ -202,7 +202,7 @@
 			               }
 				     } else { // nie podswietla jak ostatni div dodaje
 						var rank = $('.liveRelationRow').length;
-						$('<div class="liveRelationRow" style="border-bottom-style: outset; border-bottom-width: thin; border-bottom-color: #72C5EF"><div class="liveDescription"><div class="rank">'+(rank+1)+'</div><div class="kolumna" style="width: 140px">'+dane.jumper+'</div><div class="nation"><img src="../graph/nat/'+dane.nation+'.gif"></div><div class="kolumna" style="width: 70px">'+dane.jump+'</div><div class="points" style="width: 100px" value="'+dane.points+'">'+dane.points+'</div></div></div>').hide().appendTo('#liveRelation').slideDown();
+						$('<div class="liveRelationRow"><div class="liveDescription"><div class="rank">'+(rank+1)+'</div><div class="kolumna" style="width: 140px">'+dane.jumper+'</div><div class="nation"><img src="../graph/nat/'+dane.nation+'.gif"></div><div class="kolumna" style="width: 70px">'+dane.jump+'</div><div class="points" style="width: 100px" value="'+dane.points+'">'+dane.points+'</div></div></div>').hide().appendTo('#liveRelation').slideDown();
 			                        ustaw_przeplatanie_kolorow();
 						podswietl_dodany_element($('.liveRelationRow').last());
 
@@ -211,7 +211,7 @@
 			        }
 			     } 
 				else {
-			                 $('<div class="liveRelationRow" style="border-bottom-style: outset; border-bottom-width: thin; border-bottom-color: #72C5EF"><div class="liveDescription"><div class="rank">'+1+'</div><div class="kolumna" style="width: 140px">'+dane.jumper+'</div><div class="nation"><img src="../graph/nat/'+dane.nation+'.gif"></div><div class="kolumna" style="width: 70px">'+dane.jump+'</div><div class="points" style="width: 100px" value="'+dane.points+'">'+dane.points+'</div></div></div>').hide().prependTo('#liveRelation').slideDown();
+			                 $('<div class="liveRelationRow"><div class="liveDescription"><div class="rank">'+1+'</div><div class="kolumna" style="width: 140px">'+dane.jumper+'</div><div class="nation"><img src="../graph/nat/'+dane.nation+'.gif"></div><div class="kolumna" style="width: 70px">'+dane.jump+'</div><div class="points" style="width: 100px" value="'+dane.points+'">'+dane.points+'</div></div></div>').hide().prependTo('#liveRelation').slideDown();
 			                 podswietl_dodany_element($('.liveRelationRow').first());
 				     };
 			 });
@@ -222,7 +222,7 @@
 			socket.on('adminMsgs', function(listaDanych) {
 			    for (var i=0;i<listaDanych.length;i++) {
 				if (listaDanych[i].points){
-				$('#liveRelation').append('<div class="liveRelationRow" style="border-bottom-style: outset; border-bottom-width: thin; border-bottom-color: #72C5EF"><div class="liveDescription"><div class="rank">'+(i+1)+'</div><div class="kolumna" style="width: 140px">'+listaDanych[i].jumper+'</div><div class="nation"><img src="../graph/nat/'+listaDanych[i].nation+'.gif"></div><div class="kolumna" style="width: 70px">'+listaDanych[i].jump+'</div><div class="points" style="width: 100px" value="'+listaDanych[i].points+'">'+listaDanych[i].points+'</div></div></div>');
+				$('#liveRelation').append('<div class="liveRelationRow"><div class="liveDescription"><div class="rank">'+(i+1)+'</div><div class="kolumna" style="width: 140px">'+listaDanych[i].jumper+'</div><div class="nation"><img src="../graph/nat/'+listaDanych[i].nation+'.gif"></div><div class="kolumna" style="width: 70px">'+listaDanych[i].jump+'</div><div class="points" style="width: 100px" value="'+listaDanych[i].points+'">'+listaDanych[i].points+'</div></div></div>');
 				}
 			    }
 			    $('#liveRelation .liveRelationRow:odd').addClass('highlightOdd');
