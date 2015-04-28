@@ -1,28 +1,48 @@
 <!-- Ładowanie ajaxem -->
-
+<%if (!isAdminLogged) {%>
 <h1 class="liveHeader">KLASYFIKACJA</h1>
 <h1 class="czatHeader">CZAT ONLINE</h1>
-
+<% } else {%>
+<h1 class="liveHeader">WPROWADŹ DANE</h1>
+<h1 class="czatHeader">KLASYFIKACJA</h1>
+<% } %>
 <div id="liveWrapper">
-<div id="leftColumn">
+		<div id="leftColumn">
+			<%if (!isAdminLogged) {%>
 			<div id="headerLiveRelation" style="width:483px;">
-			<div class="columnKlasyf" style='width: 18px'>#</div>
-			<div class="columnKlasyf" style='width: 140px'>Skoczek</div>
-			<div class="columnKlasyf" style='width: 30px; padding-left: 0px'>Kraj</div>
-			<div class="columnKlasyf" style='width: 70px; padding-left: 12px'>Skok</div>
-			<div class="columnKlasyf" style='width: 100px'>Nota</div>
+			   <div class="columnKlasyf" style='width: 18px'>#</div>
+			   <div class="columnKlasyf" style='width: 140px'>Skoczek</div>
+			   <div class="columnKlasyf" style='width: 30px; padding-left: 0px'>Kraj</div>
+			   <div class="columnKlasyf" style='width: 70px; padding-left: 12px'>Skok</div>
+			   <div class="columnKlasyf" style='width: 100px'>Nota</div>
 			</div>
 			<div id="liveRelation" style="font-size: small; width: 483px;">
 			</div>
-	
+			<% } %>
 		</div>
 
 		<div id="rightColumn">
+			<%if (isAdminLogged) {%>
+			<div id="privateMessage">
+			    <div id="nickname"></div>
+			    <div id="pm"></div>
+			</div>
+			<div id="headerLiveRelation" style="width:483px;">
+			   <div class="columnKlasyf" style='width: 18px'>#</div>
+			   <div class="columnKlasyf" style='width: 140px'>Skoczek</div>
+			   <div class="columnKlasyf" style='width: 30px; padding-left: 0px'>Kraj</div>
+			   <div class="columnKlasyf" style='width: 70px; padding-left: 12px'>Skok</div>
+			   <div class="columnKlasyf" style='width: 100px'>Nota</div>
+			</div>
+			<div id="liveRelation" style="font-size: small; width: 483px;">
+			</div>
+			<% } %>
 		</div>
-		</div>
+</div>
 		<div id="postWrapper">
-		    <%if (isAdminLogged) {%>
+		    
 		    <div id="postLeft">
+			<%if (isAdminLogged) {%>
 			<div id="headerInput">Skoczek</div>
 			<div id="headerInput" style="width: 65px;">Kraj</div>
 			<div id="headerInput" style="width: 65px;">Skok</div>
@@ -81,18 +101,29 @@
 		    </select>
 		    <br><br>
 		    
-	<a id="sendLeft" href="#">wyślij</a>
-	<a id="destroy" href="#">usuń</a>
-
+			<a id="sendLeft" href="#">wyślij</a>
+			<a id="destroy" href="#">usuń</a>
+			<%} else {%>
+			<div id="headerInput">Napisz do admina</div>
+			<textarea rows="" id="pmToAdmin" cols="" ></textarea>
+			<br><br>
+			<a id="sendPMToAdmin" href="#">wyślij</a>
+			<% } %>
 		    </div>
-		    <%}%>
-			<div id="postRight">
+		    
+                    <div id="postRight">
+			<%if (!isAdminLogged) {%>
 			<div id="headerInput">Wpisz wiadomość</div>
 			<textarea rows="" id="userMsg" cols="" ></textarea>
 			<br><br>
-	<a id="sendRight" href="#">wyślij</a>
-			
-		
+			<a id="sendRight" href="#">wyślij</a>
+			<% } else { %>
+			<div id="headerInput">Odpowiedz użytkownikowi</div>
+			<textarea rows="" id="adminResponse" cols="" ></textarea>
+			<br><br>
+			<a id="answerToUser" href="#">wyślij</a>
+			<% } %>
+		    </div>
 		
 		<script>
 		
@@ -112,6 +143,7 @@
 	$(window).on('resize',resizeElements);		
 			var socket = io.connect("localhost:3000");
 			<%if (isAdminLogged) {%>
+			$('#privateMessage').hide();
 			adminSendMsg = function(jumper,jump,points,wind,nation)
 			    {
 			    if ( +jump > 120 ){
@@ -233,6 +265,58 @@
 			socket.on('truncateTable', function(){
 				$('#liveRelation > div').remove();
 			});
+			
+			userSendToAdmin = function(msg){
+			    sendInfo = {message: msg, nick: '<%= userNick %>'};
+			    socket.emit('pmToAdmin', sendInfo);
+			    $('#pmToAdmin').val('');
+			}
+			$('#sendPMToAdmin').click(function(){
+			    userSendToAdmin($('#pmToAdmin').val());
+			});
+			$('#pmToAdmin').keyup(function(e){
+			    if(e.which == 13) {
+			    userSendToAdmin($('#pmToAdmin').val());
+			    }
+			});
+			
+			socket.removeListener('showToAdmin');
+			socket.on('showToAdmin', function(dane) {
+			var currentName = '<%= userNick %>'; 
+			if ( currentName == 'Admin') {
+			var shortMessage = dane.message.substring(0, dane.message.length > 30 ? 30 : dane.message.length) + (dane.message.length > 30 ? '...' : '');
+			    $('#nickname').text(dane.nick);
+			    $('#pm').text(shortMessage);
+			    $('#privateMessage').slideDown().addClass('highlightPost');
+			    window.setTimeout(function() {
+			    $('#privateMessage').removeClass('highlightPost');
+			    $('#privateMessage').slideUp();
+			    }, 2500);
+			}
+			});
+			
+			responseToUser = function(msg){
+			    sendInfo = {message: msg, nick: $('#nickname').text()};
+			    socket.emit('adminResponse', sendInfo);
+			    $('#adminResponse').val('');
+			};
+			$('#answerToUser').click(function(){
+			    responseToUser($('#adminResponse').val());
+			});
+			$('#adminResponse').keyup(function(e){
+			    if(e.which == 13) {
+			    responseToUser($('#adminResponse').val());
+			    }
+			});
+			
+			socket.removeListener('responseToUser');
+			socket.on('responseToUser', function(dane) {
+			   var currentName = '<%= userNick %>'; 
+			   if ( currentName == dane.nick) {
+			       $('<div class="userPost"><div class="cloud">'+dane.message+'</div><div class="cloudDynks"></div><div class="userData"><div class="nick">Admin</div><div class="PostTime">'+dane.time+'</div></div></div>').hide().prependTo('#rightColumn').slideDown();
+			   }
+			});
+			
 			userNick = 'Test';
 			userSendMsg = function(msg)
 			    {
@@ -250,17 +334,21 @@
 			});
 			socket.removeListener('userMsg');
 			socket.on('userMsg', function(dane) {
+			<%if (!isAdminLogged) {%>
 			    $('<div class="userPost"><div class="cloud">'+dane.message+'</div><div class="cloudDynks"></div><div class="userData"><div class="nick">'+dane.nick+'</div><div class="PostTime">'+dane.time+'</div></div></div>').hide().prependTo('#rightColumn').slideDown();
+			<%}%>
 			});
 			
 			// ładowanie poprzednich postow
 			socket.emit('loadChatPosts', 'load');
 			socket.removeListener('chatPosts');
 			socket.on('chatPosts', function(listaDanych) {
+			<%if (!isAdminLogged) {%>
 			    listaDanych.forEach(function(dane){
 				if (dane.time)
 				$('#rightColumn').append('<div class="userPost"><div class="cloud">'+dane.message+'</div><div class="cloudDynks"></div><div class="userData"><div class="nick">'+dane.nick+'</div><div class="PostTime">'+dane.time.substring(11,16)+'</div></div></div>');
 			    });
+			<%}%>
 			});
 
 			

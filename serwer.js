@@ -305,6 +305,25 @@ io.on('connection', function(socket){
 	    });;
 	});
     
+    //---------------------------------------------------------------------------//
+    //----------------------------- Private Message -----------------------------//
+    //---------------------------------------------------------------------------//
+    socket.on('pmToAdmin', function(msg){
+	var strippedMsg = msg.message.replace(/(<([^>]+)>)/ig,"").trim();
+	if (strippedMsg.length == 0) return;
+	console.log(strippedMsg);
+	io.emit('showToAdmin',{nick: msg.nick, message: strippedMsg});
+	});
+    
+    socket.on('adminResponse', function(msg){
+	var date = new Date();
+	var hour = date.getHours();
+	hour = (hour < 10 ? "0" : "") + hour;
+	var min  = date.getMinutes();
+	min = (min < 10 ? "0" : "") + min;
+	io.emit('responseToUser',{nick: msg.nick, message: '<span style="color: red">'+msg.message+'</span>', time: hour+':'+min});
+	});
+    
     socket.on('usersChannel', function(msg)
 	{
 	var date = new Date();

@@ -242,42 +242,32 @@
 			});
 			$('#deleteJumper').click(function(){
 			    var number = $('#number').val();
-			    var name = $('#name').val();
-			    var surname = $('#surname').val();
 			    var pattern_number = /^([1-9]{1,1})$|^([1-4]{1,1}[0-9]{1,1})$|^50$/g;
-			    var pattern_name = /^[A-ZĆŁŹŻ][a-ząćęłńóśźż]{1,}$/g;
-			    var pattern_surname = /^[A-ZĆŁŹŻ][a-ząćęłńóśźż]{1,}$/g;
 			    var true_number = pattern_number.test(number);
-			    var true_name = pattern_name.test(name);
-			    var true_surname = pattern_surname.test(surname);
-			    if ( true_name && true_surname && true_number) {
+			    if ( true_number) {
 				socket.emit('checkBibBeforeDelete',number);
 				socket.removeListener('checkedBibBeforeDelete');
 				socket.on('checkedBibBeforeDelete',function(jumper){
 				    var sprawdz = jumper.bib;
 				    if ( sprawdz == number) {
-				    socket.emit('deleteJumper',number);
-				    $(".StartListRow").find("[data-number='"+number+"']").parent().remove();
-				    ustaw_przeplatanie_kolorow();
-				    $('#number,#name,#surname').css('background-color', 'lightgreen');
-				    window.setTimeout(function() {
-				        $('#number,#name,#surname').css('background-color', '#FFFFFF').val("");
-				    }, 2500);
+					var potwierdzenie = confirm("Jesteś pewny?");
+					if ( potwierdzenie == true) {
+					    socket.emit('deleteJumper',number);
+					    $(".StartListRow").find("[data-number='"+number+"']").parent().remove();
+					    ustaw_przeplatanie_kolorow();
+					    $('#number,#name,#surname').css('background-color', 'lightgreen');
+					    window.setTimeout(function() {
+						$('#number,#name,#surname').css('background-color', '#FFFFFF').val("");
+					    }, 2500);
+					}
 				    } else {
-				    podswietl_blad($('#number'));
-				    $('#alert').text("Nie można edytować, ponieważ nie znaleziono tego numeru!");
-				    window.setTimeout(function() {
-					$('#alert').text('');
-				    }, 5000);
+					podswietl_blad($('#number'));
+					$('#alert').text("Nie można edytować, ponieważ nie znaleziono tego numeru!");
+					window.setTimeout(function() {
+					    $('#alert').text('');
+					}, 5000);
 				    }
 				});
-				//socket.emit('addNewJumper',number,name,surname);
-			    } else if ( true_name==false && true_surname==false){
-				podswietl_blad($('#name,#surname'));
-			    } else if ( true_name==false ) {
-				podswietl_blad($('#name'));
-			    } else if ( true_surname==false){
-				podswietl_blad($('#surname'));
 			    } else {
 				podswietl_blad($('#number'));
 				$('#alert').text("Wpisałeś zły numer. Wybierz z przedziału 1-50");
