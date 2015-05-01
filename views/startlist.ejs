@@ -44,7 +44,7 @@
 			</div>
 		    </div>
 			
-		    <script>
+    <script>
 			var ustaw_przeplatanie_kolorow = function(){
 				if ($('#StartList .StartListRow:even').hasClass('highlightOdd')) {
 			            $('#StartList .StartListRow:even').removeClass('highlightOdd');		
@@ -193,11 +193,10 @@
 			    var name = $('#name').val();
 			    var surname = $('#surname').val();
 			    var pattern_number = /^([1-9]{1,1})$|^([1-4]{1,1}[0-9]{1,1})$|^50$/g;
-			    var pattern_name = /^[A-ZĆŁŹŻ][a-ząćęłńóśźż]{1,}$/g;
-			    var pattern_surname = /^[A-ZĆŁŹŻ][a-ząćęłńóśźż]{1,}$/g;
+			    var pattern_name = /^[A-ZĆŁŹŻ][a-ząćęłńóśźż]{1,}$/;
 			    var true_number = pattern_number.test(number);
 			    var true_name = pattern_name.test(name);
-			    var true_surname = pattern_surname.test(surname);
+			    var true_surname = pattern_name.test(surname);
 			    if (true_number) {
 				socket.emit('checkBibBeforeUpdate',number);
 				socket.removeListener('checkedBibBeforeUpdate');

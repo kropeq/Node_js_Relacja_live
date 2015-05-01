@@ -37,11 +37,14 @@ var newsSchema = new mongoose.Schema({
     time: Date
     });
 
-var adminPostSchema = new mongoose.Schema({
+var resultsSchema = new mongoose.Schema({
     jumper: String,
     nation: String,
     jump: Number,
-    points: Number
+    points: Number,
+    jump2: Number,
+    points2: Number,
+    result: Number
 });
 
 var chatSchema = new mongoose.Schema({
@@ -58,7 +61,7 @@ var jumperSchema = new mongoose.Schema({
 
 // kompilacja do modelu
 var News = mongoose.model('News', newsSchema);
-var AdminPost = mongoose.model('Adminpost', adminPostSchema);
+var ResultsPost = mongoose.model('Resultspost', resultsSchema);
 var ChatPost = mongoose.model('Chatpost', chatSchema);
 var JumperPost = mongoose.model('Jumperpost', jumperSchema);
 
@@ -199,7 +202,7 @@ app.use(express.static(path.join(__dirname, '/public')));
 io.on('connection', function(socket){
     socket.on('loadAdminPosts', function(data)
 	{
-	AdminPost.find().limit(30).sort({'points': -1}).exec(function(err, posts) {
+	ResultsPost.find().limit(50).sort({'points': -1}).exec(function(err, posts) {
 	    socket.emit('adminMsgs', posts);
 	    });;
 	});
@@ -211,16 +214,17 @@ io.on('connection', function(socket){
 	});
     
     socket.on('destroyTable',function(){
-	AdminPost.remove({},function(err){
+	ResultsPost.remove({},function(err){
 	    io.emit('truncateTable');
 	});
     });
 
-    socket.on('adminChannel', function(jmpr,jmp,pts,nt)
-	{	
-	io.emit('adminMsg', {jumper: jmpr, jump: jmp, points: pts, nation: nt});
+    socket.on('adminChannel', function(jmpr,jmp,pts,nt,jmp2,pts2)
+	{
+	var results = (+pts) + (+pts2);
+	io.emit('adminMsg', {jumper: jmpr, jump: jmp, points: pts, nation: nt, jump2: jmp2, points2: pts2, result: results});
 	// zapisujemy do bazy
-	var post = new AdminPost({ jumper: jmpr, jump: jmp, points: pts, nation: nt});
+	var post = new ResultsPost({ jumper: jmpr, jump: jmp, points: pts, nation: nt, jump2: jmp2, points2: pts2, result: results});
 	post.save(function(err){
 		if (err) console.log("Błąd zapisu posta admina do bazy "+err);
 	});

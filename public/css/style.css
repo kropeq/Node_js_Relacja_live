@@ -472,6 +472,38 @@ input {
   top: 0;
   bottom: 0;
   overflow-y: auto;
+  overflow-x: hidden;
+}
+#liveWrapper #leftColumn #alertData {
+  width: 500px;
+  text-align: center;
+  height: 30px;
+  margin-bottom: 5px;
+  color: red;
+}
+#liveWrapper #leftColumn select {
+  height: 27px;
+  border-width: 0px;
+  margin-left: 0px;
+  background-color: rgba(0, 255, 43, 0.2);
+}
+#liveWrapper #leftColumn input {
+  border-radius: 5px;
+  text-align: center;
+  border: 0px;
+  background-color: rgba(0, 255, 43, 0.2);
+  margin-bottom: 10px;
+}
+#liveWrapper #leftColumn #imieSkoczka {
+  text-align: left;
+  padding-left: 10px;
+}
+#liveWrapper #leftColumn #naglowek {
+  width: 120px;
+  float: left;
+  padding-top: 2px;
+  margin-left: 50px;
+  color: #008dd2;
 }
 #liveWrapper #leftColumn #headerLiveRelation {
   width: 500px;
@@ -486,6 +518,40 @@ input {
   width: 100px;
   padding-top: 3px;
 }
+#liveWrapper #leftColumn #roundsContainer {
+  width: 500px;
+}
+#liveWrapper #leftColumn #roundsContainer #firstRound,
+#liveWrapper #leftColumn #roundsContainer #secondRound {
+  width: 250px;
+  float: left;
+}
+#liveWrapper #leftColumn #roundsContainer #firstRound #block,
+#liveWrapper #leftColumn #roundsContainer #secondRound #block {
+  display: block;
+  padding-left: 50px;
+}
+#liveWrapper #leftColumn #roundsContainer #firstRound input,
+#liveWrapper #leftColumn #roundsContainer #secondRound input {
+  margin-bottom: 5px;
+}
+#liveWrapper #leftColumn #roundsContainer #firstRound div,
+#liveWrapper #leftColumn #roundsContainer #secondRound div {
+  padding-right: 10px;
+}
+#liveWrapper #leftColumn #roundsContainer #firstRound div div,
+#liveWrapper #leftColumn #roundsContainer #secondRound div div {
+  padding-top: 4px;
+  color: #008dd2;
+}
+#liveWrapper #leftColumn #roundsContainer #firstRound div:nth-child(2),
+#liveWrapper #leftColumn #roundsContainer #secondRound div:nth-child(2) {
+  margin-bottom: 10px;
+}
+#liveWrapper #leftColumn #roundsContainer #firstRound div:nth-child(2) div,
+#liveWrapper #leftColumn #roundsContainer #secondRound div:nth-child(2) div {
+  padding-right: 20px;
+}
 #liveWrapper #leftColumn #liveRelation .liveRelationRow {
   overflow: auto;
   padding-top: 4px;
@@ -496,7 +562,7 @@ input {
   border-bottom-color: #72C5EF;
 }
 #liveWrapper #leftColumn #liveRelation .liveRelationRow .liveDescription {
-  width: 450px;
+  width: 483px;
   float: left;
   padding-top: 5px;
   text-align: justify;
@@ -508,19 +574,23 @@ input {
   padding-right: 5px;
 }
 #liveWrapper #leftColumn #liveRelation .liveRelationRow .liveDescription .kolumna {
-  padding-left: 8px;
+  padding-left: 4px;
   float: left;
   width: 100px;
 }
 #liveWrapper #leftColumn #liveRelation .liveRelationRow .liveDescription .nation {
-  padding-left: 6px;
+  padding-left: 4px;
   width: 30px;
   float: left;
 }
 #liveWrapper #leftColumn #liveRelation .liveRelationRow .liveDescription .points {
-  padding-left: 8px;
+  padding-left: 4px;
   float: left;
   width: 100px;
+}
+#liveWrapper #leftColumn #liveRelation .liveRelationRow .liveDescription .finalResult {
+  font-weight: 600;
+  float: left;
 }
 #liveWrapper #rightColumn {
   width: 480px;
@@ -555,7 +625,7 @@ input {
   height: 30px;
   background: #72C5EF;
   color: white;
-  font-weight: 600;
+  font-weight: 500;
 }
 #liveWrapper #rightColumn #headerLiveRelation .columnKlasyf {
   padding-left: 8px;
@@ -573,7 +643,7 @@ input {
   border-bottom-color: #72C5EF;
 }
 #liveWrapper #rightColumn #liveRelation .liveRelationRow .liveDescription {
-  width: 450px;
+  width: 483px;
   float: left;
   padding-top: 5px;
   text-align: justify;
@@ -585,19 +655,23 @@ input {
   padding-right: 5px;
 }
 #liveWrapper #rightColumn #liveRelation .liveRelationRow .liveDescription .kolumna {
-  padding-left: 8px;
+  padding-left: 4px;
   float: left;
   width: 100px;
 }
 #liveWrapper #rightColumn #liveRelation .liveRelationRow .liveDescription .nation {
-  padding-left: 6px;
+  padding-left: 4px;
   width: 30px;
   float: left;
 }
 #liveWrapper #rightColumn #liveRelation .liveRelationRow .liveDescription .points {
-  padding-left: 8px;
+  padding-left: 4px;
   float: left;
   width: 100px;
+}
+#liveWrapper #rightColumn #liveRelation .liveRelationRow .liveDescription .finalResult {
+  font-weight: 500;
+  float: left;
 }
 #liveWrapper #rightColumn .userPost {
   width: 460px;
@@ -693,9 +767,9 @@ input {
   font-size: 15px !important;
 }
 #postWrapper {
-  width: 960px;
+  width: 980px;
   overflow: auto;
-  padding: 20px;
+  padding: 10px;
   position: fixed;
   bottom: 0;
   background: #008DD2;
@@ -716,15 +790,22 @@ input {
 #postWrapper #postLeft textarea {
   padding-left: 8px;
   width: 150px;
-  height: 50px;
+  height: 40px;
   border: 0;
   border-radius: 5px;
 }
 #postWrapper #postLeft #pmToAdmin {
   width: 460px;
-  height: 50px;
+  height: 40px;
   border: 0;
   border-radius: 5px;
+}
+#postWrapper #postLeft #headerInput {
+  text-align: left;
+  float: left;
+  width: 150px;
+  color: white;
+  padding-left: 10px;
 }
 #postWrapper #postRight {
   width: 480px;
@@ -733,7 +814,7 @@ input {
 }
 #postWrapper #postRight textarea {
   width: 460px;
-  height: 50px;
+  height: 40px;
   border: 0;
   border-radius: 5px;
 }
@@ -743,13 +824,6 @@ input {
   width: 300px;
   color: white;
   padding-left: 40px;
-}
-#postWrapper #postLeft #headerInput {
-  text-align: left;
-  float: left;
-  width: 150px;
-  color: white;
-  padding-left: 10px;
 }
 #sendRight,
 #sendLeft,

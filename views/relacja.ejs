@@ -13,11 +13,70 @@
 			   <div class="columnKlasyf" style='width: 18px'>#</div>
 			   <div class="columnKlasyf" style='width: 140px'>Skoczek</div>
 			   <div class="columnKlasyf" style='width: 30px; padding-left: 0px'>Kraj</div>
-			   <div class="columnKlasyf" style='width: 70px; padding-left: 12px'>Skok</div>
-			   <div class="columnKlasyf" style='width: 100px'>Nota</div>
+			   <div class="columnKlasyf" style='width: 45px; padding-left: 7px'>Skok</div>
+			   <div class="columnKlasyf" style='width: 50px; padding-left: 0px'>Pkt</div>
+			   <div class="columnKlasyf" style='width: 50px; padding-left: 7px'>Skok</div>
+			   <div class="columnKlasyf" style='width: 50px; padding-left: 0px'>Pkt</div>
 			</div>
 			<div id="liveRelation" style="font-size: small; width: 483px;">
 			</div>
+			<% } else { %>
+			<div id="alertData"></div>
+			<div><div id="naglowek">Punkt K skoczni</div>
+			<input type="text" id="punktK" style="width: 50px;"></div>
+			<div><div id="naglowek">Imię i nazwisko</div>
+			<input type="text" id="imieSkoczka" style="width: 250px"></div>
+			<div><div id="naglowek">Kraj</div>
+			<select id="adminMsg5">
+			   <script>
+			        var kraje = new Array('AUT','SLO','GER','POL','JPN','FIN','RUS','NOR','ITA','GRE','FRA','CHN','CZE','UKR','USA','SUI','KOR','BUL');
+				kraje.sort();
+			        for (var i=kraje.length-1;i>=0;i--) {
+			        if ( kraje[i]=="POL" ) {
+			        $('#adminMsg5').prepend('<option val="'+kraje[i]+'" selected>'+kraje[i]+'</option>');					
+			        } else {
+			        $('#adminMsg5').prepend('<option val="'+kraje[i]+'">'+kraje[i]+'</option>');
+				}
+				}
+			   </script>
+		        </select>
+			</div>
+			<br />
+			<div id="roundsContainer">
+				<div id="firstRound">
+					<div id="block"><div style="float: left">Skok 1</div>
+					<input type="text" id="skok1" style="width: 70px"></div>
+					<div id="block"><div style="float: left">Wiatr</div>
+					<input type="text" id="wind" style="width: 70px"></div>
+					<div id="block"><div style="float: left">Nota 1</div>
+					<input type="text" id="nota1" style="width: 70px"></div>
+					<div id="block"><div style="float: left">Nota 2</div>
+					<input type="text" id="nota2" style="width: 70px"></div>
+					<div id="block"><div style="float: left">Nota 3</div>
+					<input type="text" id="nota3" style="width: 70px"></div>
+					<div id="block"><div style="float: left">Nota 4</div>
+					<input type="text" id="nota4" style="width: 70px"></div>
+					<div id="block"><div style="float: left">Nota 5</div>
+					<input type="text" id="nota5" style="width: 70px"></div>
+				</div>
+				<div id="secondRound">
+					<div id="block"><div style="float: left">Skok 2</div>
+					<input type="text" id="skok2" style="width: 70px"></div>
+					<div id="block"><div style="float: left">Wiatr</div>
+					<input type="text" id="wind2" style="width: 70px"></div>
+					<div id="block"><div style="float: left">Nota 1</div>
+					<input type="text" id="nota6" style="width: 70px"></div>
+					<div id="block"><div style="float: left">Nota 2</div>
+					<input type="text" id="nota7" style="width: 70px"></div>
+					<div id="block"><div style="float: left">Nota 3</div>
+					<input type="text" id="nota8" style="width: 70px"></div>
+					<div id="block"><div style="float: left">Nota 4</div>
+					<input type="text" id="nota9" style="width: 70px"></div>
+					<div id="block"><div style="float: left">Nota 5</div>
+					<input type="text" id="nota10" style="width: 70px"></div>	
+				</div>
+			</div>
+
 			<% } %>
 		</div>
 
@@ -29,10 +88,13 @@
 			</div>
 			<div id="headerLiveRelation" style="width:483px;">
 			   <div class="columnKlasyf" style='width: 18px'>#</div>
-			   <div class="columnKlasyf" style='width: 140px'>Skoczek</div>
+			   <div class="columnKlasyf" style='width: 140px; padding-left: 0px'>Skoczek</div>
 			   <div class="columnKlasyf" style='width: 30px; padding-left: 0px'>Kraj</div>
-			   <div class="columnKlasyf" style='width: 70px; padding-left: 12px'>Skok</div>
-			   <div class="columnKlasyf" style='width: 100px'>Nota</div>
+			   <div class="columnKlasyf" style='width: 45px; padding-left: 7px'>Skok</div>
+			   <div class="columnKlasyf" style='width: 45px; padding-left: 0px'>Pkt</div>
+			   <div class="columnKlasyf" style='width: 45px; padding-left: 0px'>Skok</div>
+			   <div class="columnKlasyf" style='width: 45px; padding-left: 0px'>Pkt</div>
+			   <div class="columnKlasyf" style='width: 45px; padding-left: 0px'>Wynik</div>
 			</div>
 			<div id="liveRelation" style="font-size: small; width: 483px;">
 			</div>
@@ -42,65 +104,7 @@
 		<div id="postWrapper">
 		    
 		    <div id="postLeft">
-			<%if (isAdminLogged) {%>
-			<div id="headerInput">Skoczek</div>
-			<div id="headerInput" style="width: 65px;">Kraj</div>
-			<div id="headerInput" style="width: 65px;">Skok</div>
-			<div id="headerInput" style="width: 65px;">Nota</div>
-			<div id="headerInput" style="width: 65px;">Wiatr</div>
-		    <textarea id="adminMsg" rows="" cols="" style="margin-bottom: -15px;" ></textarea>
-		    <select id="adminMsg5">
-			<script>
-			        var kraje = new Array('AUT','SLO','GER','POL','JPN','FIN','RUS','NOR','ITA','GRE','FRA','CHN','CZE','UKR','USA','SUI','KOR','BUL');
-				kraje.sort();
-			        for (var i=kraje.length-1;i>=0;i--) {
-			        if ( kraje[i]=="POL" ) {
-			        $('#adminMsg5').prepend('<option val="'+kraje[i]+'" selected>'+kraje[i]+'</option>');					
-			        } else {
-			        $('#adminMsg5').prepend('<option val="'+kraje[i]+'">'+kraje[i]+'</option>');
-				}
-				}
-			</script>
-		    </select>
-		    <select id="adminMsg2">
-			<script>
-			        for (var i=55;i<=150;i++) {
-			        if ( i==120 ) {
-			        $('#adminMsg2').prepend('<option val="'+i+'" selected>'+i+'</option>');
-				$('#adminMsg2').prepend('<option val="'+(i+0.5)+'">'+(i+0.5)+'</option>');					
-			        } else {
-			        $('#adminMsg2').prepend('<option val="'+i+'">'+i+'</option>');
-				$('#adminMsg2').prepend('<option val="'+(i+0.5)+'">'+(i+0.5)+'</option>');
-				}
-				}
-			</script>
-		    </select>
-		    <select id="adminMsg3">
-			<script>
-			        for (var i=0;i<=60;i++) {
-			        if ( i==54 ) {
-			        $('#adminMsg3').prepend('<option val="'+i+'" selected>'+i+'</option>');
-				$('#adminMsg3').prepend('<option val="'+(i+0.5)+'">'+(i+0.5)+'</option>');					
-			        } else {
-			        $('#adminMsg3').prepend('<option val="'+i+'">'+i+'</option>');
-				$('#adminMsg3').prepend('<option val="'+(i+0.5)+'">'+(i+0.5)+'</option>');
-				}
-				}
-			</script>
-		    </select>
-		    <select id="adminMsg4">
-			<script>
-			        for (var i=0;i<=300;i++) {
-			        if ( i==150 ) {
-			        $('#adminMsg4').prepend('<option val="'+(i-150)+'" selected>'+(i-150)+'</option>');					
-			        } else {
-			        $('#adminMsg4').prepend('<option val="'+((-1.5+(i*0.01))).toFixed(2)+'">'+((-1.5+(i*0.01))).toFixed(2)+'</option>');
-				}
-				}
-			</script>
-		    </select>
-		    <br><br>
-		    
+			<%if (isAdminLogged) {%> 
 			<a id="sendLeft" href="#">wyślij</a>
 			<a id="destroy" href="#">usuń</a>
 			<%} else {%>
@@ -131,62 +135,364 @@
 
   h = $(window).height();
   
-  $('#liveWrapper').css({height:(h-($('#header').height()*2)-$('#postWrapper').height()-$('#liveHeader').height())});
+  $('#liveWrapper').css({height:(h-($('#header').height()*2)-$('#postWrapper').height()-$('#liveHeader').height())+30});
   
   });
   
   resizeElements = function(){
   
   h = $(window).height();
-  $('#liveWrapper').css({height:(h-($('#header').height()*2)-$('#postWrapper').height()-$('#liveHeader').height())});
+  $('#liveWrapper').css({height:(h-($('#header').height()*2)-$('#postWrapper').height()-$('#liveHeader').height())+30});
   };
 	$(window).on('resize',resizeElements);		
 			var socket = io.connect("localhost:3000");
 			<%if (isAdminLogged) {%>
 			$('#privateMessage').hide();
-			adminSendMsg = function(jumper,jump,points,wind,nation)
-			    {
-			    if ( +jump > 120 ){
-			          jumpPoints = ((+jump - 120)*1.8+60+(+points)+(wind*10)).toFixed(1);
-			    } else if ( +jump < 87 ){
-			          jumpPoints = ((+points)+(wind*10)).toFixed(1);	
-			    }
-			    else {
-			          jumpPoints = ((120 - (+jump))*(-1.8)+60+(+points)+(wind*10)).toFixed(1);	
-			    };
-			    socket.emit('adminChannel', jumper,jump,jumpPoints,nation);
-			    }
-			$('#sendLeft').click(function(){
-			    var jumper = $('#adminMsg').val();
-			    var jump = $('#adminMsg2').val();
-			    var points = $('#adminMsg3').val();
-			    var wind = $('#adminMsg4').val();
-			    var nation = $('#adminMsg5').val();
-			    var pattern = /^[A-ZĆŁŹŻ][a-ząćęłńóśźż]{1,}\s[A-ZĆŁŹŻ][a-ząćęłńóśźż]{1,}$/g;
-			    var TrueOrFalse = pattern.test(jumper);
-			    if ( TrueOrFalse) {
-						adminSendMsg(jumper,jump,points,wind,nation);
+			document.getElementById('punktK').focus();
+			adminSendMsg = function(jumper,jump,points,wind,nation,punktk){
+			    // Nadanie punktacji za metr zależnie od Punkt-K skoczni
+			    if ( +punktk < 100 ) {
+				var metr = 2.0;
+			    } else if ( +punktk >= 100 && +punktk < 135 ){
+			        var metr = 1.8;
 			    } else {
-						$('#adminMsg').css('background-color', '#FA6A6A');
-						window.setTimeout(function(){
-						$('#adminMsg').css('background-color', '#FFFFFF');
-						}, 2500);
+			        var metr = 1.2;
 			    }
+			    // Nadanie ograniczenia liczenia punktów za metry skoku zależnie od Punktu-K
+			    if ( +jump > punktk ){
+			          jumpPoints = ((+jump - +punktk)*(+metr)+60+(+points)+(wind*10)).toFixed(1);
+			    } else if ( +punktk < 100 ) {
+			          if ( +jump < (+punktk)-30 ){
+			              jumpPoints = ((+points)+(wind*10)).toFixed(1);	
+			          }
+			          else {
+			              jumpPoints = ((+punktk - (+jump))*(-1)*(+metr)+60+(+points)+(wind*10)).toFixed(1);	
+			          }
+			    } else if ( +punktk >= 100 && +punktk < 135 ) {
+				  if ( +jump < (+punktk)-33 ){
+			              jumpPoints = ((+points)+(wind*10)).toFixed(1);	
+			          }
+			          else {
+			              jumpPoints = ((+punktk - (+jump))*(-1)*(+metr)+60+(+points)+(wind*10)).toFixed(1);	
+			          }
+			    } else {
+			          if ( +jump < (+punktk)-50 ){
+			              jumpPoints = ((+points)+(wind*10)).toFixed(1);	
+			          }
+			          else {
+			              jumpPoints = ((+punktk - (+jump))*(-1)*(+metr)+60+(+points)+(wind*10)).toFixed(1);	
+			          }
+			    }
+			    var jump2 = 0;
+			    var jump2Points = 0;
+			    var result = jumpPoints + jump2Points;
+			    
+			    socket.emit('adminChannel', jumper,jump,jumpPoints,nation,jump2,jump2Points,result);
+			    $('#alertData').text("");
+			    $('#imieSkoczka, #skok1, #nota1, #nota2, #nota3, #nota4, #nota5, #wind').val("");
+			    document.getElementById('imieSkoczka').focus();
+			}
+			$('#sendLeft').click(function(){
+			   checkInputs();
 			});
+			checkInputs = function(){
+			    var jumper = $('#imieSkoczka').val();
+			    var punktk = $('#punktK').val();
+			    var jump = $('#skok1').val();
+			    var nota1 = $('#nota1').val();
+			    var nota2 = $('#nota2').val();
+			    var nota3 = $('#nota3').val();
+			    var nota4 = $('#nota4').val();
+			    var nota5 = $('#nota5').val();
+			    var nation = $('#adminMsg5').val();
+			    var wind = $('#wind').val();
+			    var pattern_nota = /^([0-9]{1,1}.(0{1,1}|5{1,1}))$|^(1{1,1}[0-9]{1,1}.(0{1,1}|5{1,1}))$|^20.0$/;
+			    var pattern_jump = /^([5-9]{1,1}[0-9]{1,1}.(0{1,1}|5{1,1}))$|^([1-2]{1,1}[0-9]{1,1}[0-9]{1,1}.(0{1,1}|5{1,1}))$/;
+			    var pattern_punktk = /^([5-9]{1,1}[0-9]{1,1})$|^(1[0-9]{1,1}[0-9]{1,1})$|^200$/g;
+			    var pattern = /^[A-ZĆŁŹŻ][a-ząćęłńóśźż]{1,}\s[A-ZĆŁŹŻ][a-ząćęłńóśźż]{1,}$/g;
+			    var pattern_wind = /^-[0-2]{1,1}.[0-9]{1,1}[0-9]{1,1}$|^[0-2]{1,1}.[0-9]{1,1}[0-9]{1,1}$/;
+			    var TrueOrFalse = pattern.test(jumper);
+			    var test_punktk = pattern_punktk.test(punktk);
+			    var test_jump = pattern_jump.test(jump);
+			    var test_nota1 = pattern_nota.test(nota1);
+			    var test_nota2 = pattern_nota.test(nota2);
+			    var test_nota3 = pattern_nota.test(nota3);
+			    var test_nota4 = pattern_nota.test(nota4);
+			    var test_nota5 = pattern_nota.test(nota5);
+			    var test_wind = pattern_wind.test(wind);
+			    if (test_punktk) {
+			        if (TrueOrFalse) {
+			            if ( test_jump) {
+					if (test_wind) {
+					   if (test_nota1) {
+			                      if (test_nota2) {
+						 if (test_nota3) {
+						    if (test_nota4) {
+						       if (test_nota5) {
+						          var tab = [];
+							  var points = 0.0;
+							  tab[0]= (+nota1); tab[1]= (+nota2); tab[2]= (+nota3); tab[3]= (+nota4); tab[4]= (+nota5);
+							  tab.sort(function(a,b){if ( a < b ) return 0; else if ( a > b ) return 1; else return -1; });
+							  var i;
+							  for ( i=1; i<=3; i++){
+								points+=tab[i];
+							  };
+							  adminSendMsg(jumper,jump,points,wind,nation,punktk);
+						       } else {
+						          $('#alertData').text("Wpisz poprawnie notę 5! Przedział < 0.0 , 20.0 >");
+					                  $('#nota5').css('background-color', '#FA6A6A');
+						          window.setTimeout(function(){
+						           $('#nota5').css('background-color', 'rgba(0,255,43,0.2)');
+						          }, 2500);
+						          document.getElementById('nota5').focus();
+						       }
+						     } else {
+					                $('#alertData').text("Wpisz poprawnie notę 4! Przedział < 0.0 , 20.0 >");
+					                $('#nota4').css('background-color', '#FA6A6A');
+						        window.setTimeout(function(){
+						           $('#nota4').css('background-color', 'rgba(0,255,43,0.2)');
+						        }, 2500);
+						        document.getElementById('nota4').focus();
+						     }
+						 } else {
+						    $('#alertData').text("Wpisz poprawnie notę 3! Przedział < 0.0 , 20.0 >");
+					            $('#nota3').css('background-color', '#FA6A6A');
+						    window.setTimeout(function(){
+						       $('#nota3').css('background-color', 'rgba(0,255,43,0.2)');
+						    }, 2500);
+						    document.getElementById('nota3').focus();
+						 }
+					      } else {
+						 $('#alertData').text("Wpisz poprawnie notę 2! Przedział < 0.0 , 20.0 >");
+					         $('#nota2').css('background-color', '#FA6A6A');
+						 window.setTimeout(function(){
+						    $('#nota2').css('background-color', 'rgba(0,255,43,0.2)');
+						 }, 2500);
+						 document.getElementById('nota2').focus();
+					      }
+					   } else {
+			                      $('#alertData').text("Wpisz poprawnie notę 1! Przedział < 0.0 , 20.0 >");
+					      $('#nota1').css('background-color', '#FA6A6A');
+					      window.setTimeout(function(){
+						$('#nota1').css('background-color', 'rgba(0,255,43,0.2)');
+			                      }, 2500);
+					      document.getElementById('nota1').focus();
+					   }
+					} else {
+					   $('#alertData').text("Wpisz poprawnie wiatr! Przedział < -2.99 , 2.99 >");
+					   $('#wind').css('background-color', '#FA6A6A');
+					   window.setTimeout(function(){
+					      $('#wind').css('background-color', 'rgba(0,255,43,0.2)');
+					   }, 2500);
+					   document.getElementById('wind').focus();
+					}
+				    } else {
+					$('#alertData').text("Wpisz poprawnie długość skoku! Przedział < 50.0 , 299.5 >");
+					$('#skok1').css('background-color', '#FA6A6A');
+					window.setTimeout(function(){
+					   $('#skok1').css('background-color', 'rgba(0,255,43,0.2)');
+					}, 2500);
+					document.getElementById('skok1').focus();
+				    }
+			        } else {
+				   $('#imieSkoczka').css('background-color', '#FA6A6A');
+				   window.setTimeout(function(){
+				   $('#imieSkoczka').css('background-color', 'rgba(0,255,43,0.2)');
+				      }, 2500);
+				   $('#alertData').text("Wpisz poprawnie imię i nazwisko skoczka!");
+			           document.getElementById('imieSkoczka').focus();
+			        }
+			    } else {
+			       $('#alertData').text("Rozmiar skoczni musi być z przedziału 50-200!");
+			       $('#punktK').css('background-color', '#FA6A6A');
+			       window.setTimeout(function(){
+			          $('#punktK').css('background-color', 'rgba(0,255,43,0.2)');
+			       }, 2500);
+			       document.getElementById('punktK').focus();
+			    }
+			};
 			$('#destroy').click(function(){
 				var potwierdzenie = confirm("Jesteś pewny?");
 				if ( potwierdzenie == true) {
 			           socket.emit('destroyTable');
 				}
 			});
-			$('#adminMsg').keyup(function(e){
+			// ----------------------------------------------------------------- //
+			// ------- KEYUP's do poruszania sie klawiatura po polach ---------- //
+			// ----------------------------------------------------------------- //
+			$('#punktK').keyup(function(e){
 			    if(e.which == 13) {
-			    var jumper = $('#adminMsg').val();
-			    var jump = $('#adminMsg2').val();
-			    var points = ('#adminMsg3').val();
-			    var wind = ('#adminMsg4').val();
-			    var nation = ('#adminMsg5').val();
-			    adminSendMsg(jumper,jump,points,wind,nation);
+			        checkInputs();	
+			    } else if (e.which == 40) {
+				document.getElementById('imieSkoczka').focus();
+			    }
+			});
+			$('#imieSkoczka').keyup(function(e){
+			    if(e.which == 13) {
+			        checkInputs();	
+			    } else if (e.which == 38) {
+				document.getElementById('punktK').focus();
+			    } else if (e.which == 40) {
+				document.getElementById('adminMsg5').focus();
+			    }
+			});
+			$('#adminMsg5').keyup(function(e){
+			    if(e.which == 13) {
+			        document.getElementById('skok1').focus();	
+			    } else if(e.which == 8) {
+			        document.getElementById('imieSkoczka').focus();	
+			    }
+			});
+			$('#skok1').keyup(function(e){
+			    if(e.which == 13) {
+			        checkInputs();	
+			    } else if (e.which == 39) {
+				document.getElementById('skok2').focus();
+			    } else if (e.which == 38) {
+				document.getElementById('adminMsg5').focus();
+			    } else if (e.which == 40) {
+				document.getElementById('wind').focus();
+			    }
+			});
+			$('#wind').keyup(function(e){
+			    if(e.which == 13) {
+			        checkInputs();	
+			    } else if (e.which == 39) {
+				document.getElementById('wind2').focus();
+			    } else if (e.which == 38) {
+				document.getElementById('skok1').focus();
+			    } else if (e.which == 40) {
+				document.getElementById('nota1').focus();
+			    }
+			});
+			$('#nota1').keyup(function(e){
+			    if(e.which == 13) {
+			        checkInputs();	
+			    } else if (e.which == 39) {
+				document.getElementById('nota6').focus();
+			    } else if (e.which == 38) {
+				document.getElementById('wind').focus();
+			    } else if (e.which == 40) {
+				document.getElementById('nota2').focus();
+			    }
+			});
+			$('#nota2').keyup(function(e){
+			    if(e.which == 13) {
+			        checkInputs();	
+			    } else if (e.which == 39) {
+				document.getElementById('nota7').focus();
+			    } else if (e.which == 38) {
+				document.getElementById('nota1').focus();
+			    } else if (e.which == 40) {
+				document.getElementById('nota3').focus();
+			    }
+			});
+			$('#nota3').keyup(function(e){
+			    if(e.which == 13) {
+			        checkInputs();	
+			    } else if (e.which == 39) {
+				document.getElementById('nota8').focus();
+			    } else if (e.which == 38) {
+				document.getElementById('nota2').focus();
+			    } else if (e.which == 40) {
+				document.getElementById('nota4').focus();
+			    }
+			});
+			$('#nota4').keyup(function(e){
+			    if(e.which == 13) {
+			        checkInputs();	
+			    } else if (e.which == 39) {
+				document.getElementById('nota9').focus();
+			    } else if (e.which == 38) {
+				document.getElementById('nota3').focus();
+			    } else if (e.which == 40) {
+				document.getElementById('nota5').focus();
+			    }
+			});
+			$('#nota5').keyup(function(e){
+			    if(e.which == 13) {
+			        checkInputs();	
+			    } else if (e.which == 39) {
+				document.getElementById('nota10').focus();
+			    } else if (e.which == 38) {
+				document.getElementById('nota4').focus();
+			    } else if (e.which == 40) {
+				document.getElementById('skok2').focus();
+			    }
+			});
+			$('#skok2').keyup(function(e){
+			    if(e.which == 13) {
+			        checkInputs();	
+			    } else if (e.which == 37) {
+				document.getElementById('skok1').focus();
+			    } else if (e.which == 38) {
+				document.getElementById('nota5').focus();
+			    } else if (e.which == 40) {
+				document.getElementById('wind2').focus();
+			    }
+			});
+			$('#wind2').keyup(function(e){
+			    if(e.which == 13) {
+			        checkInputs();	
+			    } else if (e.which == 37) {
+				document.getElementById('wind').focus();
+			    } else if (e.which == 38) {
+				document.getElementById('skok2').focus();
+			    } else if (e.which == 40) {
+				document.getElementById('nota6').focus();
+			    }
+			});
+			$('#nota6').keyup(function(e){
+			    if(e.which == 13) {
+			        checkInputs();	
+			    } else if (e.which == 37) {
+				document.getElementById('nota1').focus();
+			    } else if (e.which == 38) {
+				document.getElementById('wind2').focus();
+			    } else if (e.which == 40) {
+				document.getElementById('nota7').focus();
+			    }
+			});
+			$('#nota7').keyup(function(e){
+			    if(e.which == 13) {
+			        checkInputs();	
+			    } else if (e.which == 37) {
+				document.getElementById('nota2').focus();
+			    } else if (e.which == 38) {
+				document.getElementById('nota6').focus();
+			    } else if (e.which == 40) {
+				document.getElementById('nota8').focus();
+			    }
+			});
+			$('#nota8').keyup(function(e){
+			    if(e.which == 13) {
+			        checkInputs();	
+			    } else if (e.which == 37) {
+				document.getElementById('nota3').focus();
+			    } else if (e.which == 38) {
+				document.getElementById('nota7').focus();
+			    } else if (e.which == 40) {
+				document.getElementById('nota9').focus();
+			    }
+			});
+			$('#nota9').keyup(function(e){
+			    if(e.which == 13) {
+			        checkInputs();	
+			    } else if (e.which == 37) {
+				document.getElementById('nota4').focus();
+			    } else if (e.which == 38) {
+				document.getElementById('nota8').focus();
+			    } else if (e.which == 40) {
+				document.getElementById('nota10').focus();
+			    }
+			});
+			$('#nota10').keyup(function(e){
+			    if(e.which == 13) {
+			        checkInputs();
+			    } else if (e.which == 37) {
+				document.getElementById('nota5').focus();
+			    } else if (e.which == 38) {
+				document.getElementById('nota9').focus();
 			    }
 			});
 			<%}%>
@@ -213,10 +519,16 @@
 			    var ilZawodnikow, rank;
 			    if ($('.liveRelationRow').length > 0) {
 			        for (var i=0;i<70;i++) {
-			             if (punkty.find('div .points').text() != "") {
-			                  if ( +punkty.find('.points').text() <= +dane.points) {
+			             if (punkty.find('div .finalResult').text() != "") {
+			                  if ( +punkty.find('.finalResult').text() <= +dane.result) {
 						rank = $(gdzieWstawic).find('.rank').text();
-						$(gdzieWstawic).hide().before('<div class="liveRelationRow"><div class="liveDescription"><div class="rank">'+rank+'</div><div class="kolumna" style="width: 140px">'+dane.jumper+'</div><div class="nation"><img src="../graph/nat/'+dane.nation+'.gif"></div><div class="kolumna" style="width: 70px">'+dane.jump+'</div><div class="points" style="width: 100px" value="'+dane.points+'">'+dane.points+'</div></div></div>');
+						$(gdzieWstawic).hide().before('<div class="liveRelationRow"><div class="liveDescription"><div class="rank">'+
+									rank+'</div><div class="kolumna" style="width: 140px">'+
+									dane.jumper+'</div><div class="nation"><img src="../graph/nat/'+
+									dane.nation+'.gif"></div><div class="kolumna" style="width: 45px">'+
+									dane.jump+'</div><div class="points" style="width: 45px" value="'+dane.points+'">'+
+									dane.points+'</div><div class="kolumna" style="width: 45px">-</div><div class="kolumna" style="width: 45px">-</div><div class="finalResult" style="width: 45px">'+
+									dane.result+'</div></div></div>');
 						$(gdzieWstawic).hide().slideDown();
 						ustaw_przeplatanie_kolorow();
 						ilZawodnikow = $('.rank').length;
@@ -234,7 +546,13 @@
 			               }
 				     } else { // nie podswietla jak ostatni div dodaje
 						var rank = $('.liveRelationRow').length;
-						$('<div class="liveRelationRow"><div class="liveDescription"><div class="rank">'+(rank+1)+'</div><div class="kolumna" style="width: 140px">'+dane.jumper+'</div><div class="nation"><img src="../graph/nat/'+dane.nation+'.gif"></div><div class="kolumna" style="width: 70px">'+dane.jump+'</div><div class="points" style="width: 100px" value="'+dane.points+'">'+dane.points+'</div></div></div>').hide().appendTo('#liveRelation').slideDown();
+						$('<div class="liveRelationRow"><div class="liveDescription"><div class="rank">'+
+									(rank+1)+'</div><div class="kolumna" style="width: 140px">'+
+									dane.jumper+'</div><div class="nation"><img src="../graph/nat/'+
+									dane.nation+'.gif"></div><div class="kolumna" style="width: 45px">'+
+									dane.jump+'</div><div class="points" style="width: 45px" value="'+dane.points+'">'+
+									dane.points+'</div><div class="kolumna" style="width: 45px">-</div><div class="kolumna" style="width: 45px">-</div><div class="finalResult" style="width: 45px">'+
+									dane.result+'</div></div></div>').hide().appendTo('#liveRelation').slideDown();
 			                        ustaw_przeplatanie_kolorow();
 						podswietl_dodany_element($('.liveRelationRow').last());
 
@@ -243,7 +561,12 @@
 			        }
 			     } 
 				else {
-			                 $('<div class="liveRelationRow"><div class="liveDescription"><div class="rank">'+1+'</div><div class="kolumna" style="width: 140px">'+dane.jumper+'</div><div class="nation"><img src="../graph/nat/'+dane.nation+'.gif"></div><div class="kolumna" style="width: 70px">'+dane.jump+'</div><div class="points" style="width: 100px" value="'+dane.points+'">'+dane.points+'</div></div></div>').hide().prependTo('#liveRelation').slideDown();
+			                 $('<div class="liveRelationRow"><div class="liveDescription"><div class="rank">'+1+'</div><div class="kolumna" style="width: 140px">'+
+						dane.jumper+'</div><div class="nation"><img src="../graph/nat/'+
+						dane.nation+'.gif"></div><div class="kolumna" style="width: 45px">'+
+						dane.jump+'</div><div class="points" style="width: 45px" value="'+dane.points+'">'+
+						dane.points+'</div><div class="kolumna" style="width: 45px">-</div><div class="kolumna" style="width: 45px">-</div><div class="finalResult" style="width: 45px">'+
+						dane.result+'</div></div></div>').hide().prependTo('#liveRelation').slideDown();
 			                 podswietl_dodany_element($('.liveRelationRow').first());
 				     };
 			 });
@@ -253,8 +576,14 @@
 			socket.removeListener('adminMsgs');
 			socket.on('adminMsgs', function(listaDanych) {
 			    for (var i=0;i<listaDanych.length;i++) {
-				if (listaDanych[i].points){
-				$('#liveRelation').append('<div class="liveRelationRow"><div class="liveDescription"><div class="rank">'+(i+1)+'</div><div class="kolumna" style="width: 140px">'+listaDanych[i].jumper+'</div><div class="nation"><img src="../graph/nat/'+listaDanych[i].nation+'.gif"></div><div class="kolumna" style="width: 70px">'+listaDanych[i].jump+'</div><div class="points" style="width: 100px" value="'+listaDanych[i].points+'">'+listaDanych[i].points+'</div></div></div>');
+				if (listaDanych[i].result){
+				$('#liveRelation').append('<div class="liveRelationRow"><div class="liveDescription"><div class="rank">'+
+							  (i+1)+'</div><div class="kolumna" style="width: 140px">'+
+							  listaDanych[i].jumper+'</div><div class="nation"><img src="../graph/nat/'+
+							  listaDanych[i].nation+'.gif"></div><div class="kolumna" style="width: 45px">'+
+							  listaDanych[i].jump+'</div><div class="points" style="width: 45px" value="'+listaDanych[i].points+'">'+
+							  listaDanych[i].points+'</div><div class="kolumna" style="width: 45px">-</div><div class="kolumna" style="width: 45px">-</div><div class="finalResult" style="width: 45px">'+
+							  listaDanych[i].result+'</div></div></div>');
 				}
 			    }
 			    $('#liveRelation .liveRelationRow:odd').addClass('highlightOdd');
