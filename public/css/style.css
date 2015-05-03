@@ -828,7 +828,9 @@ input {
 #sendRight,
 #sendLeft,
 #sendPMToAdmin,
-#answerToUser {
+#answerToUser,
+#getResults,
+#remove1 {
   text-decoration: none;
   color: #FFF;
   font-family: tahoma;
@@ -839,7 +841,9 @@ input {
 #sendRight:hover,
 #sendLeft:hover,
 #sendPMToAdmin:hover,
-#answerToUser:hover {
+#answerToUser:hover,
+#getResults:hover,
+#remove1:hover {
   color: #008DD2;
   background: #FFF;
 }

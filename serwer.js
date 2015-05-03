@@ -40,9 +40,21 @@ var newsSchema = new mongoose.Schema({
 var resultsSchema = new mongoose.Schema({
     jumper: String,
     nation: String,
-    jump: Number,
-    points: Number,
+    jump1: Number,
+    wind1: Number,
+    nota1: Number,
+    nota2: Number,
+    nota3: Number,
+    nota4: Number,
+    nota5: Number,
+    points1: Number,
     jump2: Number,
+    wind2: Number,
+    nota6: Number,
+    nota7: Number,
+    nota8: Number,
+    nota9: Number,
+    nota10: Number,
     points2: Number,
     result: Number
 });
@@ -202,7 +214,7 @@ app.use(express.static(path.join(__dirname, '/public')));
 io.on('connection', function(socket){
     socket.on('loadAdminPosts', function(data)
 	{
-	ResultsPost.find().limit(50).sort({'points': -1}).exec(function(err, posts) {
+	ResultsPost.find().limit(50).sort({'result': -1}).exec(function(err, posts) {
 	    socket.emit('adminMsgs', posts);
 	    });;
 	});
@@ -219,14 +231,29 @@ io.on('connection', function(socket){
 	});
     });
 
-    socket.on('adminChannel', function(jmpr,jmp,pts,nt,jmp2,pts2)
+    socket.on('adminChannel', function(jmpr,nt,jmp1,wnd1,not1,not2,not3,not4,not5,pts1,jmp2,wnd2,not6,not7,not8,not9,not10,pts2,results)
 	{
-	var results = (+pts) + (+pts2);
-	io.emit('adminMsg', {jumper: jmpr, jump: jmp, points: pts, nation: nt, jump2: jmp2, points2: pts2, result: results});
+	io.emit('adminMsg', {jumper: jmpr, nation: nt,
+		jump1: jmp1, wind1: wnd1, nota1: not1, nota2: not2, nota3: not3, nota4: not4, nota5: not5, points1: pts1,
+		jump2: jmp2, wind2: wnd2, nota6: not6, nota7: not7, nota8: not8, nota9: not9, nota10: not10, points2: pts2, result: results});
 	// zapisujemy do bazy
-	var post = new ResultsPost({ jumper: jmpr, jump: jmp, points: pts, nation: nt, jump2: jmp2, points2: pts2, result: results});
+	var post = new ResultsPost({ jumper: jmpr, nation: nt,
+		jump1: jmp1, wind1: wnd1, nota1: not1, nota2: not2, nota3: not3, nota4: not4, nota5: not5, points1: pts1,
+		jump2: jmp2, wind2: wnd2, nota6: not6, nota7: not7, nota8: not8, nota9: not9, nota10: not10, points2: pts2, result: results});
 	post.save(function(err){
 		if (err) console.log("Błąd zapisu posta admina do bazy "+err);
+	});
+    });
+    // Znajdowanie wyników konkretnego skoczka ( FIND )
+    socket.on('findResultJumper', function(findJumper){
+	ResultsPost.findOne({jumper: findJumper}, function(err, jumper){
+	    if (jumper ==null){
+		socket.emit('showResultJumper',{jumper: 'Brak', nation: 'Brak',
+			    jump1: '0', wind1: '0', nota1: '0',nota2: '0',nota3: '0',nota4: '0',nota5: '0',points1: '0',
+			    jump2: '0', wind2: '0', nota6: '0',nota7: '0',nota8: '0',nota9: '0',nota10: '0',points2: '0', result: '0'});
+	    } else {
+		socket.emit('showResultJumper',jumper);
+	    }
 	});
     });
     //---------------------------------------------------------------------------//
@@ -259,6 +286,18 @@ io.on('connection', function(socket){
 	    }
 	});
     });
+    // Sprawdzania czy istnieje juz wynik tego skoczka ( ADD )
+    socket.on('checkResultBeforeAdd', function(skoczek){
+	ResultsPost.findOne({jumper: skoczek}, function(err, jumper) {
+	    if ( jumper == null) {
+		socket.emit('checkedResultBeforeAdd',{ jumper: 'Brak', nation: 'Brak',
+			    jump1: '0', wind1: '0', nota1: '0',nota2: '0',nota3: '0',nota4: '0',nota5: '0',points1: '0',
+			    jump2: '0', wind2: '0', nota6: '0',nota7: '0',nota8: '0',nota9: '0',nota10: '0',points2: '0', result: '0'});
+	    } else {
+		socket.emit('checkedResultBeforeAdd',jumper);
+	    }
+	});
+    });
     // Sprawdzania czy istnieje juz pozycja z tym numerem startowym ( UPDATE )
     socket.on('checkBibBeforeUpdate', function(number){
 	JumperPost.findOne({bib: number}, function(err, jumper) {
@@ -269,6 +308,7 @@ io.on('connection', function(socket){
 	    }
 	});
     });
+    
     // Sprawdzania czy istnieje juz pozycja z tym numerem startowym ( DELETE )
     socket.on('checkBibBeforeDelete', function(number){
 	JumperPost.findOne({bib: number}, function(err, jumper) {
@@ -279,9 +319,29 @@ io.on('connection', function(socket){
 	    }
 	});
     });
+    // Sprawdzania czy istnieje juz wynik tego skoczka ( DELETE )
+    socket.on('checkResultBeforeDelete', function(skoczek){
+	ResultsPost.findOne({jumper: skoczek}, function(err, result) {
+	    if ( result == null) {
+		socket.emit('checkedResultBeforeDelete',{ jumper: 'Brak', nation: 'Brak',
+			    jump1: '0', wind1: '0', nota1: '0',nota2: '0',nota3: '0',nota4: '0',nota5: '0',points1: '0',
+			    jump2: '0', wind2: '0', nota6: '0',nota7: '0',nota8: '0',nota9: '0',nota10: '0',points2: '0', result: '0'});
+	    } else {
+		socket.emit('checkedResultBeforeDelete',result);
+	    }
+	});
+    });
     // Usuwanie pojedynczego skoczka z listy startowej
     socket.on('deleteJumper',function(number){
 	JumperPost.remove({ bib:number }, function(err){
+	    if ( err ){
+		console.log("Błąd podczas usuwania skoczka z bazy "+err);
+	    }
+	});
+    });
+    // Usuwanie pojedynczych wynikow skoczka z listy startowej
+    socket.on('deleteResult',function(skoczek){
+	ResultsPost.remove({ jumper: skoczek }, function(err){
 	    if ( err ){
 		console.log("Błąd podczas usuwania skoczka z bazy "+err);
 	    }
