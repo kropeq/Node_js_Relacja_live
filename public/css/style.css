@@ -567,12 +567,21 @@ input {
   padding-top: 5px;
   text-align: justify;
 }
+#liveWrapper #leftColumn #liveRelation .liveRelationRow .liveDescription .jump1,
+#liveWrapper #leftColumn #liveRelation .liveRelationRow .liveDescription .jump2,
+#liveWrapper #leftColumn #liveRelation .liveRelationRow .liveDescription .points1,
+#liveWrapper #leftColumn #liveRelation .liveRelationRow .liveDescription .points2,
+#liveWrapper #leftColumn #liveRelation .liveRelationRow .liveDescription .finalResult {
+  text-align: center;
+}
 #liveWrapper #leftColumn #liveRelation .liveRelationRow .liveDescription .rank {
   width: 12px;
   float: left;
   padding-left: 8px;
   padding-right: 5px;
 }
+#liveWrapper #leftColumn #liveRelation .liveRelationRow .liveDescription .jump1,
+#liveWrapper #leftColumn #liveRelation .liveRelationRow .liveDescription .jump2,
 #liveWrapper #leftColumn #liveRelation .liveRelationRow .liveDescription .kolumna {
   padding-left: 4px;
   float: left;
@@ -583,7 +592,8 @@ input {
   width: 30px;
   float: left;
 }
-#liveWrapper #leftColumn #liveRelation .liveRelationRow .liveDescription .points {
+#liveWrapper #leftColumn #liveRelation .liveRelationRow .liveDescription .points1,
+#liveWrapper #leftColumn #liveRelation .liveRelationRow .liveDescription .points2 {
   padding-left: 4px;
   float: left;
   width: 100px;
@@ -648,12 +658,21 @@ input {
   padding-top: 5px;
   text-align: justify;
 }
+#liveWrapper #rightColumn #liveRelation .liveRelationRow .liveDescription .jump1,
+#liveWrapper #rightColumn #liveRelation .liveRelationRow .liveDescription .jump2,
+#liveWrapper #rightColumn #liveRelation .liveRelationRow .liveDescription .points1,
+#liveWrapper #rightColumn #liveRelation .liveRelationRow .liveDescription .points2,
+#liveWrapper #rightColumn #liveRelation .liveRelationRow .liveDescription .finalResult {
+  text-align: center;
+}
 #liveWrapper #rightColumn #liveRelation .liveRelationRow .liveDescription .rank {
   width: 12px;
   float: left;
   padding-left: 8px;
   padding-right: 5px;
 }
+#liveWrapper #rightColumn #liveRelation .liveRelationRow .liveDescription .jump1,
+#liveWrapper #rightColumn #liveRelation .liveRelationRow .liveDescription .jump2,
 #liveWrapper #rightColumn #liveRelation .liveRelationRow .liveDescription .kolumna {
   padding-left: 4px;
   float: left;
@@ -664,7 +683,8 @@ input {
   width: 30px;
   float: left;
 }
-#liveWrapper #rightColumn #liveRelation .liveRelationRow .liveDescription .points {
+#liveWrapper #rightColumn #liveRelation .liveRelationRow .liveDescription .points1,
+#liveWrapper #rightColumn #liveRelation .liveRelationRow .liveDescription .points2 {
   padding-left: 4px;
   float: left;
   width: 100px;
@@ -830,7 +850,8 @@ input {
 #sendPMToAdmin,
 #answerToUser,
 #getResults,
-#remove1 {
+#removeResult,
+#updateResult {
   text-decoration: none;
   color: #FFF;
   font-family: tahoma;
@@ -843,7 +864,8 @@ input {
 #sendPMToAdmin:hover,
 #answerToUser:hover,
 #getResults:hover,
-#remove1:hover {
+#removeResult:hover,
+#updateResult:hover {
   color: #008DD2;
   background: #FFF;
 }

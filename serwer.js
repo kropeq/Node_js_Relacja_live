@@ -230,19 +230,26 @@ io.on('connection', function(socket){
 	    io.emit('truncateTable');
 	});
     });
+    
+    socket.on('removeThisResult',function(jumper){
+	    io.emit('removeResult',jumper);
+    });
 
-    socket.on('adminChannel', function(jmpr,nt,jmp1,wnd1,not1,not2,not3,not4,not5,pts1,jmp2,wnd2,not6,not7,not8,not9,not10,pts2,results)
+    socket.on('adminChannel', function(jmpr,nt,jmp1,wnd1,not1,not2,not3,not4,not5,pts1,jmp2,wnd2,not6,not7,not8,not9,not10,pts2,results,jaka_operacja)
 	{
 	io.emit('adminMsg', {jumper: jmpr, nation: nt,
 		jump1: jmp1, wind1: wnd1, nota1: not1, nota2: not2, nota3: not3, nota4: not4, nota5: not5, points1: pts1,
 		jump2: jmp2, wind2: wnd2, nota6: not6, nota7: not7, nota8: not8, nota9: not9, nota10: not10, points2: pts2, result: results});
 	// zapisujemy do bazy
+	if ( jaka_operacja == "update") {
+	} else {
 	var post = new ResultsPost({ jumper: jmpr, nation: nt,
 		jump1: jmp1, wind1: wnd1, nota1: not1, nota2: not2, nota3: not3, nota4: not4, nota5: not5, points1: pts1,
 		jump2: jmp2, wind2: wnd2, nota6: not6, nota7: not7, nota8: not8, nota9: not9, nota10: not10, points2: pts2, result: results});
 	post.save(function(err){
 		if (err) console.log("Błąd zapisu posta admina do bazy "+err);
 	});
+	}
     });
     // Znajdowanie wyników konkretnego skoczka ( FIND )
     socket.on('findResultJumper', function(findJumper){
@@ -308,7 +315,18 @@ io.on('connection', function(socket){
 	    }
 	});
     });
-    
+    // Sprawdzania czy istnieje juz wynik tego skoczka ( UPDATE )
+    socket.on('checkResultBeforeUpdate', function(skoczek){
+	ResultsPost.findOne({jumper: skoczek}, function(err, jumper) {
+	    if ( jumper == null) {
+		socket.emit('checkedResultBeforeUpdate',{ jumper: 'Brak', nation: 'Brak',
+			    jump1: '0', wind1: '0', nota1: '0',nota2: '0',nota3: '0',nota4: '0',nota5: '0',points1: '0',
+			    jump2: '0', wind2: '0', nota6: '0',nota7: '0',nota8: '0',nota9: '0',nota10: '0',points2: '0', result: '0'});
+	    } else {
+		socket.emit('checkedResultBeforeUpdate',jumper);
+	    }
+	});
+    });
     // Sprawdzania czy istnieje juz pozycja z tym numerem startowym ( DELETE )
     socket.on('checkBibBeforeDelete', function(number){
 	JumperPost.findOne({bib: number}, function(err, jumper) {
@@ -350,6 +368,17 @@ io.on('connection', function(socket){
     // Update pojedynczego skoczka z listy startowej
     socket.on('updateJumper',function(number,jname,jsurname){
 	JumperPost.update({bib: number}, {$set: { name: jname, surname: jsurname}}, function(err, jumper) {
+	    if (err) {
+		console.log("Błąd podczas edycji skoczka w bazie "+err);
+	    }
+	});
+    });
+    // Update pojedynczego wyniku skoczka
+    socket.on('updateResult',function(name,jnation,jjump1,jwind1,jnota1,jnota2,jnota3,jnota4,jnota5,jump1Points,
+				      jjump2,jwind2,jnota6,jnota7,jnota8,jnota9,jnota10,jump2Points,jresult){
+	ResultsPost.update({jumper: name}, {$set: { nation: jnation, jump1: jjump1, wind1: jwind1, nota1: jnota1, nota2: jnota2, nota3: jnota3, nota4: jnota4, nota5: jnota5,
+			  points1: jump1Points, jump2: jjump2, wind2: jwind2, nota6: jnota6, nota7: jnota7, nota8: jnota8, nota9: jnota9, nota10: jnota10,
+			  points2: jump2Points, result: jresult}}, function(err, jumper) {
 	    if (err) {
 		console.log("Błąd podczas edycji skoczka w bazie "+err);
 	    }
