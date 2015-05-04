@@ -218,6 +218,12 @@ io.on('connection', function(socket){
 	    socket.emit('adminMsgs', posts);
 	    });;
 	});
+    socket.on('loadStartListToAutocomplete', function()
+	{
+	JumperPost.find().limit(50).sort({'surname': -1}).exec(function(err, jumpers) {
+	    socket.emit('jumpersList', jumpers);
+	    });;
+	});
     socket.on('loadChatPosts', function(data)
 	{
 	ChatPost.find().limit(10).sort({'time': -1}).exec(function(err, posts) {

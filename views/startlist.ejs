@@ -79,7 +79,47 @@
 			};
 			var socket = io.connect("localhost:3000");
 			$('#findJumper').click(function(){
-			    var number = $('#fjumper').val();
+			    findJumper();
+			    });
+			$('#fjumper').keyup(function(e){
+			    e.preventDefault();
+			    if(e.which == 13) {
+			        findJumper();	
+			    } else if (e.which == 40) {
+				document.getElementById('number').focus();
+			    }
+			});
+			$('#number').keyup(function(e){
+			    e.preventDefault();
+			    if(e.which == 13) {
+			        addJumper();	
+			    } else if (e.which == 38) {
+				document.getElementById('fjumper').focus();
+			    } else if (e.which == 39) {
+				document.getElementById('name').focus();
+			    }
+			});
+			$('#name').keyup(function(e){
+			    e.preventDefault();
+			    if(e.which == 13) {
+			        addJumper();	
+			    } else if (e.which == 37) {
+				document.getElementById('number').focus();
+			    } else if (e.which == 39) {
+				document.getElementById('surname').focus();
+			    }
+			});
+			$('#surname').keyup(function(e){
+			    e.preventDefault();
+			    if(e.which == 13) {
+			        addJumper();	
+			    } else if (e.which == 37) {
+				document.getElementById('name').focus();
+			    }
+			});
+			var findJumper = function(){
+			    var number = $('#fjumper').val().trim();
+			    $('#fjumper').val(number);
 			    var pattern_number = /^([1-9]{1,1})$|^([1-4]{1,1}[0-9]{1,1})$|^50$/g;
 			    var true_number = pattern_number.test(number);
 			    if ( true_number ){
@@ -110,11 +150,17 @@
 				$('#contentCRUD #name').val(jumper.name);
 				$('#contentCRUD #surname').val(jumper.surname);
 			    });
-			});
+			}
 			$('#addJumper').click(function(){
-			    var number = $('#number').val();
-			    var name = $('#name').val();
-			    var surname = $('#surname').val();
+			    addJumper();
+			});
+			var addJumper = function(){
+			    var number = $('#number').val().trim();
+			    $('#number').val(number);
+			    var name = $('#name').val().trim();
+			    $('#name').val(name);
+			    var surname = $('#surname').val().trim();
+			    $('#surname').val(surname);
 			    var pattern_number = /^([1-9]{1,1})$|^([1-4]{1,1}[0-9]{1,1})$|^50$/g;
 			    var pattern_name = /^[A-ZĆŁŹŻ][a-ząćęłńóśźż]{1,}$/g;
 			    var pattern_surname = /^[A-ZĆŁŹŻ][a-ząćęłńóśźż]{1,}$/g;
@@ -187,7 +233,7 @@
 				    $('#alert').text('');
 				}, 5000);
 			    }
-			});
+			}
 			$('#updateJumper').click(function(){
 			    var number = $('#number').val();
 			    var name = $('#name').val();

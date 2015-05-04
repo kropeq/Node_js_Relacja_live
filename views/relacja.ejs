@@ -26,7 +26,10 @@
 			<div><div id="naglowek">Punkt K skoczni</div>
 			<input type="text" id="punktK" style="width: 50px;" value="120"></div>
 			<div><div id="naglowek">Imię i nazwisko</div>
-			<input type="text" id="imieSkoczka" style="width: 250px"></div>
+			<div class="ui-widget">
+				<input type="text" id="imieSkoczka" style="width: 250px"></div>		
+			</div>
+			
 			<div><div id="naglowek">Kraj</div>
 			<select id="adminMsg5">
 			   <script>
@@ -433,8 +436,11 @@
 			});
 			socket.removeListener('showResultJumper');
 			socket.on('showResultJumper', function(dane) {
-			    $('#imieSkoczka').val(dane.jumper);
-			    $('#adminMsg5').val(dane.nation);
+			if ( +dane.jump1 == "0") {
+				$('#alertData').text("Nie ma jeszcze wyników tego zawodnika!");
+				$('#skok1, #nota1, #nota2, #nota3, #nota4, #nota5, #wind').val("");
+			        $('#skok2, #nota6, #nota7, #nota8, #nota9, #nota10, #wind2').val("");
+			} else {
 			    $('#skok1').val((+dane.jump1).toFixed(1));
 			    $('#skok2').val((+dane.jump2).toFixed(1));
 			    $('#wind').val((+dane.wind1).toFixed(2));
@@ -449,6 +455,7 @@
 			    $('#nota8').val((+dane.nota8).toFixed(1));
 			    $('#nota9').val((+dane.nota9).toFixed(1));
 			    $('#nota10').val((+dane.nota10).toFixed(1));
+			}
 			});
 			//---------------------------------------------------------// 
 			checkInputs = function(){
@@ -619,11 +626,11 @@
 				    $('#alertData').text("Wpisz poprawnie imię i nazwisko skoczka!");
 			            document.getElementById('imieSkoczka').focus();
 				}
-			    } else if (e.which == 38) {
+			    } /*else if (e.which == 38) {
 				document.getElementById('punktK').focus();
 			    } else if (e.which == 40) {
 				document.getElementById('adminMsg5').focus();
-			    }
+			    }*/
 			});
 			$('#adminMsg5').keyup(function(e){
 			    if(e.which == 13) {
@@ -901,6 +908,23 @@
 				  podswietl_dodany_element($('.liveRelationRow').first());
 				}
 			 });
+
+			// Ładowanie listy startowej do pola Imię i nazwisko skoczka
+			socket.emit('loadStartListToAutocomplete');
+			socket.removeListener('jumpersList');
+			socket.on('jumpersList', function(jumper) {
+			   var startList = [];
+			   for ( var i=0; i<jumper.length; i++) {
+				startList.push(jumper[i].name+" "+jumper[i].surname);
+				console.log(startList[i]);
+			   }
+			   startList.reverse();
+			   $(function() {
+			     $("#imieSkoczka").autocomplete({
+			     source: startList
+			     });
+			   });
+			});
 			
 			// ładowanie poprzednich postow
 			socket.emit('loadAdminPosts', 'load');
