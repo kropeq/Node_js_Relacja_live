@@ -71,11 +71,25 @@ var jumperSchema = new mongoose.Schema({
     surname: String
 });
 
+var privateMessageSchema = new mongoose.Schema({
+    nick: String,
+    message: String,
+    time: Date
+});
+
+var responseSchema = new mongoose.Schema({
+    nick: String,
+    message: String,
+    time: Date
+});
+
 // kompilacja do modelu
 var News = mongoose.model('News', newsSchema);
 var ResultsPost = mongoose.model('Resultspost', resultsSchema);
 var ChatPost = mongoose.model('Chatpost', chatSchema);
 var JumperPost = mongoose.model('Jumperpost', jumperSchema);
+var PrivateMessagePost = mongoose.model('PMpost', privateMessageSchema);
+var ResponsePost = mongoose.model('Responsepost', responseSchema);
 
 // nawigacja
 app.get('/', function(req, res){
@@ -182,6 +196,8 @@ app.post('/login', urlencodedParser, function(req, res){
     if (login == 'master' && pass == 'of disaster')
 	{
 	req.session.admin = true;
+	req.session.user=false;
+	req.session.nick= "Admin";
 	console.log("Master admin logged");
 	res.send('logged');
 	}
@@ -407,10 +423,40 @@ io.on('connection', function(socket){
     //---------------------------------------------------------------------------//
     //----------------------------- Private Message -----------------------------//
     //---------------------------------------------------------------------------//
+    socket.on('loadResponsePosts', function(data)
+	{
+	ResponsePost.find().sort({'time': 1}).exec(function(err, posts) {
+		socket.emit('responsePosts', posts);
+	         });
+	});
+    socket.on('loadPMPosts', function(data)
+	{
+	PrivateMessagePost.find().sort({'time': 1}).exec(function(err, posts) {
+		socket.emit('PMPosts', posts);
+	         });
+	});
+    
+    socket.on('removePM', function(msg){
+	var index = msg.indexOf(":");
+	var length = msg.length;
+	var nickname = msg.substring(0,index);
+	var text = msg.substring(index+1,length);
+	console.log(nickname);
+	console.log(text);
+	PrivateMessagePost.remove({ nick: nickname, message: text }, function(err){
+	    if (err) console.log("Błąd usuwania prywatnej wiadomosci z bazy "+err);
+	});
+    });
+    
     socket.on('pmToAdmin', function(msg){
+	var date = new Date();
 	var strippedMsg = msg.message.replace(/(<([^>]+)>)/ig,"").trim();
 	if (strippedMsg.length == 0) return;
 	console.log(strippedMsg);
+	var post = new PrivateMessagePost({ nick: msg.nick, message: strippedMsg, time: date});
+	    post.save(function(err){
+	    if (err) console.log("Błąd zapisu PM usera do bazy "+err);
+	});
 	io.emit('showToAdmin',{nick: msg.nick, message: strippedMsg});
 	});
     
@@ -420,7 +466,21 @@ io.on('connection', function(socket){
 	hour = (hour < 10 ? "0" : "") + hour;
 	var min  = date.getMinutes();
 	min = (min < 10 ? "0" : "") + min;
-	io.emit('responseToUser',{nick: msg.nick, message: '<span style="color: red">'+msg.message+'</span>', time: hour+':'+min});
+	var strippedMsg = msg.message.replace(/(<([^>]+)>)/ig,"").trim();
+	if (strippedMsg.length == 0) return;
+	var colorMsg = '<span style="color: red">'+strippedMsg+'</span>';
+	// ----- funkcja umożliająca przesunięcie czasowe GMT ----- //
+	Date.prototype.addHours = function(h){
+	    this.setHours(this.getHours()+h);
+	    return this;
+	};
+	var newDate = new Date().addHours(2);
+	// -------------------------------------------------------- //
+	var post = new ResponsePost({ nick: msg.nick, message: colorMsg, time: newDate});
+	    post.save(function(err){
+	    if (err) console.log("Błąd zapisu Response Admina do bazy "+err);
+	});
+	io.emit('responseToUser',{nick: msg.nick, message: colorMsg, time: hour+':'+min});
 	});
     
     socket.on('usersChannel', function(msg)

@@ -130,7 +130,9 @@
 			<br><br>
 			<a id="sendRight" href="#">wyślij</a>
 			<% } else { %>
-			<div id="headerInput">Odpowiedz użytkownikowi</div>
+			<div id="headerInput" style="width: 200px; padding-left: 270px">Odpowiedz użytkownikowi</div>
+			<select id="privateMessages">
+			</select>
 			<textarea rows="" id="adminResponse" cols="" ></textarea>
 			<br><br>
 			<a id="answerToUser" href="#">wyślij</a>
@@ -971,7 +973,6 @@
 			   var startList = [];
 			   for ( var i=0; i<jumper.length; i++) {
 				startList.push(jumper[i].name+" "+jumper[i].surname);
-				console.log(startList[i]);
 			   }
 			   startList.reverse();
 			   $(function() {
@@ -1034,6 +1035,7 @@
 				$('#liveRelation > div').remove();
 			});
 			
+			// wyslanie wiadomosci prywatnej do admina
 			userSendToAdmin = function(msg){
 			    sendInfo = {message: msg, nick: '<%= userNick %>'};
 			    socket.emit('pmToAdmin', sendInfo);
@@ -1048,6 +1050,7 @@
 			    }
 			});
 			
+			// wyswietlenie snippetu prywatnej wiadomosci
 			socket.removeListener('showToAdmin');
 			socket.on('showToAdmin', function(dane) {
 			var currentName = '<%= userNick %>'; 
@@ -1062,9 +1065,21 @@
 			    }, 2500);
 			}
 			});
-			
+			// podczas odpowiedzi zostaje takze usunieta prywatna wiadomosc usera
 			responseToUser = function(msg){
-			    sendInfo = {message: msg, nick: $('#nickname').text()};
+			    var selectedValue = $('#privateMessages').val();
+			    var index = selectedValue.indexOf(":");
+			    nickname = selectedValue.substring(0,index);
+			    sendInfo = {message: msg, nick: nickname};
+			    var current = $('#privateMessages').find('option').first();
+			    $('#privateMessages').find('option').each(function(){
+					if ( current.val() == selectedValue) {
+						current.remove();
+						return;
+					}
+					current = current.next();
+			    });
+			    socket.emit('removePM',selectedValue);
 			    socket.emit('adminResponse', sendInfo);
 			    $('#adminResponse').val('');
 			};
@@ -1077,6 +1092,7 @@
 			    }
 			});
 			
+			// odpowiedz admina do uzytkownika
 			socket.removeListener('responseToUser');
 			socket.on('responseToUser', function(dane) {
 			   var currentName = '<%= userNick %>'; 
@@ -1085,7 +1101,7 @@
 			   }
 			});
 			
-			userNick = 'Test';
+			// wyslanie do serwera informacji z trescia posta
 			userSendMsg = function(msg)
 			    {
 			    sendInfo = {message: msg, nick: '<%= userNick %>'};
@@ -1100,6 +1116,7 @@
 			    userSendMsg($('#userMsg').val());
 			    }
 			});
+			// dodanie postu na czacie
 			socket.removeListener('userMsg');
 			socket.on('userMsg', function(dane) {
 			<%if (!isAdminLogged) {%>
@@ -1107,6 +1124,30 @@
 			<%}%>
 			});
 			
+			// ładowanie PM's do panelu admina
+			socket.emit('loadPMPosts');
+			socket.removeListener('PMPosts');
+			socket.on('PMPosts', function(pms) {
+			var ile = 0;
+			if ( pms.length > 0 ){
+			while ( pms.length > ile){
+			        $('#privateMessages').prepend('<option val="'+pms[ile].nick+':'+pms[ile].message+'">'+pms[ile].nick+':'+pms[ile].message+'</option>');
+				ile++;
+				}
+			}
+			});
+				
+			// ładowanie poprzednich odpowiedz admina
+			socket.emit('loadResponsePosts');
+			socket.removeListener('responsePosts');
+			socket.on('responsePosts', function(responses) {
+			     var currentName = '<%= userNick %>';
+			     responses.forEach(function(singleone){
+			         if ( currentName == singleone.nick) {
+			             $('<div class="userPost"><div class="cloud">'+singleone.message+'</div><div class="cloudDynks"></div><div class="userData"><div class="nick">Admin</div><div class="PostTime">'+singleone.time.substring(11,16)+'</div></div></div>').prependTo('#rightColumn');
+			         }
+			     });
+			});
 			// ładowanie poprzednich postow
 			socket.emit('loadChatPosts', 'load');
 			socket.removeListener('chatPosts');

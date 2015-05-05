@@ -845,6 +845,13 @@ input {
   color: white;
   padding-left: 40px;
 }
+#postWrapper #postRight #adminResponse {
+  width: 220px;
+}
+#postWrapper #postRight select {
+  width: 220px;
+  height: 40px;
+}
 #sendRight,
 #sendLeft,
 #sendPMToAdmin,
