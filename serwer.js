@@ -380,7 +380,7 @@ io.on('connection', function(socket){
 	});
     });
     // Update pojedynczego wyniku skoczka
-    socket.on('updateResult',function(name,jnation,jjump1,jwind1,jnota1,jnota2,jnota3,jnota4,jnota5,jump1Points,
+    socket.on('addUpdateResult',function(name,jnation,jjump1,jwind1,jnota1,jnota2,jnota3,jnota4,jnota5,jump1Points,
 				      jjump2,jwind2,jnota6,jnota7,jnota8,jnota9,jnota10,jump2Points,jresult){
 	ResultsPost.update({jumper: name}, {$set: { nation: jnation, jump1: jjump1, wind1: jwind1, nota1: jnota1, nota2: jnota2, nota3: jnota3, nota4: jnota4, nota5: jnota5,
 			  points1: jump1Points, jump2: jjump2, wind2: jwind2, nota6: jnota6, nota7: jnota7, nota8: jnota8, nota9: jnota9, nota10: jnota10,

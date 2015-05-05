@@ -851,7 +851,8 @@ input {
 #answerToUser,
 #getResults,
 #removeResult,
-#updateResult {
+#addUpdateResult2,
+#updateResult1 {
   text-decoration: none;
   color: #FFF;
   font-family: tahoma;
@@ -865,7 +866,8 @@ input {
 #answerToUser:hover,
 #getResults:hover,
 #removeResult:hover,
-#updateResult:hover {
+#addUpdateResult2:hover,
+#updateResult1:hover {
   color: #008DD2;
   background: #FFF;
 }

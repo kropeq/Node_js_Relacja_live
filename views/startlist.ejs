@@ -8,7 +8,7 @@
 			    <div id="alert"></div>
 			</div>
 			<div id="restdivs">
-			    <a id="removeJumpers" href="#">Remove All</a>
+			    <a id="removeJumpers" href="#">Usuń ALL</a>
 			</div>
 		    </div>
 		    <div id="contentCRUD">
@@ -24,9 +24,9 @@
 				<textarea id="surname" rows="1" cols="15"></textarea>
 			    </div>
 			    <div id="AddUpdateDelete">
-				<a id="addJumper" href="#">Add</a>
+				<a id="addJumper" href="#">Dodaj</a>
 				<a id="updateJumper" href="#">Update</a>
-				<a id="deleteJumper" href="#">Delete</a>
+				<a id="deleteJumper" href="#">Usuń</a>
 			    </div>
 			</div>
 			<div id="columnRight">
@@ -197,6 +197,7 @@
 						    ustaw_przeplatanie_kolorow();
 						    podswietl_dodany_element($(wiersz).prev());
 						    $('#alert').text('');
+						    document.getElementById('number').focus();
 						    return false;
 						}
 						else{
@@ -206,6 +207,7 @@
 							ustaw_przeplatanie_kolorow();
 							podswietl_dodany_element($('.StartListRow').last());
 							$('#alert').text('');
+							document.getElementById('number').focus();
 							return false;
 						    }
 						    wiersz = wiersz.next();
@@ -216,6 +218,7 @@
 					    ustaw_przeplatanie_kolorow();
 					    podswietl_dodany_element($('.StartListRow').last());
 					    $('#alert').text('');
+					    document.getElementById('number').focus();
 					}
 				    }
 				});

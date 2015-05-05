@@ -109,9 +109,10 @@
 		    
 		    <div id="postLeft">
 			<%if (isAdminLogged) {%> 
-			<a id="sendLeft" href="#">Wyślij</a>
+			<a id="sendLeft" href="#">Dodaj</a>
 			<a id="getResults" href="#">Znajdź</a>
-			<a id="updateResult" href="#">Dodaj 2 serię</a>
+			<a id="updateResult1" href="#">Edytuj 1 serię</a>
+			<a id="addUpdateResult2" href="#">Dodaj 2 serię</a>
 			<a id="removeResult" href="#">Usuń</a>
 			<a id="destroy" href="#">Czyść</a>
 			<%} else {%>
@@ -200,7 +201,51 @@
 			    document.getElementById('imieSkoczka').focus();
 			}
 			
-			adminUpdateMsg = function(jumper,nation,jump1,wind1,nota1,nota2,nota3,nota4,nota5,jump1Points,jump,wind,nota6,nota7,nota8,nota9,nota10,points,punktk){
+			adminUpdate1SeriaMsg = function(jumper,nation,jump,wind,nota1,nota2,nota3,nota4,nota5,points,jump2,wind2,nota6,nota7,nota8,nota9,nota10,jump2Points,punktk){
+			    // Nadanie punktacji za metr zależnie od Punkt-K skoczni
+			    if ( +punktk < 100 ) {
+				var metr = 2.0;
+			    } else if ( +punktk >= 100 && +punktk < 135 ){
+			        var metr = 1.8;
+			    } else {
+			        var metr = 1.2;
+			    }
+			    // Nadanie ograniczenia liczenia punktów za metry skoku zależnie od Punktu-K
+			    if ( +jump > punktk ){
+			          jumpPoints = ((+jump - +punktk)*(+metr)+60+(+points)+(wind*10)).toFixed(1);
+			    } else if ( +punktk < 100 ) {
+			          if ( +jump < (+punktk)-30 ){
+			              jumpPoints = ((+points)+(wind*10)).toFixed(1);	
+			          }
+			          else {
+			              jumpPoints = ((+punktk - (+jump))*(-1)*(+metr)+60+(+points)+(wind*10)).toFixed(1);	
+			          }
+			    } else if ( +punktk >= 100 && +punktk < 135 ) {
+				  if ( +jump < (+punktk)-33 ){
+			              jumpPoints = ((+points)+(wind*10)).toFixed(1);	
+			          }
+			          else {
+			              jumpPoints = ((+punktk - (+jump))*(-1)*(+metr)+60+(+points)+(wind*10)).toFixed(1);	
+			          }
+			    } else {
+			          if ( +jump < (+punktk)-50 ){
+			              jumpPoints = ((+points)+(wind*10)).toFixed(1);	
+			          }
+			          else {
+			              jumpPoints = ((+punktk - (+jump))*(-1)*(+metr)+60+(+points)+(wind*10)).toFixed(1);	
+			          }
+			    }
+			    var result = ((+jumpPoints) + (+jump2Points)).toFixed(1);
+			    socket.emit('addUpdateResult', jumper,nation,jump,wind,nota1,nota2,nota3,nota4,nota5,jumpPoints,jump2,wind2,nota6,nota7,nota8,nota9,nota10,jump2Points,result);
+			    socket.emit('removeThisResult',jumper);
+			    socket.emit('adminChannel', jumper,nation,jump,wind,nota1,nota2,nota3,nota4,nota5,jumpPoints,jump2,wind2,nota6,nota7,nota8,nota9,nota10,jump2Points,result,"update");
+			    $('#alertData').text("");
+			    $('#imieSkoczka, #skok1, #nota1, #nota2, #nota3, #nota4, #nota5, #wind').val("");
+			    $('#skok2, #nota6, #nota7, #nota8, #nota9, #nota10, #wind2').val("");
+			    document.getElementById('imieSkoczka').focus();
+			}
+			
+			adminUpdate2SeriaMsg = function(jumper,nation,jump1,wind1,nota1,nota2,nota3,nota4,nota5,jump1Points,jump,wind,nota6,nota7,nota8,nota9,nota10,points,punktk){
 			    // Nadanie punktacji za metr zależnie od Punkt-K skoczni
 			    if ( +punktk < 100 ) {
 				var metr = 2.0;
@@ -235,7 +280,7 @@
 			          }
 			    }
 			    var result = ((+jump1Points) + (+jumpPoints)).toFixed(1);
-			    socket.emit('updateResult', jumper,nation,jump1,wind1,nota1,nota2,nota3,nota4,nota5,jump1Points,jump,wind,nota6,nota7,nota8,nota9,nota10,jumpPoints,result);
+			    socket.emit('addUpdateResult', jumper,nation,jump1,wind1,nota1,nota2,nota3,nota4,nota5,jump1Points,jump,wind,nota6,nota7,nota8,nota9,nota10,jumpPoints,result);
 			    socket.emit('removeThisResult',jumper);
 			    socket.emit('adminChannel', jumper,nation,jump1,wind1,nota1,nota2,nota3,nota4,nota5,jump1Points,jump,wind,nota6,nota7,nota8,nota9,nota10,jumpPoints,result,"update");
 			    $('#imieSkoczka, #skok1, #nota1, #nota2, #nota3, #nota4, #nota5, #wind').val("");
@@ -247,8 +292,12 @@
 			});
 			//---------- update 1 skoczka z listy      -------------//
 			// zle liczy- 360 pkt zamiast 130 pkt -- bo pusty Punkt-K
-			$('#updateResult').click(function(){
+			$('#addUpdateResult2').click(function(){
 			   checkInputs2();
+			});
+			
+			$('#updateResult1').click(function(){
+			   checkInputs("update");			
 			});
 			checkInputs2 = function(){
 			    var findJumper = $('#imieSkoczka').val();
@@ -296,7 +345,7 @@
 								     for ( i=1; i<=3; i++){
 									points+=tab[i];
 								     };
-						                     adminUpdateMsg(results.jumper, results.nation, results.jump1, results.wind1,
+						                     adminUpdate2SeriaMsg(results.jumper, results.nation, results.jump1, results.wind1,
 										    results.nota1, results.nota2, results.nota3, results.nota4, results.nota5,
 										    results.points1,jump2,wind2,nota6,nota7,nota8,nota9,nota10,points,punktk);
 								     $('#alertData').text("");
@@ -458,7 +507,7 @@
 			}
 			});
 			//---------------------------------------------------------// 
-			checkInputs = function(){
+			checkInputs = function(jaka_operacja){
 			    var jumper_name = $('#imieSkoczka').val();
 			    var punktk = $('#punktK').val();
 			    var jump = $('#skok1').val();
@@ -505,15 +554,21 @@
 							  socket.on('checkedResultBeforeAdd',function(results){
 						          var sprawdz = results.jumper;
 							  if ( sprawdz == jumper_name) {
+									if ( jaka_operacja == "update") {
+									    adminUpdate1SeriaMsg(results.jumper,results.nation,jump,wind,nota1,nota2,nota3,nota4,nota5,points,
+												 results.jump2,results.wind2,results.nota6,results.nota7,results.nota8,results.nota9,
+												 results.nota10,results.points2,punktk);
+									} else {
 									$('#alertData').text("Ten skoczek jest już na liście wyników!");
 									$('#imieSkoczka').css('background-color', '#FA6A6A');
 									window.setTimeout(function(){
 									$('#imieSkoczka').css('background-color', 'rgba(0,255,43,0.2)');
 									}, 2500);
 									document.getElementById('imieSkoczka').focus();
-						          } else   {
-									adminSendMsg(jumper_name,nation,jump,wind,nota1,nota2,nota3,nota4,nota5,points,punktk);		
 									}
+						          } else   {
+									    adminSendMsg(jumper_name,nation,jump,wind,nota1,nota2,nota3,nota4,nota5,points,punktk);
+								}
 						          });
 
 						       } else {
@@ -626,9 +681,9 @@
 				    $('#alertData').text("Wpisz poprawnie imię i nazwisko skoczka!");
 			            document.getElementById('imieSkoczka').focus();
 				}
-			    } /*else if (e.which == 38) {
-				document.getElementById('punktK').focus();
-			    } else if (e.which == 40) {
+			    } else if (e.which == 39) {
+				document.getElementById('adminMsg5').focus();
+			    } /*else if (e.which == 40) {
 				document.getElementById('adminMsg5').focus();
 			    }*/
 			});
