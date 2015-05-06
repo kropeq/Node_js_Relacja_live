@@ -152,7 +152,7 @@ input {
   font-family: 'Roboto', sans-serif;
 }
 #fLogin,
-#fLoginUser {
+#fRegisterUser {
   text-align: center;
 }
 #addArticle {
@@ -202,7 +202,7 @@ input {
   right: 80px;
 }
 #login,
-#loginUser,
+#registerUser,
 #addArticle,
 #save {
   text-decoration: none;
@@ -213,7 +213,7 @@ input {
   border-radius: 5px;
 }
 #login:hover,
-#loginUser:hover,
+#registerUser:hover,
 #addArticle:hover,
 #save:hover,
 #editArticle:hover,
@@ -891,7 +891,8 @@ input {
   color: #FFFFFF;
   background: #FA6A6A;
 }
-.opis {
+.opis,
+.logowanie {
   text-align: center;
   font-family: tahoma;
   font-size: 20px;

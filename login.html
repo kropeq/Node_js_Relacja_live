@@ -1,58 +1,110 @@
 <!doctype html>
 <html lang="pl">
-<p class="opis">Logowanie administratora:
+<p class="logowanie">Logowanie:
     <form id="fLogin">
       <input type="text" name="login" id="iLogin" placeholder="login"/><br />
       <input type="password" name="password" id="iPass" placeholder="hasło"/><br />
-      <a id="login" href="#">zaloguj</a>
+      <a id="login" href="#">Zaloguj</a>
     </form></p>
-		
-		
-	<p class="opis">Chcesz mieć dostęp do relacji live? Podaj swój nick!
-	<form id="fLoginUser">
-        <input type="text" name="nick" id="iNick" placeholder="twój nick"/><br />
-		 <a id="loginUser" href="#">Zaloguj</a>
-	</form>
+    <div id="formSlideToggle"><p class="opis">Rejestracja</div>
+    <form id="fRegisterUser">
+      <input type="text" name="nick" id="iNick" placeholder="twój nick"/><br />
+      <input type="password" name="passwd" id="iPasswd" placeholder="twoje hasło"/><br />
+      <input type="password" name="passwd2" id="iPasswd2" placeholder="powtórz hasło"/><br />
+      <a id="registerUser" href="#">Zarejestruj</a>
+    </form>
 	
 	<script>
+	    var socket = io.connect("localhost:3000");
+	    $('#fRegisterUser').hide();
+	    $('#formSlideToggle').click(function(){
+
+		if ($('#fRegisterUser').is(':visible')){
+		  $('#fRegisterUser').slideUp();
+		  $('.logowanie').slideDown();
+		  $('#fLogin').slideDown();
+		  $('#iLogin').focus();
+		  return;
+		} else {
+		  $('#fRegisterUser').slideDown();
+		  $('.logowanie').slideUp();
+		  $('#fLogin').slideUp();
+		  $('#iNick').focus();
+		  return;
+		}
+	    });
+	    // Logowanie
+	    $('#iLogin').focus();
+	    $('#fLogin').find('input').keydown(function(event){
+		if (event.which == 13)
+		$('#login').click();
+	    });
 	    $('#login').click(function(){
 		$.post( "/login", {login: $('#iLogin').val(), pass:$('#iPass').val()},  function( data ) {
-		    if (data == 'logged')
-			{
+		    if (data == 'logged'){
 			// podmieniamy buttona w menu
 			$('#loginLogoutButton').html('WYLOGUJ <small>(Admin)</small>').attr('href', '/logout');
 			$('#startlist').html('Zawodnicy').attr('href', '/startlist').css({'display': 'inline'});
 			$.get('/relacja', function(data) { $('#content').html(data);});
 			}
-		  });
-	    });
-	    $('#fLogin').find('input').keydown(function(event){
-		if (event.which == 13)
-		$('#login').click();
-	    });
-	    $('#iLogin').focus();
-	    
-	    $('#loginUser').click(function(){
-		var nick = $('#iNick').val();
-		if (!nick.match(/^[a-z0-9]{2,15}$/i))
-		    {
-		    alert("Nick może zawierać tylko litery i cyfry (od 2 do 15 znaków)!");
-		    return;
+		    else if ( data == 'incorrect data' ) {
+			alert("Niepoprawne dane uzytkownika");
 		    }
-		$.post( "/loginUser", {nick: $('#iNick').val()},  function( data ) {
-		    if (data == 'logged')
-			{
-			// podmieniamy buttona w menu
-			$('#loginLogoutButton').html('WYLOGUJ <small>('+$('#iNick').val()+')</small>').attr('href', '/logout');
+		    else if ( data == 'incorrect password for master' ) {
+			alert("Niepoprawne haslo dla admina");
+		    } else {
+			$('#loginLogoutButton').html('WYLOGUJ <small>('+data+')</small>').attr('href', '/logout');
 			$.get('/relacja', function(data) { $('#content').html(data);});
-			}
-			else { alert('Ten nick jest już zajęty'); }
+		    }
 		  });
 	    });
-	    $('#iNick').keydown(function(event){
+	    
+	    // Rejestracja
+	    $('#registerUser').click(function(){
+		var nick = $('#iNick').val();
+		if (!nick.match(/^[a-z0-9]{2,15}$/i)){
+		    alert("Nick może zawierać tylko litery i cyfry (od 2 do 15 znaków)!");
+		    $('#iNick').focus();
+		    return;
+		}
+		var haslo1 = $('#iPasswd').val();
+		var haslo2 = $('#iPasswd2').val();
+		if (!haslo1.match(/^[a-z0-9]{5,15}$/i)){
+		  alert("Hasło właściwe powinno zawierać tylko litery i cyfry (od 5 do 15 znaków)!");
+		  $('#iPasswd').focus();
+		  return;
+		}
+		if (!haslo2.match(/^[a-z0-9]{5,15}$/i)){
+		  alert("Hasło powtórzone powinno zawierać tylko litery i cyfry (od 5 do 15 znaków)!");
+		  $('#iPasswd2').focus();
+		  return;
+		}
+		if ( haslo1 != haslo2 ) {
+		    alert("Powtórzone hasło różne od hasła właściwego, popraw!");
+		    return;
+		}
+		// Sprawdzenie, czy dany user nie jest zajety
+		socket.emit('checkBeforeRegister',nick);
+		socket.removeListener('existenceUser');
+		socket.on('existenceUser',function(existence){
+		    if ( existence) {
+		      alert("Ten użytkownik jest zajęty! Wybierz inny login!");
+		      return;
+		    } else {
+		      // Zapisanie nowego usera do bazy danych
+		      socket.emit('registerUser',nick, haslo1);
+		      alert("Dziękujemy za rejestrację!");
+		      $('#iLogin').val(nick);
+		      $('#iNick, #iPasswd, #iPasswd2').val('');
+		      $('#formSlideToggle').click();
+		      $('#iPass').focus();
+		    }
+		});
+	    });
+	    $('#iNick, #iPasswd, #iPasswd2').keydown(function(event){
 		if (event.which == 13) {
 		    event.preventDefault();
-		    $('#loginUser').click();
+		    $('#registerUser').click();
 		    }
 	    });
 	</script>

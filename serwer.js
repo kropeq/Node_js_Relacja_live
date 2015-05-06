@@ -83,6 +83,11 @@ var responseSchema = new mongoose.Schema({
     time: Date
 });
 
+var usersSchema = new mongoose.Schema({
+    nick: String,
+    pass: String
+});
+
 // kompilacja do modelu
 var News = mongoose.model('News', newsSchema);
 var ResultsPost = mongoose.model('Resultspost', resultsSchema);
@@ -90,6 +95,7 @@ var ChatPost = mongoose.model('Chatpost', chatSchema);
 var JumperPost = mongoose.model('Jumperpost', jumperSchema);
 var PrivateMessagePost = mongoose.model('PMpost', privateMessageSchema);
 var ResponsePost = mongoose.model('Responsepost', responseSchema);
+var User = mongoose.model('User', usersSchema);
 
 // nawigacja
 app.get('/', function(req, res){
@@ -183,24 +189,34 @@ app.post('/editNews', urlencodedParser, function(req, res){
     
 });
 
-app.post('/loginUser', urlencodedParser, function(req, res){
-    var nick = req.body.nick;
-    req.session.nick = nick.replace(/(<([^>]+)>)/ig,"");
-    req.session.user = true;
-    res.send('logged');
-});
 app.post('/login', urlencodedParser, function(req, res){
     var login = req.body.login;
-    var pass = req.body.pass;
-    console.log(login + " " + pass);
-    if (login == 'master' && pass == 'of disaster')
-	{
-	req.session.admin = true;
-	req.session.user=false;
-	req.session.nick= "Admin";
-	console.log("Master admin logged");
-	res.send('logged');
-	}
+    var password = req.body.pass;
+    console.log(login + " " + password);
+    User.findOne({nick: login, pass: password}, function(err,callback){
+	if (callback == null){
+		res.send('incorrect data');
+	    } else {
+		if (login == 'master' && password == 'of disaster')
+		{
+		    req.session.admin = true;
+		    req.session.user = false;
+		    req.session.nick = "Admin";
+		    console.log("Master admin logged");
+		    res.send('logged');
+		}
+		else if ( login != 'master' ){
+		    req.session.admin = false;
+		    req.session.user = true;
+		    req.session.nick = login.replace(/(<([^>]+)>)/ig,"");;
+		    console.log("User logged");
+		    res.send(login);
+		} else {
+		    res.send('incorrect password for master');
+		}
+	    }
+    });
+    
 });
 app.get('/logout', function(req, res){
     req.session.admin=false;
@@ -228,6 +244,26 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 // sockety
 io.on('connection', function(socket){
+    // ------- Rejestracja uzytkownikow -------- //
+    // Sprawdzenie czy nick jest wolny
+    socket.on('checkBeforeRegister',function(nickname){
+	User.findOne({nick: nickname}, function(err, user) {
+	    if (user == null){
+		socket.emit('existenceUser',false);
+	    } else {
+		socket.emit('existenceUser',true);
+	    }
+	});
+    });
+    // Zarejestrowanie usera na podany nick
+    socket.on('registerUser',function(nickname,password){
+	var user = new User({ nick: nickname, pass: password});
+	user.save(function(err){
+		if (err) console.log("Błąd zapisu usera do bazy "+err);
+	});
+    });
+    
+    // ----------------------------------------- //
     socket.on('loadAdminPosts', function(data)
 	{
 	ResultsPost.find().limit(50).sort({'result': -1}).exec(function(err, posts) {
