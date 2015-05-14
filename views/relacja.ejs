@@ -7,8 +7,8 @@
 <h1 class="czatHeader">KLASYFIKACJA</h1>
 <% } %>
 <div id="liveWrapper">
+		<%if (!isAdminLogged) {%>
 		<div id="leftColumn">
-			<%if (!isAdminLogged) {%>
 			<div id="headerLiveRelation" style="width:483px;">
 			   <div class="columnKlasyf" style='width: 18px'>#</div>
 			   <div class="columnKlasyf" style='width: 133px'>Skoczek</div>
@@ -22,6 +22,7 @@
 			<div id="liveRelation" style="font-size: small; width: 483px;">
 			</div>
 			<% } else { %>
+		<div id="leftColumn" style="overflow-y: auto;">
 			<div id="alertData"></div>
 			<div><div id="naglowek">Punkt K skoczni</div>
 			<input type="text" id="punktK" style="width: 50px;" value="120"></div>
@@ -90,7 +91,7 @@
 			    <div class="cloud"></div>
 			    <div class="cloudDynks"></div>
 			    <div class="userData">
-				<div id="nickname"></div>
+				<div class="nick"></div>
 			    </div>
 			</div>
 			<div id="headerLiveRelation" style="width:483px;">
@@ -111,12 +112,12 @@
 		<div id="postWrapper">
 		    
 		    <div id="postLeft">
-			<%if (isAdminLogged) {%> 
-			<a id="sendLeft" href="#">Dodaj</a>
+			<%if (isAdminLogged) {%>
 			<a id="getResults" href="#">Znajdź</a>
+			<a id="sendLeft" href="#">Dodaj 1 serię</a>
 			<a id="updateResult1" href="#">Edytuj 1 serię</a>
-			<a id="addUpdateResult2" href="#">Dodaj 2 serię</a>
 			<a id="removeResult" href="#">Usuń</a>
+			<a id="addUpdateResult2" href="#">Dodaj 2 serię</a>
 			<a id="destroy" href="#">Czyść</a>
 			<%} else {%>
 			<div id="headerInput">Napisz do admina</div>
@@ -1059,7 +1060,7 @@
 			var currentName = '<%= userNick %>'; 
 			if ( currentName == 'Admin') {
 			var shortMessage = dane.message.substring(0, dane.message.length > 30 ? 30 : dane.message.length) + (dane.message.length > 30 ? '...' : '');
-			    $('#nickname').text(dane.nick);
+			    $('.nick').text(dane.nick);
 			    $('.cloud').text(shortMessage);
 			    $('#privateMessage').slideDown();//.addClass('highlightPost');
 			    window.setTimeout(function() {
@@ -1142,7 +1143,7 @@
 			}
 			});
 				
-			// ładowanie poprzednich odpowiedz admina
+			// ładowanie poprzednich odpowiedzi admina
 			socket.emit('loadResponsePosts');
 			socket.removeListener('responsePosts');
 			socket.on('responsePosts', function(responses) {
