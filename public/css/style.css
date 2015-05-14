@@ -613,22 +613,37 @@ input {
   overflow-x: hidden;
 }
 #liveWrapper #rightColumn #privateMessage {
-  padding-top: 5px;
+  width: 460px;
   margin-bottom: 10px;
-  display: block;
-  width: 480px;
-  height: 30px;
-  text-align: center;
+  overflow: auto;
 }
-#liveWrapper #rightColumn #privateMessage #nickname {
-  color: red;
+#liveWrapper #rightColumn #privateMessage .cloud {
+  width: 310px;
+  height: 100%;
+  border-radius: 5px;
+  background: url("../graph/cloudBackground.png") repeat;
+  padding: 5px;
   float: left;
+  min-height: 30px;
+}
+#liveWrapper #rightColumn #privateMessage .cloudDynks {
+  width: 22px;
+  height: 8px;
+  margin-top: 20px;
+  background: url("../graph/cloudDynks.png") no-repeat center left;
+  padding: 5px;
+  float: left;
+}
+#liveWrapper #rightColumn #privateMessage .userData {
+  margin-top: 20px;
+  display: inline;
+  float: left;
+  overflow: hidden;
+}
+#liveWrapper #rightColumn #privateMessage .userData #nickname {
+  font-weight: bold;
+  overflow: hidden;
   width: 100px;
-}
-#liveWrapper #rightColumn #privateMessage #pm {
-  color: red;
-  width: 380px;
-  float: left;
 }
 #liveWrapper #rightColumn #headerLiveRelation {
   width: 500px;
@@ -798,6 +813,7 @@ input {
 #postWrapper #postLeft {
   width: 480px;
   float: left;
+  height: 120px;
 }
 #postWrapper #postLeft select {
   width: 65px;
@@ -826,6 +842,45 @@ input {
   width: 150px;
   color: white;
   padding-left: 10px;
+}
+#postWrapper #postLeft #removeResult {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
+#postWrapper #postLeft #getResults {
+  position: relative;
+  top: 10px;
+  left: 15px;
+}
+#postWrapper #postLeft #updateResult1 {
+  position: relative;
+  top: 10px;
+  left: 35px;
+}
+#postWrapper #postLeft #addUpdateResult2 {
+  position: absolute;
+  top: 10px;
+  right: 500px;
+}
+#postWrapper #postLeft #sendLeft {
+  position: relative;
+  top: 10px;
+}
+#postWrapper #postLeft #destroy {
+  position: absolute;
+  bottom: 10px;
+  right: 500px;
+  text-decoration: none;
+  color: #FFF;
+  font-family: tahoma;
+  font-size: 19px;
+  border-radius: 5px;
+  padding: 10px;
+}
+#postWrapper #postLeft #destroy:hover {
+  color: #FFFFFF;
+  background: #FA6A6A;
 }
 #postWrapper #postRight {
   width: 480px;
@@ -878,24 +933,14 @@ input {
   color: #008DD2;
   background: #FFF;
 }
-#destroy {
-  text-decoration: none;
-  color: #FFF;
-  font-family: tahoma;
-  font-size: 19px;
-  border-radius: 5px;
-  padding: 10px;
-  margin-left: 335px;
-}
-#destroy:hover {
-  color: #FFFFFF;
-  background: #FA6A6A;
-}
 .opis,
 .logowanie {
   text-align: center;
   font-family: tahoma;
   font-size: 20px;
+}
+.opis {
+  cursor: pointer;
 }
 #fEditArticle {
   text-align: center;

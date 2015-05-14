@@ -87,8 +87,11 @@
 		<div id="rightColumn">
 			<%if (isAdminLogged) {%>
 			<div id="privateMessage">
-			    <div id="nickname"></div>
-			    <div id="pm"></div>
+			    <div class="cloud"></div>
+			    <div class="cloudDynks"></div>
+			    <div class="userData">
+				<div id="nickname"></div>
+			    </div>
 			</div>
 			<div id="headerLiveRelation" style="width:483px;">
 			   <div class="columnKlasyf" style='width: 18px'>#</div>
@@ -1057,12 +1060,14 @@
 			if ( currentName == 'Admin') {
 			var shortMessage = dane.message.substring(0, dane.message.length > 30 ? 30 : dane.message.length) + (dane.message.length > 30 ? '...' : '');
 			    $('#nickname').text(dane.nick);
-			    $('#pm').text(shortMessage);
-			    $('#privateMessage').slideDown().addClass('highlightPost');
+			    $('.cloud').text(shortMessage);
+			    $('#privateMessage').slideDown();//.addClass('highlightPost');
 			    window.setTimeout(function() {
-			    $('#privateMessage').removeClass('highlightPost');
+			    //$('#privateMessage').removeClass('highlightPost');
 			    $('#privateMessage').slideUp();
-			    }, 2500);
+			    }, 3500);
+			    $('#privateMessages').prepend('<option val="'+dane.nick+':'+dane.message+'" selected>'+dane.nick+':'+dane.message+'</option>');
+				
 			}
 			});
 			// podczas odpowiedzi zostaje takze usunieta prywatna wiadomosc usera
@@ -1131,7 +1136,7 @@
 			var ile = 0;
 			if ( pms.length > 0 ){
 			while ( pms.length > ile){
-			        $('#privateMessages').prepend('<option val="'+pms[ile].nick+':'+pms[ile].message+'">'+pms[ile].nick+':'+pms[ile].message+'</option>');
+			        $('#privateMessages').prepend('<option val="'+pms[ile].nick+':'+pms[ile].message+'" selected>'+pms[ile].nick+':'+pms[ile].message+'</option>');
 				ile++;
 				}
 			}

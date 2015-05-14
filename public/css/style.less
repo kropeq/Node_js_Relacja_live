@@ -598,22 +598,37 @@ input {
         bottom: 0;
         overflow-y: auto;
         overflow-x: hidden;
-        #privateMessage{
-            padding-top: 5px;
+        #privateMessage {
+            width: 460px;
             margin-bottom: 10px;
-            display: block;
-            width: 480px;
-            height: 30px;
-            text-align: center;
-            #nickname{
-                color: red;
+            overflow: auto;
+            .cloud {
+                width: 310px;
+                height: 100%;
+                border-radius: 5px;
+                background:url("../graph/cloudBackground.png") repeat;
+                padding: 5px;
                 float: left;
-                width: 100px;
+                min-height: 30px;
             }
-            #pm{
-                color: red;
-                width: 380px;
+            .cloudDynks{
+                width: 22px;
+                height: 8px;
+                margin-top:20px;
+                background:url("../graph/cloudDynks.png") no-repeat center left;
+                padding: 5px;
                 float: left;
+            }
+            .userData {
+                margin-top:20px;
+                display: inline;
+                float: left;
+                overflow: hidden;
+                #nickname{
+                    font-weight: bold;
+                    overflow:hidden;
+                    width:100px;
+                }
             }
         }
         #headerLiveRelation {
@@ -796,6 +811,7 @@ input {
     #postLeft {
         width: 480px;
         float: left;
+        height: 120px;
         select {
             width: 65px;
             height: 50px;
@@ -823,6 +839,45 @@ input {
             width: 150px;
             color: white;
             padding-left: 10px;
+        }
+        #removeResult {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+        }
+        #getResults {
+            position: relative;
+            top: 10px;
+            left: 15px;
+        }
+        #updateResult1 {
+            position: relative;
+            top: 10px;
+            left: 35px;
+        }
+        #addUpdateResult2{
+            position: absolute;
+            top: 10px;
+            right: 500px;
+        }
+        #sendLeft{
+            position: relative;
+            top: 10px;
+        }
+        #destroy{
+            position: absolute;
+            bottom: 10px;
+            right: 500px;
+            text-decoration: none;
+            color: #FFF;
+            font-family: @czcionka;
+            font-size: 19px;
+            border-radius: 5px;
+            padding: 10px;
+            &:hover {
+                color: #FFFFFF;
+                background: #FA6A6A; 
+            }
         }
     }
     #postRight {
@@ -865,24 +920,14 @@ input {
     }
 }
 
-#destroy {
-	text-decoration: none;
-	color: #FFF;
-	font-family: @czcionka;
-	font-size: 19px;
-	border-radius: 5px;
-	padding: 10px;
-	margin-left: 335px;
-    &:hover {
-        color: #FFFFFF;
-        background: #FA6A6A; 
-    }
-}
-
 .opis, .logowanie {
     text-align: @wysrodkowanie;
     font-family: @czcionka;
     font-size: 20px;
+}
+
+.opis{
+    cursor: pointer;
 }
 
 #fEditArticle{
