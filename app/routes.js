@@ -118,7 +118,7 @@ app.post('/login', urlencodedParser, function(req, res){
     var login = req.body.login;
     var pass = req.body.pass;
     console.log(login + " " + pass);
-    User.findOne({nickname: login, password: pass}, function(err,callback){
+    User.findOne({username: login, password: pass}, function(err,callback){
 	if (callback == null){
 		res.send('incorrect data');
 	    } else {

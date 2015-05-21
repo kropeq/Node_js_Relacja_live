@@ -50,7 +50,7 @@ io.on('connection', function(socket){
     // ------- Rejestracja uzytkownikow -------- //
     // Sprawdzenie czy nick jest wolny
     socket.on('checkBeforeRegister',function(nick){
-	User.findOne({nickname: nick}, function(err, user) {
+	User.findOne({username: nick}, function(err, user) {
 	    if (user == null){
 		socket.emit('existenceUser',false);
 	    } else {
@@ -60,7 +60,7 @@ io.on('connection', function(socket){
     });
     // Zarejestrowanie usera na podany nick
     socket.on('registerUser',function(nick,pass){
-	var user = new User({ nickname: nick, password: pass});
+	var user = new User({ username: nick, password: pass});
 	user.save(function(err){
 		if (err) console.log("Błąd zapisu usera do bazy "+err);
 	});

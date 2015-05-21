@@ -64,6 +64,7 @@
 					<div id="block"><div style="float: left">Nota 5</div>
 					<input type="text" id="nota5" style="width: 70px"></div>
 				</div>
+				
 				<div id="secondRound">
 					<div id="block"><div style="float: left">Skok 2</div>
 					<input type="text" id="skok2" style="width: 70px"></div>
@@ -296,15 +297,28 @@
 			$('#sendLeft').click(function(){
 			   checkInputs();
 			});
-			//---------- update 1 skoczka z listy      -------------//
-			// zle liczy- 360 pkt zamiast 130 pkt -- bo pusty Punkt-K
+			//------------------------------------------------------------//
+			//------------ add/update 1 skoczka z listy ------------------//
+			//------------------------------------------------------------//
 			$('#addUpdateResult2').click(function(){
 			   checkInputs2();
 			});
-			
 			$('#updateResult1').click(function(){
 			   checkInputs("update");			
 			});
+			//------------------------------------------------------------//
+			//--------- podswietlanie blednie wprowadzonych danych -------//
+			//------------------------------------------------------------//
+			podswietl_blad = function(element){
+			    $('#'+element).css('background-color', '#FA6A6A');
+			    window.setTimeout(function(){
+				$('#'+element).css('background-color', 'rgba(0,255,43,0.2)');
+		            }, 2500);
+			    document.getElementById(element).focus();
+			}
+			//------------------------------------------------------------//
+			//------------------ dodawanie 2 serii -----------------------//
+			//------------------------------------------------------------//
 			checkInputs2 = function(){
 			    var findJumper = $('#imieSkoczka').val();
 			    var pattern = /^[A-ZĆŁŹŻ][a-ząćęłńóśźż]{1,}\s[A-ZĆŁŹŻ][a-ząćęłńóśźż]{1,}$/g;
@@ -357,84 +371,44 @@
 								     $('#alertData').text("");
 						                  } else {
 						                     $('#alertData').text("Wpisz poprawnie notę 5! Przedział < 1.0 , 20.0 >");
-								     $('#nota10').css('background-color', '#FA6A6A');
-								     window.setTimeout(function(){
-									$('#nota10').css('background-color', 'rgba(0,255,43,0.2)');
-									}, 2500);
-								     document.getElementById('nota10').focus();
+								     podswietl_blad('nota10');
 								  }
 								} else{
 								   $('#alertData').text("Wpisz poprawnie notę 4! Przedział < 1.0 , 20.0 >");
-						                   $('#nota9').css('background-color', '#FA6A6A');
-								   window.setTimeout(function(){
-									$('#nota9').css('background-color', 'rgba(0,255,43,0.2)');
-									}, 2500);
-								   document.getElementById('nota9').focus();
+						                   podswietl_blad('nota9');
 								}
 						             } else{
 								$('#alertData').text("Wpisz poprawnie notę 3! Przedział < 1.0 , 20.0 >");
-								$('#nota8').css('background-color', '#FA6A6A');
-								window.setTimeout(function(){
-									$('#nota8').css('background-color', 'rgba(0,255,43,0.2)');
-									}, 2500);
-								document.getElementById('nota8').focus();
+								podswietl_blad('nota8');
 							     }
 						          } else{
 						              $('#alertData').text("Wpisz poprawnie notę 2! Przedział < 1.0 , 20.0 >");
-							      $('#nota7').css('background-color', '#FA6A6A');
-							      window.setTimeout(function(){
-									$('#nota7').css('background-color', 'rgba(0,255,43,0.2)');
-									}, 2500);
-							      document.getElementById('nota7').focus();
+							      podswietl_blad('nota7');
 							  }
 						       } else{
 						          $('#alertData').text("Wpisz poprawnie notę 1! Przedział < 1.0 , 20.0 >");
-							  $('#nota6').css('background-color', '#FA6A6A');
-							  window.setTimeout(function(){
-									$('#nota6').css('background-color', 'rgba(0,255,43,0.2)');
-									}, 2500);
-							  document.getElementById('nota6').focus();
+							  podswietl_blad('nota6');
 						       }
 						    } else{
 						        $('#alertData').text("Wpisz poprawnie wiatr! Przedział < -2.99 , 2.99 >");
-							$('#wind2').css('background-color', '#FA6A6A');
-							window.setTimeout(function(){
-									$('#wind2').css('background-color', 'rgba(0,255,43,0.2)');
-									}, 2500);
-							document.getElementById('wind2').focus();
+							podswietl_blad('wind2');
 						    }
 						 } else{
 						    $('#alertData').text("Wpisz poprawnie długość skoku! Przedział < 50.0 , 299.5 >");
-						    $('#skok2').css('background-color', '#FA6A6A');
-						    window.setTimeout(function(){
-									$('#skok2').css('background-color', 'rgba(0,255,43,0.2)');
-									}, 2500);
-						    document.getElementById('skok2').focus();
+						    podswietl_blad('skok2');
 						 }
 						} else {
 						    $('#alertData').text("Rozmiar skoczni musi być z przedziału 50-200!");
-						    $('#punktK').css('background-color', '#FA6A6A');
-						    window.setTimeout(function(){
-									$('#punktK').css('background-color', 'rgba(0,255,43,0.2)');
-									}, 2500);
-						    document.getElementById('punktK').focus();		
+						    podswietl_blad('punktK');		
 						}
 					} else {
-						$('#imieSkoczka').css('background-color', '#FA6A6A');
-						window.setTimeout(function(){
-						$('#imieSkoczka').css('background-color', 'rgba(0,255,43,0.2)');
-						}, 2500);
 						$('#alertData').text("Nie ma wyników 1 serii tego skoczka!");
-						document.getElementById('imieSkoczka').focus();	
+						podswietl_blad('imieSkoczka');
 					}
 			       });
 			    } else {
-				$('#imieSkoczka').css('background-color', '#FA6A6A');
-				window.setTimeout(function(){
-				$('#imieSkoczka').css('background-color', 'rgba(0,255,43,0.2)');
-					}, 2500);
 				$('#alertData').text("Wpisz poprawnie imię i nazwisko skoczka!");
-				document.getElementById('imieSkoczka').focus();
+				podswietl_blad('imieSkoczka');
 			    }
 			}
 			//---------- usuwanie 1 skoczka z listy      -------------//
@@ -453,26 +427,20 @@
 						socket.emit('deleteResult',findJumper);
 						socket.emit('removeThisResult',findJumper);
 						$('#alertData').text("");
-					}
+						}
 					} else {
-						$('#imieSkoczka').css('background-color', '#FA6A6A');
-						window.setTimeout(function(){
-						$('#imieSkoczka').css('background-color', 'rgba(0,255,43,0.2)');
-						}, 2500);
 						$('#alertData').text("Nie ma wyników tego skoczka w bazie!");
-						document.getElementById('imieSkoczka').focus();	
+						podswietl_blad('imieSkoczka');	
 					}
 			       });
 			    } else {
-				$('#imieSkoczka').css('background-color', '#FA6A6A');
-				window.setTimeout(function(){
-			          $('#imieSkoczka').css('background-color', 'rgba(0,255,43,0.2)');
-				}, 2500);
 				$('#alertData').text("Wpisz poprawnie imię i nazwisko skoczka!");
-			        document.getElementById('imieSkoczka').focus();		
+				podswietl_blad('imieSkoczka');		
 			    }
 			});
-			//---------- pobieranie danych do formularza -------------// 
+			// ----------------------------------------------------------------- //
+			// -------------- pobieranie danych do formularza ------------------ //
+			// ----------------------------------------------------------------- //
 			$('#getResults').click(function(){
 			    var findJumper = $('#imieSkoczka').val();
 			    var pattern = /^[A-ZĆŁŹŻ][a-ząćęłńóśźż]{1,}\s[A-ZĆŁŹŻ][a-ząćęłńóśźż]{1,}$/g;
@@ -481,12 +449,8 @@
 				socket.emit('findResultJumper',findJumper);
 				$('#alertData').text("");
 			    } else {
-				$('#imieSkoczka').css('background-color', '#FA6A6A');
-				   window.setTimeout(function(){
-				   $('#imieSkoczka').css('background-color', 'rgba(0,255,43,0.2)');
-				      }, 2500);
-				   $('#alertData').text("Wpisz poprawnie imię i nazwisko skoczka!");
-			           document.getElementById('imieSkoczka').focus();	
+				$('#alertData').text("Wpisz poprawnie imię i nazwisko skoczka!");
+				podswietl_blad('imieSkoczka');	
 			    }
 			});
 			socket.removeListener('showResultJumper');
@@ -566,11 +530,7 @@
 												 results.nota10,results.points2,punktk);
 									} else {
 									$('#alertData').text("Ten skoczek jest już na liście wyników!");
-									$('#imieSkoczka').css('background-color', '#FA6A6A');
-									window.setTimeout(function(){
-									$('#imieSkoczka').css('background-color', 'rgba(0,255,43,0.2)');
-									}, 2500);
-									document.getElementById('imieSkoczka').focus();
+									podswietl_blad('imieSkoczka');
 									}
 						          } else   {
 									    adminSendMsg(jumper_name,nation,jump,wind,nota1,nota2,nota3,nota4,nota5,points,punktk);
@@ -579,77 +539,41 @@
 
 						       } else {
 						          $('#alertData').text("Wpisz poprawnie notę 5! Przedział < 1.0 , 20.0 >");
-					                  $('#nota5').css('background-color', '#FA6A6A');
-						          window.setTimeout(function(){
-						           $('#nota5').css('background-color', 'rgba(0,255,43,0.2)');
-						          }, 2500);
-						          document.getElementById('nota5').focus();
+					                  podswietl_blad('nota5');
 						       }
 						     } else {
 					                $('#alertData').text("Wpisz poprawnie notę 4! Przedział < 1.0 , 20.0 >");
-					                $('#nota4').css('background-color', '#FA6A6A');
-						        window.setTimeout(function(){
-						           $('#nota4').css('background-color', 'rgba(0,255,43,0.2)');
-						        }, 2500);
-						        document.getElementById('nota4').focus();
+					                podswietl_blad('nota4');
 						     }
 						 } else {
 						    $('#alertData').text("Wpisz poprawnie notę 3! Przedział < 1.0 , 20.0 >");
-					            $('#nota3').css('background-color', '#FA6A6A');
-						    window.setTimeout(function(){
-						       $('#nota3').css('background-color', 'rgba(0,255,43,0.2)');
-						    }, 2500);
-						    document.getElementById('nota3').focus();
+					            podswietl_blad('nota3');
 						 }
 					      } else {
 						 $('#alertData').text("Wpisz poprawnie notę 2! Przedział < 1.0 , 20.0 >");
-					         $('#nota2').css('background-color', '#FA6A6A');
-						 window.setTimeout(function(){
-						    $('#nota2').css('background-color', 'rgba(0,255,43,0.2)');
-						 }, 2500);
-						 document.getElementById('nota2').focus();
+					         podswietl_blad('nota2');
 					      }
 					   } else {
 			                      $('#alertData').text("Wpisz poprawnie notę 1! Przedział < 1.0 , 20.0 >");
-					      $('#nota1').css('background-color', '#FA6A6A');
-					      window.setTimeout(function(){
-						$('#nota1').css('background-color', 'rgba(0,255,43,0.2)');
-			                      }, 2500);
-					      document.getElementById('nota1').focus();
+					      podswietl_blad('nota1');
 					   }
 					} else {
 					   $('#alertData').text("Wpisz poprawnie wiatr! Przedział < -2.99 , 2.99 >");
-					   $('#wind').css('background-color', '#FA6A6A');
-					   window.setTimeout(function(){
-					      $('#wind').css('background-color', 'rgba(0,255,43,0.2)');
-					   }, 2500);
-					   document.getElementById('wind').focus();
+					   podswietl_blad('wind');
 					}
 				    } else {
 					$('#alertData').text("Wpisz poprawnie długość skoku! Przedział < 50.0 , 299.5 >");
-					$('#skok1').css('background-color', '#FA6A6A');
-					window.setTimeout(function(){
-					   $('#skok1').css('background-color', 'rgba(0,255,43,0.2)');
-					}, 2500);
-					document.getElementById('skok1').focus();
+					podswietl_blad('skok1');
 				    }
 				   
 			        } else {
-				   $('#imieSkoczka').css('background-color', '#FA6A6A');
-				   window.setTimeout(function(){
-				   $('#imieSkoczka').css('background-color', 'rgba(0,255,43,0.2)');
-				      }, 2500);
 				   $('#alertData').text("Wpisz poprawnie imię i nazwisko skoczka!");
-			           document.getElementById('imieSkoczka').focus();
+				   podswietl_blad('imieSkoczka');
 			        }
 
 			    } else {
 			       $('#alertData').text("Rozmiar skoczni musi być z przedziału 50-200!");
-			       $('#punktK').css('background-color', '#FA6A6A');
-			       window.setTimeout(function(){
-			          $('#punktK').css('background-color', 'rgba(0,255,43,0.2)');
-			       }, 2500);
-			       document.getElementById('punktK').focus();
+			       podswietl_blad('punktK');
 			    }
 			};
 			$('#destroy').click(function(){
@@ -680,18 +604,12 @@
 			        if (test_jumper) {
 			            socket.emit('findResultJumper',findJumper);
 				} else {
-				    $('#imieSkoczka').css('background-color', '#FA6A6A');
-				    window.setTimeout(function(){
-				    $('#imieSkoczka').css('background-color', 'rgba(0,255,43,0.2)');
-				       }, 2500);
 				    $('#alertData').text("Wpisz poprawnie imię i nazwisko skoczka!");
-			            document.getElementById('imieSkoczka').focus();
+				    podswietl_blad('imieSkoczka');
 				}
 			    } else if (e.which == 39) {
 				document.getElementById('adminMsg5').focus();
-			    } /*else if (e.which == 40) {
-				document.getElementById('adminMsg5').focus();
-			    }*/
+			    }
 			});
 			$('#adminMsg5').keyup(function(e){
 			    if(e.which == 13) {
@@ -700,167 +618,61 @@
 			        document.getElementById('imieSkoczka').focus();	
 			    }
 			});
-			$('#skok1').keyup(function(e){
-			    if(e.which == 13) {
+			//------------------------------------------------------------//
+			//---------------- funkcja do keyevents 1 rundy --------------//
+			//------------------------------------------------------------//
+			keyevents_1_round = function(e,up,right,down){
+		            if(e.which == 13) {
 			        checkInputs();	
-			    } else if (e.which == 39) {
-				document.getElementById('skok2').focus();
 			    } else if (e.which == 38) {
-				document.getElementById('adminMsg5').focus();
-			    } else if (e.which == 40) {
-				document.getElementById('wind').focus();
-			    }
-			});
-			$('#wind').keyup(function(e){
-			    if(e.which == 13) {
-			        checkInputs();	
+				document.getElementById(up).focus();
 			    } else if (e.which == 39) {
-				document.getElementById('wind2').focus();
-			    } else if (e.which == 38) {
-				document.getElementById('skok1').focus();
+				document.getElementById(right).focus();
 			    } else if (e.which == 40) {
-				document.getElementById('nota1').focus();
+				document.getElementById(down).focus();
 			    }
-			});
-			$('#nota1').keyup(function(e){
-			    if(e.which == 13) {
-			        checkInputs();	
-			    } else if (e.which == 39) {
-				document.getElementById('nota6').focus();
-			    } else if (e.which == 38) {
-				document.getElementById('wind').focus();
-			    } else if (e.which == 40) {
-				document.getElementById('nota2').focus();
-			    }
-			});
-			$('#nota2').keyup(function(e){
-			    if(e.which == 13) {
-			        checkInputs();	
-			    } else if (e.which == 39) {
-				document.getElementById('nota7').focus();
-			    } else if (e.which == 38) {
-				document.getElementById('nota1').focus();
-			    } else if (e.which == 40) {
-				document.getElementById('nota3').focus();
-			    }
-			});
-			$('#nota3').keyup(function(e){
-			    if(e.which == 13) {
-			        checkInputs();	
-			    } else if (e.which == 39) {
-				document.getElementById('nota8').focus();
-			    } else if (e.which == 38) {
-				document.getElementById('nota2').focus();
-			    } else if (e.which == 40) {
-				document.getElementById('nota4').focus();
-			    }
-			});
-			$('#nota4').keyup(function(e){
-			    if(e.which == 13) {
-			        checkInputs();	
-			    } else if (e.which == 39) {
-				document.getElementById('nota9').focus();
-			    } else if (e.which == 38) {
-				document.getElementById('nota3').focus();
-			    } else if (e.which == 40) {
-				document.getElementById('nota5').focus();
-			    }
-			});
-			$('#nota5').keyup(function(e){
-			    if(e.which == 13) {
-			        checkInputs();	
-			    } else if (e.which == 39) {
-				document.getElementById('nota10').focus();
-			    } else if (e.which == 38) {
-				document.getElementById('nota4').focus();
-			    } else if (e.which == 40) {
-				document.getElementById('skok2').focus();
-			    }
-			});
-			$('#skok2').keyup(function(e){
-			    if(e.which == 13) {
+			}
+			$('#skok1').keyup(function(e){ keyevents_1_round(e,'adminMsg5','skok2','wind');	});
+			$('#wind').keyup(function(e){ keyevents_1_round(e,'skok1','wind2','nota1');	});
+			$('#nota1').keyup(function(e){ keyevents_1_round(e,'wind','nota6','nota2');	});
+			$('#nota2').keyup(function(e){ keyevents_1_round(e,'nota1','nota7','nota3');	});
+			$('#nota3').keyup(function(e){ keyevents_1_round(e,'nota2','nota8','nota4');	});
+			$('#nota4').keyup(function(e){ keyevents_1_round(e,'nota3','nota9','nota5');	});
+			$('#nota5').keyup(function(e){ keyevents_1_round(e,'nota4','nota10','skok2');	});
+			//------------------------------------------------------------//
+			//---------------- funkcja do keyevents 2 rundy --------------//
+			//------------------------------------------------------------//
+			keyevents_2_round = function(e,left,up,down){
+		            if(e.which == 13) {
 			        checkInputs2();	
 			    } else if (e.which == 37) {
-				document.getElementById('skok1').focus();
+				document.getElementById(left).focus();
 			    } else if (e.which == 38) {
-				document.getElementById('nota5').focus();
-			    } else if (e.which == 40) {
-				document.getElementById('wind2').focus();
+				document.getElementById(up).focus();
+			    } else if (e.which == 40 && down != '') {
+				document.getElementById(down).focus();
 			    }
-			});
-			$('#wind2').keyup(function(e){
-			    if(e.which == 13) {
-			        checkInputs2();	
-			    } else if (e.which == 37) {
-				document.getElementById('wind').focus();
-			    } else if (e.which == 38) {
-				document.getElementById('skok2').focus();
-			    } else if (e.which == 40) {
-				document.getElementById('nota6').focus();
-			    }
-			});
-			$('#nota6').keyup(function(e){
-			    if(e.which == 13) {
-			        checkInputs2();	
-			    } else if (e.which == 37) {
-				document.getElementById('nota1').focus();
-			    } else if (e.which == 38) {
-				document.getElementById('wind2').focus();
-			    } else if (e.which == 40) {
-				document.getElementById('nota7').focus();
-			    }
-			});
-			$('#nota7').keyup(function(e){
-			    if(e.which == 13) {
-			        checkInputs2();	
-			    } else if (e.which == 37) {
-				document.getElementById('nota2').focus();
-			    } else if (e.which == 38) {
-				document.getElementById('nota6').focus();
-			    } else if (e.which == 40) {
-				document.getElementById('nota8').focus();
-			    }
-			});
-			$('#nota8').keyup(function(e){
-			    if(e.which == 13) {
-			        checkInputs2();	
-			    } else if (e.which == 37) {
-				document.getElementById('nota3').focus();
-			    } else if (e.which == 38) {
-				document.getElementById('nota7').focus();
-			    } else if (e.which == 40) {
-				document.getElementById('nota9').focus();
-			    }
-			});
-			$('#nota9').keyup(function(e){
-			    if(e.which == 13) {
-			        checkInputs2();	
-			    } else if (e.which == 37) {
-				document.getElementById('nota4').focus();
-			    } else if (e.which == 38) {
-				document.getElementById('nota8').focus();
-			    } else if (e.which == 40) {
-				document.getElementById('nota10').focus();
-			    }
-			});
-			$('#nota10').keyup(function(e){
-			    if(e.which == 13) {
-			        checkInputs2();
-			    } else if (e.which == 37) {
-				document.getElementById('nota5').focus();
-			    } else if (e.which == 38) {
-				document.getElementById('nota9').focus();
-			    }
-			});
+			}
+			$('#skok2').keyup(function(e){ keyevents_2_round(e,'skok1','nota5','wind2');	});
+			$('#wind2').keyup(function(e){ keyevents_2_round(e,'wind','skok2','nota6');	});
+			$('#nota6').keyup(function(e){ keyevents_2_round(e,'nota1','wind2','nota7');	});
+			$('#nota7').keyup(function(e){ keyevents_2_round(e,'nota2','nota6','nota8');	});
+			$('#nota8').keyup(function(e){ keyevents_2_round(e,'nota3','nota7','nota9');	});
+			$('#nota9').keyup(function(e){ keyevents_2_round(e,'nota4','nota8','nota10');	});
+			$('#nota10').keyup(function(e){keyevents_2_round(e,'nota5','nota9','');		});
 			<%}%>
-			
+			//------------------------------------------------------------//
+			//----------- podswietlanie dodanych elementow  --------------//
+			//------------------------------------------------------------//
 			var podswietl_dodany_element = function(co_podswietlic){
 			    co_podswietlic.addClass('highlightPost');
 			    window.setTimeout(function() {
 			    co_podswietlic.removeClass('highlightPost');
 			    }, 2500);
 			};
-			
+			//------------------------------------------------------------//
+			//----------- ustawianie przeplatania kolorow ----------------//
+			//------------------------------------------------------------//
 			var ustaw_przeplatanie_kolorow = function(){
 				if ($('#liveRelation .liveRelationRow:even').hasClass('highlightOdd')) {
 			            $('#liveRelation .liveRelationRow:even').removeClass('highlightOdd');		
@@ -978,7 +790,8 @@
 			   for ( var i=0; i<jumper.length; i++) {
 				startList.push(jumper[i].name+" "+jumper[i].surname);
 			   }
-			   startList.reverse();
+			   startList.sort();
+			   //startList.reverse();
 			   $(function() {
 			     $("#imieSkoczka").autocomplete({
 			     source: startList
