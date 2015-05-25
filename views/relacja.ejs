@@ -605,8 +605,31 @@
 			    e.preventDefault();
 			    if(e.which == 13) {
 				e.preventDefault();
+				var findJumper = $('#imieSkoczka').val();
+				// jesli enter wcisniety gdy nie byl pusty input
+				if ( findJumper !== '') {
+				        // pobranie do zmiennej source pierwszej podpowiedzi
+					var source = $('.ui-widget-content > li:first-child').text();
+					// zbadanie dlugosci wpisanego tekstu,
+					// zeby wyciac taka dlugosc z pierwszego slowa ze slownika i porownac
+					var dlugosc = findJumper.length;
+					// wyciecie poczatku tekstu
+					var poczatek_slowa = source.substr(0,dlugosc);
+					console.log("Dlugosc slowa source: "+dlugosc);
+					console.log("Poczatek slowa source: "+poczatek_slowa);
+					console.log("Find Jumper: "+findJumper);
+					// jesli sie zgadzaja, to wybieramy pierwsza podpowiedz z listy
+					// i akceptujemy ja
+				        if ( poczatek_slowa === findJumper) {
+				              $('.ui-widget-content > li:first-child').focus().click();
+					      $('#imieSkoczka').val(source);
+				        }
+				}
+				// przypisanie ponowne, poniewaz jesli sie zgadza wpisany tekst
+				// z elementem z listy, przypisujemy ten element z listy
+				findJumper = $('#imieSkoczka').val();
+				console.log("Find Jumper przed pattern: "+findJumper);
 				$('#alertData').text("");
-			        var findJumper = $('#imieSkoczka').val();
 				var pattern = /^[A-ZĆŁŹŻ][a-ząćęłńóśźż]{1,}\s[A-ZĆŁŹŻ][a-ząćęłńóśźż]{1,}$/g;
 			        var test_jumper = pattern.test(findJumper);
 			        if (test_jumper) {
@@ -620,10 +643,19 @@
 			    } else if (e.which == 8) {
 				$('#wpis').text('');
 			    } else {
+				var wpisana_tresc = $('#imieSkoczka').val();
+				var dlugosc = wpisana_tresc.length;
+				var wycinek;
+				// tutaj takze zabezpieczenie przed zapamietana wartoscia source
 				window.setTimeout(function(){
-				var source = $('.ui-widget-content > li:first-child').text();
-				console.log(source);
-				$( "#wpis" ).text(source);
+				   var source = $('.ui-widget-content > li:first-child').text();
+				   wycinek = source.substr(0,dlugosc);
+				   // wypisze tylko wtedy, gdy poczatek sie zgadza
+				   if ( wycinek == wpisana_tresc) {
+					$( "#wpis" ).text(source);
+				   } else {
+					$( "#wpis" ).text('');	
+				   }
 				},250);
 			    }
 			});
