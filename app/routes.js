@@ -54,7 +54,6 @@ app.get('/news/:id/:prev', function(req, res){
 	    });
 	});
     });
-
 app.get('/editNews/:prev', function(req, res){
     res.render('editNews.ejs', {prev: req.params.prev});
 });

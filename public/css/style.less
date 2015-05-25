@@ -2,15 +2,18 @@
 @czcionka: tahoma;
 @wysrodkowanie: center;
 @odsun_od_gory: 20px;
-@kolor_fiolet: rgba(0,0,255,0.3);
+@kolor_fiolet: fadeout(#0000FF,70%);
 @kolor_jasny_blue: #72C5EF;
-@kolor_jasna_zielen: rgba(0,255,43,0.2);
-@kolor_ciemny_blue: rgba(0,141,210,1.0);
+@kolor_jasna_zielen: fadein(rgb(0,255,43),-80%);
+@kolor_ciemny_blue: rgb(0,141,210);
 @kolor_czarny: #000;
 @kolor_bialy: #FFF;
 @max: 100%;
 
-// ------------- funkcje ------------- //
+// ----------------------------------- //
+// ------------ funkcje -------------- //
+// --------- funkcja czatu ----------- //
+// ----------------------------------- //
 .czat(@margines){
     width: 460px;
     margin-bottom: 10px;
@@ -44,6 +47,9 @@
         }
     }
 }
+//----------------------------------------------//
+//---------- funkcja do relacji ----------------//
+//----------------------------------------------//
 .relacja(@pogrubienie){
     #liveRelation{
         height: calc(100% - 8px);
@@ -95,7 +101,20 @@
         }
     }
 }
-// ---- schematy - zagniezdzanie ----------- //
+//----------------------------------------------//
+//---------- funkcja do przyciskow -------------//
+//----------------------------------------------//
+.buttons(@kolor){
+    text-decoration: none;
+    color: @kolor;
+	font-family: @czcionka;
+	font-size: 19px;
+	padding: 10px;
+	border-radius: 5px;
+}
+//----------------------------------------------- //
+//--------- schematy - zagniezdzanie ------------ //
+//----------------------------------------------- //
 // usuniecie zostajacych ramek
 a{
     outline: none;
@@ -134,12 +153,7 @@ body {
                 li {
                     display: inline;
                     a {
-                        text-decoration: none;
-                        color: #008DD2;
-                        font-family: @czcionka;
-                        font-size: 19px;
-                        padding: 10px;
-                        border-radius: 5px;
+                        .buttons(#008DD2);
                         &:hover {
                             color: @kolor_bialy;
                             @gradient: top, #1e5799 0%, #2989d8 50%, #7db9e8 @max;
@@ -274,13 +288,9 @@ input {
     top: 120px;
     z-index: 100;
 }
+
 #deleteArticle {
-    text-decoration: none;
-	color: red;
-	font-family: @czcionka;
-	font-size: 19px;
-	padding: 10px;
-	border-radius: 5px;
+    .buttons(red);
 	position:absolute;
 	right:20px;
     &:hover {
@@ -295,24 +305,15 @@ input {
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a90329', endColorstr='#6d0019',GradientType=0 ); /* IE6-9 */
     }
 }
+
 #editArticle, #back {
-    text-decoration: none;
-	color: #008DD2;
-	font-family: @czcionka;
-	font-size: 19px;
-	padding: 10px;
-	border-radius: 5px;
+    .buttons(#008DD2);
 	position:absolute;
     right:80px;
 }
 
 #login, #registerUser, #addArticle, #save{
-	text-decoration: none;
-	color: #008DD2;
-	font-family: @czcionka;
-	font-size: 19px;
-	padding: 10px;
-	border-radius: 5px;
+	.buttons(#008DD2);
 }
 
 
@@ -848,7 +849,9 @@ input {
             width: 220px;
         }
         select{
-            width: 220px;
+            margin-top: 2px;
+            float: left;
+            width: 240px;
             height: 40px;
         }
     }
