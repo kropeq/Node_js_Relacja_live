@@ -28,7 +28,8 @@
 			<input type="text" id="punktK" style="width: 50px;" value="120"></div>
 			<div><div id="naglowek">Imię i nazwisko</div>
 			<div class="ui-widget">
-				<input type="text" id="imieSkoczka" style="width: 250px"></div>		
+				<input type="text" id="imieSkoczka" style="width: 250px"></div>
+				<label id="wpis"></label>
 			</div>
 			
 			<div><div id="naglowek">Kraj</div>
@@ -609,6 +610,13 @@
 				}
 			    } else if (e.which == 39) {
 				document.getElementById('adminMsg5').focus();
+			    } else if (e.which == 8) {
+				$('#wpis').text('');
+			    } else {
+				var source = $('.ui-widget-content > li:first-child').text();
+				console.log(source);
+				$( "#wpis" ).text(source);
+				source = '';
 			    }
 			});
 			$('#adminMsg5').keyup(function(e){
@@ -794,11 +802,21 @@
 			   //startList.reverse();
 			   $(function() {
 			     $("#imieSkoczka").autocomplete({
-			     source: startList
-			     });
+		             // source: startList
+			     source: function(request, response) {
+				var filteredArray = $.map(startList, function(item) {
+		                   if(item.indexOf(request.term) == 0){
+				      return item;
+				   }
+				   else{
+				      return null;
+				   }
+			        });
+			        response(filteredArray);
+			        }	     
+		              });
 			   });
-			});
-			
+			});			
 			// ładowanie poprzednich postow
 			socket.emit('loadAdminPosts', 'load');
 			socket.removeListener('adminMsgs');

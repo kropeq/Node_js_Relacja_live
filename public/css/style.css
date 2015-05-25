@@ -490,6 +490,22 @@ input {
   margin-left: 0px;
   background-color: rgba(0, 255, 43, 0.2);
 }
+#liveWrapper #leftColumn #wpis {
+  color: gray;
+  display: block;
+  width: 250px;
+  height: 30px;
+  background-color: rgba(0, 255, 43, 0.2);
+  position: relative;
+  bottom: 37px;
+  left: 170px;
+  z-index: 0;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 17.6px;
+  padding-left: 10px;
+  border-radius: 5px;
+  padding-top: 4px;
+}
 #liveWrapper #leftColumn input {
   border-radius: 5px;
   text-align: center;
@@ -498,8 +514,11 @@ input {
   margin-bottom: 10px;
 }
 #liveWrapper #leftColumn #imieSkoczka {
+  z-index: 2;
   text-align: left;
   padding-left: 10px;
+  background-color: transparent;
+  position: relative;
 }
 #liveWrapper #leftColumn #naglowek {
   width: 120px;
