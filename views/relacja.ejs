@@ -317,13 +317,6 @@
 		            }, 2500);
 			    document.getElementById(element).focus();
 			}
-			podswietl_imie = function(element){
-			    $('#'+element).css('background-color', '#FA6A6A');
-			    window.setTimeout(function(){
-				$('#'+element).css('background-color', 'transparent');
-		            }, 2500);
-			    document.getElementById(element).focus();
-			}
 			//------------------------------------------------------------//
 			//------------------ dodawanie 2 serii -----------------------//
 			//------------------------------------------------------------//
@@ -411,12 +404,12 @@
 						}
 					} else {
 						$('#alertData').text("Nie ma wyników 1 serii tego skoczka!");
-						podswietl_imie('imieSkoczka');
+						podswietl_blad('wpis');
 					}
 			       });
 			    } else {
 				$('#alertData').text("Wpisz poprawnie imię i nazwisko skoczka!");
-				podswietl_imie('imieSkoczka');
+				podswietl_blad('wpis');
 			    }
 			}
 			//---------- usuwanie 1 skoczka z listy      -------------//
@@ -438,12 +431,12 @@
 						}
 					} else {
 						$('#alertData').text("Nie ma wyników tego skoczka w bazie!");
-						podswietl_imie('imieSkoczka');	
+						podswietl_blad('wpis');	
 					}
 			       });
 			    } else {
 				$('#alertData').text("Wpisz poprawnie imię i nazwisko skoczka!");
-				podswietl_imie('imieSkoczka');		
+				podswietl_blad('wpis');		
 			    }
 			});
 			// ----------------------------------------------------------------- //
@@ -458,7 +451,7 @@
 				$('#alertData').text("");
 			    } else {
 				$('#alertData').text("Wpisz poprawnie imię i nazwisko skoczka!");
-				podswietl_imie('imieSkoczka');
+				podswietl_blad('wpis');
 			    }
 			});
 			socket.removeListener('showResultJumper');
@@ -538,7 +531,7 @@
 												 results.nota10,results.points2,punktk);
 									} else {
 									$('#alertData').text("Ten skoczek jest już na liście wyników!");
-									podswietl_imie('imieSkoczka');
+									podswietl_blad('wpis');
 									}
 						          } else   {
 									    adminSendMsg(jumper_name,nation,jump,wind,nota1,nota2,nota3,nota4,nota5,points,punktk);
@@ -576,7 +569,7 @@
 				   
 			        } else {
 				   $('#alertData').text("Wpisz poprawnie imię i nazwisko skoczka!");
-				   podswietl_imie('imieSkoczka');
+				   podswietl_blad('wpis');
 			        }
 
 			    } else {
@@ -636,13 +629,17 @@
 			            socket.emit('findResultJumper',findJumper);
 				} else {
 				    $('#alertData').text("Wpisz poprawnie imię i nazwisko skoczka!");
-				    podswietl_imie('imieSkoczka');
+				    $('#imieSkoczka, #skok1, #nota1, #nota2, #nota3, #nota4, #nota5, #wind').val("");
+			            $('#skok2, #nota6, #nota7, #nota8, #nota9, #nota10, #wind2').val("");
+				    podswietl_blad('wpis');
 				}
 			    } else if (e.which == 39) {
 				document.getElementById('adminMsg5').focus();
 			    } else if (e.which == 8) {
 				$('#wpis').text('');
 			    } else {
+				// powoduje miganie podpowiedzi, ale nie ma bledu podpowiedz przez 0,1s
+				$( "#wpis" ).text('');
 				var wpisana_tresc = $('#imieSkoczka').val();
 				var dlugosc = wpisana_tresc.length;
 				var wycinek;
