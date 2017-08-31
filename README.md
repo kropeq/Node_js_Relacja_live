@@ -1,26 +1,30 @@
-Projekt TSW - blog z relacją live
-================
+## Strona internetowa z relacją live i czatem.
+----
+### Cel projektu
 
-Witam w moim repozytorium.
-Nazywam się Michał Jaworowski, a mój numer indeksu to 206296.
-Kontaktowym emailem będzie email:  kropeq88@gmail.com
+Poznanie sposobu pisania aplikacji webowych w języku JavaScript z wykorzystaniem technologii NodeJS.
 
-Moim pomysłem na projekt( rozwinięciem zeszłorocznego projektu, który oddawałem ), jest blog z relacją live.
-Strona główna zawierałaby newsy z komentarzami, a także możliwość przejścia do relacji live.
-Relacja live polegałaby na tym, że na kolejnej stronie widniałaby klasyfikacja( której zasady ma Pan podobno przygotować ),
-a obok czat, na którym użytkownicy mogliby dzielić się swoimi emocjami i przemyśleniami na temat aktualnych wyników.
+----
+### Opis działania
 
-Podział uprawnień byłby jedynie na administratora głównego i użytkowników.
+Stworzenie strony internetowej z relacją live wyników skoków narciarskich. Wyniki w relacji live odświeżają się automatycznie bez konieczności odświeżania strony. Co więcej, kolejno dodawane wyniki pojawiają się w odpowiednim miejscu tabeli również bez konieczności odświeżania( wykorzystanie WebSockets ). Ponadto użytkownicy mają możliwość dodawania i śledzenia na bieżąco komentarzy użytkowników.
 
-Sposób uruchomienia:
-====================
-1. Pobrać całość z bitbucketa.
-2. W folderze z projektem wpisać npm install
-3. By uruchomić npm start
-4. W przeglądarce działamy przez localhost:3000.
+### Role w projekcie
 
-Wykorzystane Technologie:
-=========================
+* _administrator_ - dostęp do edycji, usuwania i modyfikowania newsów i wyników relacji LIVE, a także możliwość zmiany uprawnień innym użytkownikom.
+* _użytkownik_ - możliwość tworzenia kont, dodawania komentarzy, śledzenia relacji LIVE po zalogowaniu oraz czatowania
+
+### Funkcjonalność
+
+* rejestracja
+* logowanie
+* newsy
+* komentarze
+* relacja live
+* live czat do relacji
+
+### Wykorzystane Technologie:
+----
 
 1. Express
 2. Socket.io
@@ -30,4 +34,10 @@ Wykorzystane Technologie:
 6. Session
 7. EJS
 
-____
+### Sposób uruchomienia:
+----
+
+1. Pobranie repozytorium.
+2. Instalacja projektu: __npm install__
+3. Uruchomienie serwera: __npm start__
+4. Uruchomienie aplikacji w przeglądarce: __localhost:3000__
