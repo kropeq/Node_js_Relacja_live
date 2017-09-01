@@ -7,13 +7,13 @@ Poznanie sposobu pisania aplikacji webowych w języku JavaScript z wykorzystanie
 ----
 ### Opis działania
 
-Stworzenie strony internetowej z relacją live wyników skoków narciarskich. Wyniki w relacji live odświeżają się automatycznie bez konieczności odświeżania strony. Co więcej, kolejno dodawane wyniki pojawiają się w odpowiednim miejscu tabeli również bez konieczności odświeżania( wykorzystanie WebSockets ). Ponadto użytkownicy mają możliwość dodawania i śledzenia na bieżąco komentarzy użytkowników.
+Strona internetowa w formie blogu z relacją live wyników skoków narciarskich. Dostęp do relacji uzyskuje się poprzez wcześniejszą rejestrację konta użytkownika i późniejsze zalogowanie na to konto. Wyniki w relacji live odświeżają się automatycznie bez konieczności odświeżania strony( wykorzystanie WebSockets ). Co więcej, kolejno dodawane wyniki pojawiają się w odpowiednim miejscu tabeli. Ponadto użytkownicy mają możliwość dodawania i śledzenia na bieżąco komentarzy użytkowników na udostępnionym czacie. Istnieje również możliwość zgłaszania nieprawidłowości do administratora w formie prywatnej wiadomości. W wersji dla administratora znajduje się ponadto zakładka z możliwością przygotowania listy startowej zawodników, która jest później wykorzystywana do wyświetlania podpowiedzi podczas wprowadzania wyników.
 
 ---
 ### Role w projekcie
 
-* _administrator_ - dostęp do edycji, usuwania i modyfikowania newsów i wyników relacji LIVE, a także możliwość zmiany uprawnień innym użytkownikom.
-* _użytkownik_ - możliwość tworzenia kont, dodawania komentarzy, śledzenia relacji LIVE po zalogowaniu oraz czatowania
+* _administrator_ - dostęp do edycji, usuwania i modyfikowania newsów,  listy startowej zawodników oraz wyników relacji LIVE. Ponadto możliwość odpowiedzi użytkownikom na prywatne wiadomości. Konto admina: __login__: _master_, __hasło__:_of disaster_
+* _użytkownik_ - możliwość utworzenia konta, a po zalogowaniu śledzenia relacji LIVE, czatowania oraz wysyłania prywatnych wiadomości do administratora.
 
 ---
 ### Funkcjonalność
@@ -21,9 +21,13 @@ Stworzenie strony internetowej z relacją live wyników skoków narciarskich. Wy
 * rejestracja
 * logowanie
 * newsy
-* komentarze
-* relacja live
+* historia newsów
+* lista startowa zawodników
+* relacja live wyników
+* autouzupełnianie w panelu administratora
 * live czat do relacji
+* prywatne wiadomości admin <-> user
+
 
 ---
 ### Wykorzystane Technologie:
@@ -39,10 +43,11 @@ Stworzenie strony internetowej z relacją live wyników skoków narciarskich. Wy
 ---
 ### Sposób uruchomienia:
 
-1. Pobranie repozytorium.
-2. Instalacja projektu: __npm install__
-3. Uruchomienie serwera: __npm start__
-4. Uruchomienie aplikacji w przeglądarce: __localhost:3000__
+1. Instalacja [nodeJS](https://nodejs.org/en/).
+2. Pobranie repozytorium.
+3. Instalacja projektu: __npm install__
+4. Uruchomienie serwera: __npm start__
+5. Uruchomienie aplikacji w przeglądarce: __localhost:3000__
 
 ---
 ### Prezentacja aplikacji
